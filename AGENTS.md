@@ -18,7 +18,7 @@ This file defines how LLM agents should work in this repository.
 - `skills/<domain>/<skill-name>/templates/`: Reusable templates (mostly YAML).
 - `skills/<domain>/<skill-name>/schemas/`: JSON schemas for validation.
 - `.context/`: Working notes and generated analysis artifacts.
-- `crates/`: Rust tools (`skill-auditor`, `skill-validator-rs`, `adr`, `journal`) for auditing, validation, and skill distribution.
+- Tools live in their own repositories (`pantheon-skill-auditor`, `pantheon-journal`, `pantheon-adr`, sharing `agentic-harness-dev-kit`); this repository pins the released auditor in `mise.toml`.
 - `probes/`: Invocation probes, one JSON file per skill (see Invocation probes below); `probes/baselines/` holds committed score reports.
 - `scripts/catalog/`: TypeScript catalog generator for `README.md` and the docs tiles page.
 
@@ -55,10 +55,11 @@ See `skills/agentic-harness/skill-quality-auditor/references/skill-taxonomy.md` 
 
 When writing code or scripts for this repository, use the first option that fits:
 
-1. **Rust**, in the crates under `crates/`.
-2. **Bun with TypeScript**, when Rust is not a good fit.
-3. **Shell**, for thin glue only.
-4. **Python**, as a last resort.
+1. **Bun with TypeScript**.
+2. **Shell**, for thin glue only.
+3. **Python**, as a last resort.
+
+Rust code lives in the tool repositories, not here.
 
 Python is kept out by a guardrail: any tracked `.py` file outside a directory listed in `python-allowlist.txt` fails the `python-allowlist` check (`scripts/check-python-allowlist.sh`, run locally by the `hk` hook and in CI), so new Python needs a reviewed allowlist entry.
 
@@ -75,7 +76,7 @@ bunx @biomejs/biome check .
 mise run lint   # rumdl check . (config: .rumdl.toml)
 ```
 
-Frontmatter limits enforced by `skill-validator-rs validate structure`: `description` over 1024 bytes is an error, and one within 32 bytes of it warns so the ceiling is visible before the next trigger phrase breaches it. An unquoted `description` containing `": "` or a line ending in `:` fails YAML parsing, and the error says so; quote the value or use a block scalar (`description: |-`).
+Frontmatter limits enforced by `pantheon-skill-auditor validate structure`: `description` over 1024 bytes is an error, and one within 32 bytes of it warns so the ceiling is visible before the next trigger phrase breaches it. An unquoted `description` containing `": "` or a line ending in `:` fails YAML parsing, and the error says so; quote the value or use a block scalar (`description: |-`).
 
 ## Pull Requests
 
@@ -100,17 +101,17 @@ The pull request Skill Audit grades every skill that has any changed file, not o
 A rewrite can drop a phrase from a skill's `description` that auto-invocation relied on while the grade stays flat. The Skill Audit comment lists each trigger phrase a changed skill dropped compared with the base commit. It is advisory and never fails the run: a drop is often a deliberate consolidation, so confirm the description still names the intent or restore the phrase. Trigger phrases are the comma-separated clauses after `Use when`, after `Keywords:` and after `Triggers:` (or `Trigger:`); a description with none of the three markers is not checked, and a new skill has nothing to compare. A base phrase counts as kept when its lowercased text still appears anywhere in the new description and `when_to_use`, so reordering or rewrapping is not a drop. Run it locally against a checkout of the base:
 
 ```bash
-skill-validator-rs analyze triggers skills/<domain>/<skill> --base <base-checkout>/skills/<domain>/<skill>
+pantheon-skill-auditor analyze triggers skills/<domain>/<skill> --base <base-checkout>/skills/<domain>/<skill>
 ```
 
 ### Invocation probes
 
-The limits, the budget and the drift report cannot say whether a description routes well. Invocation probes label requests a skill should win or should not, and score them against its listing text and its named competitors. `skill-validator-rs probes` runs three commands:
+The limits, the budget and the drift report cannot say whether a description routes well. Invocation probes label requests a skill should win or should not, and score them against its listing text and its named competitors. `pantheon-skill-auditor probes` runs three commands:
 
 ```bash
-skill-validator-rs probes validate probes                 # schema, labels, splits, copied wording
-skill-validator-rs probes score probes > /tmp/score.json  # lexical floor, JSON on stdout
-skill-validator-rs probes compare probes/baselines/listing-overlap.json /tmp/score.json
+pantheon-skill-auditor probes validate probes                 # schema, labels, splits, copied wording
+pantheon-skill-auditor probes score probes > /tmp/score.json  # lexical floor, JSON on stdout
+pantheon-skill-auditor probes compare probes/baselines/listing-overlap.json /tmp/score.json
 mise run audit:probes                                     # validate, then score
 ```
 
@@ -120,7 +121,7 @@ A probe file is `probes/<name>.json` with `skill` (the report name), `skill_dir`
 
 ### Skill listing budget
 
-Every listing-eligible skill's name and description share one budget in the model's context (`skillListingBudgetFraction`, 1% of the context window; the documented fallback is 8000 characters). When it overflows, descriptions of the least-invoked skills are dropped with no signal, so each description you add spends it for every other skill. `skill-validator-rs analyze listing` estimates the aggregate. It is advisory and always exits 0; the Skill Audit workflow prints it in the job summary.
+Every listing-eligible skill's name and description share one budget in the model's context (`skillListingBudgetFraction`, 1% of the context window; the documented fallback is 8000 characters). When it overflows, descriptions of the least-invoked skills are dropped with no signal, so each description you add spends it for every other skill. `pantheon-skill-auditor analyze listing` estimates the aggregate. It is advisory and always exits 0; the Skill Audit workflow prints it in the job summary.
 
 ```bash
 mise run audit:listing                        # documented 8000-char fallback
@@ -131,40 +132,31 @@ mise run audit:listing -- --from-settings     # this machine's Claude settings
 
 `--budget-chars` fixes the budget outright; `--chars-per-token` (default 4) changes the derivation. Precedence is `--budget-chars`, then `--context-tokens`, then `--fraction` alone (a band), then the 8000 fallback. `--from-settings` fills only what the flags leave unset: `SLASH_COMMAND_TOOL_CHAR_BUDGET`, then `skillListingBudgetFraction` from the first of project `.claude/settings.local.json`, project `.claude/settings.json`, and `~/.claude/settings.json` (`CLAUDE_CONFIG_DIR` relocates it). Managed policy settings are not read. A skill with `disable-model-invocation: true` spends none of it, and a description is capped at 1536 characters per entry. The 4 chars/token ratio and the 200k and 1M windows are assumptions of the estimate, not documented values.
 
-Build the auditor from source with `mise run build:skill-auditor` (a shortcut for `cargo build --release -p pantheon-skill-auditor`), then invoke `target/release/pantheon-skill-auditor evaluate`.
+The auditor is the release pinned in `mise.toml`: run `mise install`, then `mise run audit:skill -- <domain>/<skill>`. To try a change to the auditor itself, build it in its own repository.
 
-## Skills distributed via crate installers
+## Skills distributed by the tool repositories
 
-Three skills are embedded into Rust crates at build time and distributed only by
-their crate's `install` command:
+The tools live in their own repositories and each embeds one skill in its binary:
 
-- `documentation/journal-entry-creator` (embedded in the `journal` crate)
-- `documentation/adr-creator` (embedded in the `adr` crate)
-- `agentic-harness/skill-quality-auditor` (embedded in the `skill-auditor` crate)
+| Tool | Repository | Embedded skill |
+|---|---|---|
+| `pantheon-skill-auditor` (auditing and validation) | [pantheon-org/pantheon-skill-auditor](https://github.com/pantheon-org/pantheon-skill-auditor) | `skill-quality-auditor` |
+| `pantheon-journal` | [pantheon-org/pantheon-journal](https://github.com/pantheon-org/pantheon-journal) | `journal-entry-creator` |
+| `pantheon-adr` | [pantheon-org/pantheon-adr](https://github.com/pantheon-org/pantheon-adr) | `adr-creator` |
 
-These have `"private": true` in their `.tekhne/plugin.json` and are omitted
-from `release-please-config.json` and `.release-please-manifest.json`, so the crate
-version is canonical. Continue running evals, audits, and quality tooling on their
-`SKILL.md` as normal. Install them with `pantheon-journal skill install`,
-`pantheon-adr skill install`, or `pantheon-skill-auditor skill install`.
+They share [agentic-harness-dev-kit](https://github.com/pantheon-org/agentic-harness-dev-kit)
+(`ahdk-core`, `ahdk-install`). Each tool repository owns its skill: a change to the
+skill is made and released there. The copies that still sit under `skills/` in this
+repository are being removed (see the tool split plan) and are not what the released
+binaries install, so editing them here changes nothing for users. Install a tool with its
+installer from the repository's latest release, then register its skill with
+`pantheon-journal skill install`, `pantheon-adr skill install` or
+`pantheon-skill-auditor skill install`.
 
-**A released binary only has the `SKILL.md` that existed when it was built.** Editing
-`skills/documentation/adr-creator/SKILL.md` (or either of the other two) does not change
-what a `PATH`-installed release binary installs until a new release is cut — the content
-is embedded at compile time, not read from disk. During development, build from source
-and install from that build instead of waiting on the PR → merge → release loop:
-
-```bash
-mise run install-skill:adr             # cargo build --release -p pantheon-adr && pantheon-adr skill install
-mise run install-skill:journal         # same, for pantheon-journal
-mise run install-skill:skill-auditor   # same, for pantheon-skill-auditor
-```
-
-Each builds the crate and immediately runs its `skill install`, so the copies it writes
-(`~/.claude/skills/<name>`, and the other installed agents' skill dirs) reflect your
-working tree, not the last release. `mise run build:adr` / `build:journal` /
-`build:skill-auditor` do the build step alone, for when you just need the binary at
-`target/release/`.
+This repository runs the pinned `pantheon-skill-auditor` release (`mise.toml`, with its
+checksum in `mise.lock` and the install action under `.github/actions/`). Bump the pin
+on purpose, and refresh the stored audits in the same pull request, because a new
+scorer can change grades.
 
 ## Git Hooks
 

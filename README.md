@@ -25,12 +25,15 @@ cd tekhne
 npx skills add ./skills --all
 ```
 
-Three of the skills also ship as standalone Rust binaries for macOS and Linux,
-each of which installs its own companion skill. These need no clone:
+Three of the skills also ship as standalone Rust binaries for macOS and Linux, each
+released from its own repository ([pantheon-skill-auditor](https://github.com/pantheon-org/pantheon-skill-auditor),
+[pantheon-journal](https://github.com/pantheon-org/pantheon-journal),
+[pantheon-adr](https://github.com/pantheon-org/pantheon-adr)). Each installs its own
+companion skill. These need no clone:
 
 ```bash
 curl --proto '=https' --tlsv1.2 -LsSf \
-  https://github.com/pantheon-org/tekhne/releases/download/tool/pantheon-skill-auditor-v0.2.3/pantheon-skill-auditor-installer.sh | sh
+  https://github.com/pantheon-org/pantheon-skill-auditor/releases/latest/download/pantheon-skill-auditor-installer.sh | sh
 
 pantheon-skill-auditor skill install     # or: skill uninstall
 ```
@@ -51,22 +54,21 @@ bun run readme:update
 bun run readme:update:dry-run
 ```
 
-## skill-auditor (Rust crate)
+## Auditing skills
 
-`crates/skill-auditor/` is a typed, testable Rust binary that implements the 9-dimension rubric (140 pts total) with unit tests and structured JSON output. It bundles the `crates/skill-validator-rs/` structural checks, so the two crates form the full audit gate. Both build from the Cargo workspace; no separate install is needed.
+`pantheon-skill-auditor` ([pantheon-org/pantheon-skill-auditor](https://github.com/pantheon-org/pantheon-skill-auditor)) implements the 9-dimension rubric (140 pts total) with structured JSON output, and embeds the offline validator (`validate`, `check`, `probes`, `analyze`). This repository runs the release pinned in `mise.toml`:
 
 ```bash
-# Build once (cached in target/release)
-cargo build --release -p pantheon-skill-auditor
+mise install
 
 # Evaluate a single skill
-cargo run -p pantheon-skill-auditor -- evaluate agentic-harness/skill-quality-auditor --json --store
+mise exec -- pantheon-skill-auditor evaluate agentic-harness/skill-quality-auditor --json --store
 
 # Batch evaluate
-cargo run -p pantheon-skill-auditor -- batch infrastructure/terraform-generator ci-cd/github-actions-generator --store
+mise exec -- pantheon-skill-auditor batch infrastructure/terraform-generator ci-cd/github-actions-generator --store
 
 # Exit 1 if any skill grades below B+
-cargo run -p pantheon-skill-auditor -- batch --fail-below B+ agentic-harness/skill-quality-auditor
+mise exec -- pantheon-skill-auditor batch --fail-below B+ agentic-harness/skill-quality-auditor
 ```
 
-`mise run build:skill-auditor` is a shortcut for the `cargo build` above. See `crates/skill-auditor/` for source.
+`mise run audit:skill -- <domain>/<skill>` is a shortcut for `evaluate`.
