@@ -32,6 +32,8 @@ jobs:
           # Client ID for the pantheon-ai-bot App (public identifier, not a secret).
           client-id: "Iv23ligzn16vkDCWfHgc"
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
 
       - name: Rebase behind, non-draft PRs
         env:
