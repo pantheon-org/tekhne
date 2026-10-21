@@ -146,11 +146,8 @@ The tools live in their own repositories and each embeds one skill in its binary
 
 They share [agentic-harness-dev-kit](https://github.com/pantheon-org/agentic-harness-dev-kit)
 (`ahdk-core`, `ahdk-install`). Each tool repository owns its skill: a change to the
-skill is made and released there. The copies that still sit under `skills/` in this
-repository are being removed (see the tool split plan). They are not what the released
-binaries install, so editing them here does not change those users' skills, but they are
-still what `npx skills add ./skills --all` installs from this repository, so until they are
-removed keep any change in step with the tool repository. Install a tool with its
+skill is made and released there, and this repository no longer holds a copy, so
+`npx skills add ./skills --all` does not install these three. Install a tool with its
 installer from the repository's latest release, then register its skill with
 `pantheon-journal skill install`, `pantheon-adr skill install` or
 `pantheon-skill-auditor skill install`.

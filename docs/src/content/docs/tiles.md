@@ -344,7 +344,7 @@ Comprehensive TypeScript toolkit split into topic-scoped skills covering compile
 
 ---
 
-## Agentic Harness (9 tiles, 11 skills)
+## Agentic Harness (8 tiles, 11 skills)
 
 Agent framework configurations
 
@@ -421,16 +421,6 @@ Checkpoint the current session to .context/session/CONTEXT-llm.md with a structu
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [save-context](/tekhne/skills/agentic-harness/save-context/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-09-30 | 6 |
-
-### skill-quality-auditor
-
-Audit and improve skill collections with a 9-dimension scoring framework (Knowledge Delta, Mindset, Anti-Patterns, Specification Compliance, Progressive Disclosure, Freedom Calibration, Pattern Recognition, Practical Usability, Eval Validation), duplication detection, remediation planning, baseline comparison, and CI quality gates; use when evaluating skill quality, generating remediation plans, detecting duplicates, validating artifact conventions, or enforcing publication thresholds.
-
-**Version:** 0.3.0
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [skill-quality-auditor](/tekhne/skills/agentic-harness/skill-quality-auditor/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-10-02 | 5 |
 
 ### socratic-method
 
@@ -752,19 +742,9 @@ Complete PromQL toolkit with generation and validation capabilities
 
 ---
 
-## Documentation (10 tiles, 4 skills)
+## Documentation (8 tiles, 4 skills)
 
 Writing & communication
-
-### adr-creator
-
-Creates, scores, reviews and supersedes Architecture Decision Records with the pantheon-adr CLI; use when recording an architectural decision, writing an ADR, documenting a technical choice, checking whether an ADR is finished, superseding a prior decision, or bootstrapping an ADR log under docs/adr.
-
-**Version:** 0.1.0
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [adr-creator](/tekhne/skills/documentation/adr-creator/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-09-15 | 4 |
 
 ### astro-starlight
 
@@ -787,16 +767,6 @@ Skill for creating structured, semantic commit messages following the Convention
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [conventional-commits](/tekhne/skills/documentation/conventional-commits/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-09-23 | 5 |
-
-### journal-entry-creator
-
-Create structured journal entries with YAML frontmatter, template-based sections, and compliance validation. Use when user asks to 'create journal entry', 'new journal', 'document [topic]', 'journal about [topic]', or needs to create timestamped .md files in YYYY/MM-Month/DD-Weekday/ directories. Supports six entry types: general journal entries, troubleshooting sessions, learning notes, article summaries, ticket-refinement sessions, and ticket-kickoff sessions. Keywords: journal, documentation, troubleshooting, learning, article-summary, ticket-refinement, ticket-kickoff, YAML frontmatter, template schemas, validation.
-
-**Version:** 0.5.0
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [journal-entry-creator](/tekhne/skills/documentation/journal-entry-creator/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-10-02 | 11 |
 
 ### journal-entry-import
 
