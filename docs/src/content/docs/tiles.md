@@ -770,7 +770,7 @@ Skill for creating structured, semantic commit messages following the Convention
 
 ### journal-entry-import
 
-Reconstructs journal entries from external systems: bulk-imports a historical work log from a legacy source system, enriches ticket references with self-contained detail entries reconstructed from an issue tracker, and annotates links to systems that have since moved. Use when asked to import an old journal, migrate a log into the journal format, turn ticket mentions into entries, or point old links at a new host. Produces entries compatible with journal-entry-creator's frontmatter and tag taxonomy.
+Reconstructs journal entries from external systems: bulk-imports a historical work log from a legacy source system, enriches ticket references with self-contained detail entries reconstructed from an issue tracker, and annotates links to systems that have since moved. Use when asked to import an old journal, migrate a log into the journal format, turn ticket mentions into entries, or point old links at a new host. Produces entries compatible with pantheon-journal's frontmatter and tag taxonomy.
 
 **Version:** 0.1.0
 

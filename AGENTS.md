@@ -26,7 +26,7 @@ This file defines how LLM agents should work in this repository.
 
 ## Domain Organization
 
-13 domains: `ci-cd/`, `infrastructure/`, `repository-mgmt/`, `development/`, `agentic-harness/`, `testing/`, `software-engineering/`, `observability/`, `documentation/`, `package-mgmt/`, `project-mgmt/`, `specialized/`, `languages/`.
+13 domains: `ci-cd/`, `infrastructure/`, `repository-mgmt/`, `development/`, `agentic-harness/`, `testing/`, `software-engineering/`, `observability/`, `documentation/`, `package-mgmt/`, `project-mgmt/`, `specialized/`, `comedy/`.
 
 See [skill-taxonomy.md](https://github.com/pantheon-org/pantheon-skill-auditor/blob/main/skill-quality-auditor/references/skill-taxonomy.md) in the auditor repository for classification criteria.
 
