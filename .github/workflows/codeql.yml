@@ -2,8 +2,9 @@ name: CodeQL
 
 # GitHub-native static analysis (code scanning) for the TypeScript CLI and
 # Python scripts. Findings surface in the Security tab and as PR checks.
-# Rust is not a CodeQL-supported language; the Rust workspace is covered by
-# clippy in rust-ci.yml and the cargo-audit advisory scan.
+# Rust is not a CodeQL-supported language; the tool binaries live in their own
+# repositories (pantheon-skill-auditor, pantheon-journal, pantheon-adr), whose
+# own CI runs clippy.
 #
 # All languages run on every pull request. Per-language filtering was tried and
 # reverted: the `main` ruleset's code_scanning merge protection requires each

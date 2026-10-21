@@ -8,9 +8,8 @@
 # .terragrunt-cache once added 540 files and a local path.
 #
 # Matches whole folder names, so a lock file such as .terraform.lock.hcl, or a
-# document called terragrunt-cache-notes.md, is fine. Test fixtures under
-# crates/*/tests/golden-corpus/ are exempt. Paths that no longer exist on disk
-# (a deletion being committed) are ignored, so removing cache files is allowed.
+# document called terragrunt-cache-notes.md, is fine. Paths that no longer exist on
+# disk (a deletion being committed) are ignored, so removing cache files is allowed.
 #
 # Usage:
 #   scripts/check-no-cache-files.sh [--root DIR] <path>...   the staged files (pre-commit hook)
@@ -45,9 +44,6 @@ cache_dirs=".terragrunt-cache .terraform __pycache__ .pytest_cache node_modules 
 found=()
 for p in "${paths[@]:-}"; do
   [ -n "$p" ] || continue
-  case "$p" in
-    crates/*/tests/golden-corpus/*) continue ;;
-  esac
   # A deletion being committed has nothing on disk to check.
   if [ "$tracked" -eq 0 ] && [ ! -e "$root/$p" ]; then
     continue

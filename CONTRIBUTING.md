@@ -33,10 +33,12 @@ The pull request Skill Audit grades every skill that has any changed file, not o
 
 ## Tooling
 
-Skill management, auditing, and validation are provided by Rust crates under
-`crates/` (`skill-auditor`, `skill-validator-rs`, `adr`, `journal`) plus the
-`scripts/catalog` catalog generator. Everything builds from the Cargo workspace
-or runs with Bun, so there is no separate install step.
+Skill auditing and validation come from the pinned `pantheon-skill-auditor` release
+(`mise.toml`; run `mise install`). The tools live in their own repositories:
+[pantheon-skill-auditor](https://github.com/pantheon-org/pantheon-skill-auditor),
+[pantheon-journal](https://github.com/pantheon-org/pantheon-journal) and
+[pantheon-adr](https://github.com/pantheon-org/pantheon-adr). This repository adds the
+`scripts/catalog` catalog generator, which runs with Bun.
 
 ```bash
 # Audit a single skill with the pinned pantheon-skill-auditor release (mise.toml)
@@ -54,9 +56,6 @@ bun run readme:update
 ```bash
 # TypeScript catalog tests
 bun test scripts/
-
-# Rust workspace tests
-cargo test --workspace
 
 # Integration (cucumber) tests. They run the pinned pantheon-skill-auditor, so
 # go through mise: `mise install` alone does not put it on PATH without shell

@@ -12,7 +12,7 @@
 #   - target/, node_modules/, .git/   build output, dependencies, VCS metadata
 #   - .agents/                        vendored installed-skill copies (gitignored)
 #   - .claude/                        agent worktrees and local state (gitignored)
-#   - */tests/golden-corpus/*         skill-validator-rs / skill-auditor fixtures
+#   - */tests/golden-corpus/*         test fixtures (the Rust tools that held them moved out)
 #
 # Usage: ./scripts/check-python-allowlist.sh
 # Exit:  0 = all .py under an allowlisted directory; 1 = violation(s) found.

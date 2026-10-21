@@ -7,11 +7,11 @@ on:
     paths:
       - "docs/**"
       - "skills/**"
-      # The Tools page reads each tool's version from its crate manifest,
-      # so a version bump changes the rendered install URLs without
-      # touching docs/. Without this the site keeps publishing the URL of
-      # a superseded tag.
-      - "crates/*/Cargo.toml"
+  # The Tools page reads each tool's latest release from the GitHub API at build
+  # time. A tool release does not touch this repository, so rebuild weekly to pick
+  # it up (or run the workflow by hand).
+  schedule:
+    - cron: "17 5 * * 1"
   workflow_dispatch:
 
 # Allow only one concurrent deployment; cancel in-progress runs.
@@ -48,6 +48,9 @@ jobs:
 
       - name: Build site
         working-directory: docs
+        env:
+          # Authenticates the releases lookup for the Tools page (rate limits).
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bun run build
 
       - name: Upload Pages artifact

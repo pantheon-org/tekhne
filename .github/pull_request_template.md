@@ -5,7 +5,7 @@ Keep the three headings below. Delete the comments before submitting.
 
 ## What
 
-<!-- The change, in plain terms. Name the skills or crates it touches. -->
+<!-- The change, in plain terms. Name the skills or tools it touches. -->
 
 ## Why
 
@@ -16,7 +16,7 @@ Keep the three headings below. Delete the comments before submitting.
 <!--
 Evidence and caveats, for example:
 - How you checked it (same output on N runs, audit grades unchanged, tests run).
-- Checks run: mise run lint, Biome, cargo test and clippy for touched crates,
+- Checks run: mise run lint, Biome, bun test scripts/, cucumber, and
   pantheon-skill-auditor evaluate for changed skills.
 - Whether the catalogue (bun scripts/catalog/update.ts) or stored audits were
   regenerated; CI drift-checks both.

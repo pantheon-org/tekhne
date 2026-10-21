@@ -32,10 +32,6 @@ reviews:
     - "!bun.lock"
 
   path_instructions:
-    - path: "crates/**"
-      instructions: |
-        Rust is the preferred language in this repository. Flag unwrap/expect
-        outside tests, ignored errors, and public API changes without tests.
     - path: ".github/workflows/**"
       instructions: |
         Every third-party action must be pinned by commit SHA (or image digest).

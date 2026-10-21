@@ -2,7 +2,7 @@ name: Skill Audit Gate
 
 # Runs on every PR to main (no path filter) so the required "Skill Audit"
 # status check always reports a conclusion. PRs that change no skills are
-# detected early and pass immediately without building the Rust tools; a path
+# detected early and pass immediately without installing the auditor; a path
 # filter here would leave the required check unreported and block non-skill
 # PRs forever.
 #

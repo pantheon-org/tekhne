@@ -1,5 +1,4 @@
 [tools]
-rust = "1.96.1"
 node = "lts"
 bun = "latest"
 yq = "latest"
@@ -10,7 +9,6 @@ pkl = "latest"
 # rumdl is pre-1.0, so a minor bump can add rules and change what the lint gate
 # reports. Pinned exactly (unlike the other linters), bumped on purpose.
 rumdl = "0.2.77"
-cargo-dist = "0.32.0"
 # The pantheon-skill-auditor release (scoring, validate, check, probes, analyze)
 # used by the git hooks and the Skill Audit and Stored Audits workflows. Exact
 # version: bump it on purpose, together with VERSION and SHA256 in
@@ -27,7 +25,7 @@ minimum_release_age = "7d"
 
 [env]
 # Wrap hk-invoked git hooks in `mise x` so pinned tools (bun, node, yq,
-# shellcheck, rumdl, rust/cargo) are on PATH without shell activation.
+# shellcheck, rumdl) are on PATH without shell activation.
 HK_MISE = "1"
 
 [hooks]
@@ -56,21 +54,6 @@ run = "rumdl check --fix ."
 description = "Zip a skill directory for upload, dereferencing symlinks"
 run = "./scripts/zip-skill.sh"
 
-# Cargo builds for the crate-distributed skill tools (see AGENTS.md § Skills
-# distributed via crate installers). mise already pins the rust toolchain
-# these build against, so the build step lives here rather than in package.json.
-[tasks."build:skill-auditor"]
-description = "Build the pantheon-skill-auditor CLI from source"
-run = "cargo build --release -p pantheon-skill-auditor"
-
-[tasks."build:adr"]
-description = "Build the pantheon-adr CLI from source"
-run = "cargo build --release -p pantheon-adr"
-
-[tasks."build:journal"]
-description = "Build the pantheon-journal CLI from source"
-run = "cargo build --release -p pantheon-journal"
-
 [tasks."audit:listing"]
 description = "Estimate the shared skill-listing description budget (pass flags after --, e.g. --from-settings)"
 run = "pantheon-skill-auditor analyze listing skills"
@@ -83,17 +66,3 @@ run = ["pantheon-skill-auditor probes validate probes", "pantheon-skill-auditor 
 description = "Run the pinned pantheon-skill-auditor (pass skill args after --)"
 run = "pantheon-skill-auditor evaluate"
 
-# Build a crate-distributed skill tool from the working tree and install its
-# skill from that build, instead of waiting on the PR -> merge -> release loop
-# for a released binary to pick up a SKILL.md edit (see AGENTS.md).
-[tasks."install-skill:adr"]
-description = "Build pantheon-adr from source and install its skill from that build"
-run = ["cargo build --release -q -p pantheon-adr", "target/release/pantheon-adr skill install"]
-
-[tasks."install-skill:journal"]
-description = "Build pantheon-journal from source and install its skill from that build"
-run = ["cargo build --release -q -p pantheon-journal", "target/release/pantheon-journal skill install"]
-
-[tasks."install-skill:skill-auditor"]
-description = "Build pantheon-skill-auditor from source and install its skill from that build"
-run = ["cargo build --release -q -p pantheon-skill-auditor", "target/release/pantheon-skill-auditor skill install"]

@@ -60,7 +60,7 @@ describe("changed-skills.sh", () => {
     const root = makeRepo(["a/one"]);
     const { out } = run(root, [
       "README.md",
-      "crates/skill-auditor/src/main.rs",
+      "scripts/catalog/update.ts",
       "docs/src/content/docs/tiles.md",
     ]);
     expect(out).toEqual([]);

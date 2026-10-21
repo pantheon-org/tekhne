@@ -11,15 +11,6 @@ specifiers = ["latest"]
 checksum = "sha256:36368faef7527875d5ffa52e53cd48021741f2a83eb6208a8dd64068d422a913"
 url = "https://github.com/oven-sh/bun/releases/download/bun-v1.4.2/bun-linux-x64.zip"
 
-[[tools.cargo-dist]]
-version = "0.32.0"
-backend = "aqua:axodotdev/cargo-dist"
-specifiers = ["0.32.0"]
-
-[tools.cargo-dist."platforms.linux-x64"]
-checksum = "sha256:eb52f9fae0d0506774e9f1801c1168f87fa2c87a45e2d64d3ae7c89401929946"
-url = "https://github.com/axodotdev/cargo-dist/releases/download/v0.32.0/cargo-dist-x86_64-unknown-linux-gnu.tar.xz"
-
 [[tools."github:agent-sh/agnix"]]
 version = "0.56.6"
 backend = "github:agent-sh/agnix"
@@ -83,11 +74,6 @@ specifiers = ["0.2.77"]
 [tools.rumdl."platforms.linux-x64"]
 checksum = "sha256:cbe5cea929fbb58b64bb428a464b069f3fe12645545adedc8932e738c8bbe862"
 url = "https://github.com/rvben/rumdl/releases/download/v0.2.77/rumdl-v0.2.77-x86_64-unknown-linux-gnu.tar.gz"
-
-[[tools.rust]]
-version = "1.96.1"
-backend = "core:rust"
-specifiers = ["1.96.1"]
 
 [[tools.shellcheck]]
 version = "0.11.0"

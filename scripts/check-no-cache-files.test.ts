@@ -91,12 +91,6 @@ describe("check-no-cache-files.sh", () => {
     );
   });
 
-  test("exempts the golden-corpus test fixtures", () => {
-    const p =
-      "crates/skill-validator-rs/tests/golden-corpus/fixtures/x/node_modules/y.js";
-    expect(run(makeRoot([p]), [p]).code).toBe(0);
-  });
-
   test("prints the folder once and the fix", () => {
     const paths = [
       "skills/i/tg/.terragrunt-cache/a/1.tf",

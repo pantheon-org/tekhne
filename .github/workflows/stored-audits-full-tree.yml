@@ -3,9 +3,9 @@ name: Stored Audits Full Tree
 # Guardrail for drift that a check on changed skills cannot see: a change to the
 # scorer makes every stored audit stale, and two pull requests that each pass can
 # combine on main into something neither audit describes. Runs the stored-audit
-# check over every skill on each push to main, and on any pull request that touches
-# the scorer, so a scorer change must refresh the audits it invalidates in the same
-# pull request.
+# check over every skill on each push to main, and on any pull request that changes
+# the pinned auditor (mise.toml, mise.lock or the install action), so bumping the
+# scorer must refresh the audits it invalidates in the same pull request.
 #
 # Revisit trigger: if this takes more than 10 minutes, switch it to a scheduled run.
 on:
@@ -14,9 +14,9 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - "crates/skill-auditor/**"
-      - "crates/skill-validator-rs/**"
-      - "Cargo.lock"
+      - "mise.toml"
+      - "mise.lock"
+      - ".github/actions/install-skill-auditor/**"
       - ".github/workflows/stored-audits-full-tree.yml"
 
 permissions:
@@ -33,7 +33,12 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      # The pinned release (keep its version in sync with mise.toml).
+      # CI installs the auditor from the action's own pin while local hooks use
+      # mise, so fail here if mise.toml, mise.lock and the action name different
+      # releases (a bump in only one place would test the wrong scorer).
+      - name: Check the auditor pin is consistent
+        run: bash scripts/stored-audits/check-auditor-pin.sh
+
       - name: Install skill-auditor
         uses: ./.github/actions/install-skill-auditor
 
