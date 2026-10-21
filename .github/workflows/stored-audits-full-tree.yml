@@ -33,7 +33,12 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      # The pinned release (keep its version in sync with mise.toml).
+      # CI installs the auditor from the action's own pin while local hooks use
+      # mise, so fail here if mise.toml, mise.lock and the action name different
+      # releases (a bump in only one place would test the wrong scorer).
+      - name: Check the auditor pin is consistent
+        run: bash scripts/stored-audits/check-auditor-pin.sh
+
       - name: Install skill-auditor
         uses: ./.github/actions/install-skill-auditor
 

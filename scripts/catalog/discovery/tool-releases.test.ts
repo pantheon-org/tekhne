@@ -63,4 +63,32 @@ describe("latestVersion", () => {
     });
     expect(version).toBeNull();
   });
+
+  test("passes a deadline signal with the request", async () => {
+    let signal: AbortSignal | undefined;
+    await latestVersion("pantheon-adr", {
+      fetchImpl: async (_url, init) => {
+        signal = init?.signal;
+        return { ok: true, json: async () => ({ tag_name: "v1.0.0" }) };
+      },
+    });
+    expect(signal).toBeInstanceOf(AbortSignal);
+    expect(signal?.aborted).toBe(false);
+  });
+
+  test("returns null when the request outlives its deadline", async () => {
+    const started = Date.now();
+    const version = await latestVersion("pantheon-adr", {
+      timeoutMs: 25,
+      // A request that never answers, and only ends when it is aborted.
+      fetchImpl: (_url, init) =>
+        new Promise((_resolve, reject) => {
+          init?.signal?.addEventListener("abort", () =>
+            reject(new Error("aborted")),
+          );
+        }),
+    });
+    expect(version).toBeNull();
+    expect(Date.now() - started).toBeLessThan(2000);
+  });
 });
