@@ -1,7 +1,0 @@
-== Report ==
-Title: {title}
-Date: {date}
-
-{body}
-
-== End of Report ==

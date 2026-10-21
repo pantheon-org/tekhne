@@ -8,12 +8,11 @@ name: Release Auto-merge
 #
 # WHY A GITHUB APP TOKEN (not GITHUB_TOKEN):
 # A merge performed with the default GITHUB_TOKEN does NOT trigger new workflow
-# runs (GitHub's anti-recursion rule). tool-release.yml (cargo-dist) runs on the
-# pushed version tag and is what builds and uploads the release binaries. If this
-# job merged with GITHUB_TOKEN, the release PR would land and the tag would be
-# created, but tool-release.yml would never fire, producing a tag with no
-# binaries. Minting the pantheon-ai-bot App installation token makes the merge a
-# real actor event, so the downstream release build fires.
+# runs (GitHub's anti-recursion rule). Any workflow that runs on the pushed
+# version tag or on the merge to main (for example the docs deploy) would then not
+# fire: the release PR would land and the tag would be created without them.
+# Minting the pantheon-ai-bot App installation token makes the merge a real actor
+# event, so those downstream workflows fire.
 #
 # CREDENTIALS: reuses the pantheon-ai-bot App already used by pr-auto-rebase.yml
 # (public client-id below + org secret GH_APP_PRIVATE_KEY). No new App or secret
@@ -103,5 +102,5 @@ jobs:
           esac
 
           gh pr merge "$number" --repo "$GH_REPO" --squash --delete-branch
-          echo "Merged release PR #$number. tool-release.yml will now build and publish."
-          echo "- PR #$number: merged :white_check_mark: — release build triggered." >> "$GITHUB_STEP_SUMMARY"
+          echo "Merged release PR #$number. Downstream release workflows will now run."
+          echo "- PR #$number: merged :white_check_mark: — downstream workflows triggered." >> "$GITHUB_STEP_SUMMARY"
