@@ -9,7 +9,7 @@
     "prepare": "hk install",
     "check:biome": "bunx @biomejs/biome check .",
     "check:markdown": "rumdl check .",
-    "check:skill-artifacts": "./skills/agentic-harness/skill-quality-auditor/scripts/validate-skill-artifacts.sh",
+    "check:skill-artifacts": "pantheon-skill-auditor validate artifacts",
     "readme:update": "bun scripts/catalog/update.ts",
     "readme:update:dry-run": "bun scripts/catalog/update.ts --dry-run",
     "test": "bun test scripts/",

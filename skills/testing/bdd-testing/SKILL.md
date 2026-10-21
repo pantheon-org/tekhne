@@ -85,7 +85,7 @@ Check that step definitions return or await promises. Steps that don't wait for 
 ### Evaluate this skill quality
 
 ```bash
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh bdd-testing --json
+pantheon-skill-auditor evaluate bdd-testing --json
 ```
 
 Expected result: updated quality dimensions and grade.

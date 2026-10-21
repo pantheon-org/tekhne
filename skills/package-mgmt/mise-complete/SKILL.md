@@ -87,7 +87,7 @@ Expected result: resolved environment variables and tool paths are printed.
 ### Evaluate this skill quality
 
 ```bash
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh mise-complete --json
+pantheon-skill-auditor evaluate mise-complete --json
 ```
 
 Expected result: updated audit dimensions and grade.

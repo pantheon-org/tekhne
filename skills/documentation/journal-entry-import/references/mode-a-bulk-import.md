@@ -63,7 +63,7 @@ retired, as the historical provenance record.
 ## Validate, format, commit as one unit
 
 ```bash
-bash skills/documentation/journal-entry-creator/scripts/validate-journal-entry.sh <generated-files>
+for f in <generated-files>; do pantheon-journal validate "$f"; done
 npx prettier --write <generated-files>
 <markdown-linter> --fix <generated-files>
 ```

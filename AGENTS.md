@@ -28,7 +28,7 @@ This file defines how LLM agents should work in this repository.
 
 13 domains: `ci-cd/`, `infrastructure/`, `repository-mgmt/`, `development/`, `agentic-harness/`, `testing/`, `software-engineering/`, `observability/`, `documentation/`, `package-mgmt/`, `project-mgmt/`, `specialized/`, `languages/`.
 
-See `skills/agentic-harness/skill-quality-auditor/references/skill-taxonomy.md` for classification criteria.
+See [skill-taxonomy.md](https://github.com/pantheon-org/pantheon-skill-auditor/blob/main/skill-quality-auditor/references/skill-taxonomy.md) in the auditor repository for classification criteria.
 
 ## Required Workflow For Agents
 
@@ -86,7 +86,7 @@ Never include an agent session link, session ID or session trailer (for example 
 
 ## Skill Quality Audits
 
-Run before publishing or committing major changes. See `skills/agentic-harness/skill-quality-auditor/SKILL.md` for full workflow.
+Run before publishing or committing major changes. See the [skill-quality-auditor skill](https://github.com/pantheon-org/pantheon-skill-auditor/blob/main/skill-quality-auditor/SKILL.md) in the auditor repository for the full workflow.
 
 ```bash
 pantheon-skill-auditor evaluate <domain>/<skill-name> --json --store
