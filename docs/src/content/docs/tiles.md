@@ -806,7 +806,7 @@ Reconstructs journal entries from external systems: bulk-imports a historical wo
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [journal-entry-import](/tekhne/skills/documentation/journal-entry-import/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-10-02 | 5 |
+| [journal-entry-import](/tekhne/skills/documentation/journal-entry-import/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-10-21 | 5 |
 
 ### markdown-authoring
 
