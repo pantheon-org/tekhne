@@ -179,9 +179,22 @@ Without `--split` the output is unchanged. A type that empties has its pair
 deleted on the next `--split` run, and `--split --check` fails on a leftover
 file or a missing one. The `index-` prefix is reserved: every script here skips
 `index-*.md` by name, and `create-context-file` refuses a typology or slug that
-starts with it. `context-ready.sh` and `check-plan-staleness.sh` read the split
-files when any exist (as one set, because blockers cross types) and
-`index.yaml` otherwise; `context-ready.sh` warns when the two disagree.
+starts with it.
+
+### Reader rule
+
+Every reader applies the same rule: if any `index-<type>.yaml` exists, the
+index is split, and a type with no file is empty. Only when none exists is
+`index.yaml` read. `context-ready.sh` and `check-plan-staleness.sh` follow it
+(the split files as one set, because blockers cross types), and
+`context-ready.sh` warns when the sum of the split files and `index.yaml`
+disagree.
+
+**A stale split file beats a fresh `index.yaml`.** Once split files exist, a
+plain `regenerate-context-index.sh` run refreshes only `index.yaml`, which
+readers then ignore. Regenerate with `--split` (or `--split --no-aggregate`),
+or delete the split files to go back to the single index. Never leave both
+generations to drift.
 
 ## Anti-Patterns
 
