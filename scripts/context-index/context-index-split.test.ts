@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, setDefaultTimeout, test } from "bun:test";
 import {
   cpSync,
   existsSync,
@@ -20,6 +20,9 @@ const BASELINE = join(
   import.meta.dir,
   "fixtures/regenerate-context-index.baseline.sh",
 );
+
+// The generator runs several times over a 770-entry copy; bun's 5 s default is too tight under load.
+setDefaultTimeout(120_000);
 
 // Real repositories to prove the claims on. Both are read only: the tests copy
 // `.context/` into a throwaway repository first. They are skipped when absent
