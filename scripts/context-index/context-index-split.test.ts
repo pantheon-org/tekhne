@@ -9,7 +9,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { homedir, tmpdir } from "node:os";
-import { dirname, join } from "node:path";
+import { basename, dirname, join } from "node:path";
 
 const SKILL_SCRIPTS = join(
   import.meta.dir,
@@ -61,7 +61,12 @@ const newRepo = (): string => {
 
 const repoFromContext = (contextDir: string): string => {
   const root = newRepo();
-  cpSync(contextDir, join(root, ".context"), { recursive: true });
+  // A live repository may already be split: copy only the sources, not the generated per-type files.
+  cpSync(contextDir, join(root, ".context"), {
+    recursive: true,
+    filter: (src) =>
+      !(dirname(src) === contextDir && /^index-/.test(basename(src))),
+  });
   return root;
 };
 
