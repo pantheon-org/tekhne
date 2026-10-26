@@ -904,7 +904,7 @@ Regenerates .context/index.yaml from the YAML frontmatter across every .context/
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [context-index](/tekhne/skills/project-mgmt/context-index/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-10-07 | 5 |
+| [context-index](/tekhne/skills/project-mgmt/context-index/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-10-26 | 5 |
 
 ### create-context-file
 
@@ -914,7 +914,7 @@ Create context files under .context/<typology>/ (findings, plans, guides, follow
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [create-context-file](/tekhne/skills/project-mgmt/create-context-file/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-10-07 | 8 |
+| [create-context-file](/tekhne/skills/project-mgmt/create-context-file/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-10-26 | 8 |
 
 ### issue-tracker-toolkit
 

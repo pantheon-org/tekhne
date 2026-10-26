@@ -1,0 +1,34 @@
+{
+  "skill": "project-mgmt/context-index",
+  "date": "2026-10-26",
+  "dimensions": {
+    "antiPatternQuality": 10,
+    "evalValidation": 17,
+    "freedomCalibration": 13,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 8
+  },
+  "total": 116,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 252,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 2,
+  "warningDetails": [
+    {
+      "dimension": "D4",
+      "message": ".context/ or .agents/ reference outside code blocks: .context/"
+    },
+    {
+      "dimension": "D9",
+      "message": "5 of 5 scenario(s) have no failure check; add a criteria.json item with \"failure_check\": true for a behaviour the response must not show (not scored)"
+    }
+  ]
+}
