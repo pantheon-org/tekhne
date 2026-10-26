@@ -33,6 +33,9 @@ for f in "${files[@]}"; do
         *) continue ;;
     esac
 
+    # index-<type>.md are the generated split views, not context files.
+    case "$(basename "$f")" in index-*.md) continue ;; esac
+
     rel="${f#"$ROOT"/}"
     subdir="${rel#.context/}"
     subdir="${subdir%%/*}"

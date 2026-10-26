@@ -1,0 +1,26 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the agent's ability to produce the opt-in per-type split index with the generator, keep it correct with --split --check, and respect the reserved index- prefix.",
+  "checklist": [
+    {
+      "name": "Uses the generator's split flag",
+      "description": "Runs regenerate-context-index.sh --split rather than hand-writing or ad hoc splitting index.yaml",
+      "max_score": 30
+    },
+    {
+      "name": "One pair per non-empty type",
+      "description": "Confirms an index-<type>.yaml and index-<type>.md exist for each non-empty type and none for an empty type",
+      "max_score": 25
+    },
+    {
+      "name": "Verification named",
+      "description": "Names --split --check (stale, missing, orphan) and --only <type> --stdout as the ways to verify and preview",
+      "max_score": 25
+    },
+    {
+      "name": "Generated files left alone",
+      "description": "States the per-type files and md views are generated, undated, never hand-edited, and that the index- prefix is reserved",
+      "max_score": 20
+    }
+  ]
+}

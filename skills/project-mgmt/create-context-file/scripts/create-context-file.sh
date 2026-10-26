@@ -19,7 +19,9 @@
 # Options:
 #   -t, --type    TYPE     Typology / subfolder (required). See KNOWN_TYPES.
 #   -T, --title   TITLE    Human-readable title (required).
-#   -s, --slug    SLUG     Override the auto-generated slug (kebab-case).
+#   -s, --slug    SLUG     Override the auto-generated slug (kebab-case). A
+#                          slug or typology starting `index-` is rejected: the
+#                          prefix is reserved for context-index's split index.
 #   -g, --tags    TAGS     Comma-separated tags (e.g. "auth,oauth").
 #   -R, --related PATHS    Comma-separated relative paths to related .context
 #                          files. Omitted entirely from frontmatter when empty
@@ -140,6 +142,11 @@ done
 
 type="$(slugify "$type")"
 [ -n "$type" ] || die "--type produced an empty typology"
+# `index-` is reserved for the split index context-index generates
+# (.context/index-<type>.yaml and .md); its checks skip any index-*.md by name.
+case "$type" in
+	index|index-*) die "typology '$type' is reserved: the index- prefix belongs to the generated split index" ;;
+esac
 
 if ! type_known "$type" && [ "$allow_new" -ne 1 ]; then
 	die "unknown typology '$type'. Known: ${KNOWN_TYPES}.
@@ -179,6 +186,9 @@ fi
 [ -n "$slug" ] || slug="$(slugify "$title")"
 slug="$(slugify "$slug")"
 [ -n "$slug" ] || die "could not derive a slug; pass --slug"
+case "$slug" in
+	index-*) die "slug '$slug' is reserved: the index- prefix belongs to the generated split index" ;;
+esac
 
 dir="${root%/}/${type}"
 path="${dir}/${date}-${slug}.md"

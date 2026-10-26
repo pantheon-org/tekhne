@@ -12,23 +12,36 @@
 set -euo pipefail
 
 ROOT="$(git rev-parse --show-toplevel)"
-INDEX="$ROOT/.context/index.yaml"
 THRESHOLD_DAYS="${CONTEXT_STALENESS_THRESHOLD_DAYS:-60}"
 
-python3 - "$INDEX" "$THRESHOLD_DAYS" <<'PYEOF'
+# Split files win when present (only plans and follow-ups are read), else
+# index.yaml.
+INDEX_FILES=()
+for f in "$ROOT/.context/index-plans.yaml" "$ROOT/.context/index-follow-ups.yaml"; do
+  [ -f "$f" ] && INDEX_FILES+=("$f")
+done
+if [ ${#INDEX_FILES[@]} -eq 0 ]; then
+  if ls "$ROOT"/.context/index-*.yaml >/dev/null 2>&1; then
+    # Split set exists but has no plans or follow-ups: nothing to report.
+    exit 0
+  fi
+  INDEX_FILES=("$ROOT/.context/index.yaml")
+fi
+
+python3 - "$THRESHOLD_DAYS" "${INDEX_FILES[@]}" <<'PYEOF'
 import re
 import sys
 from datetime import date
 from pathlib import Path
 
-index_path = Path(sys.argv[1])
-threshold = int(sys.argv[2])
+threshold = int(sys.argv[1])
+index_paths = [Path(f) for f in sys.argv[2:]]
 
-if not index_path.exists():
+if not all(p.exists() for p in index_paths):
     print("context index not found, skipping plan-staleness check", file=sys.stderr)
     sys.exit(0)
 
-text = index_path.read_text()
+text = "\n".join(p.read_text() for p in index_paths)
 
 entries = []
 current_section = None

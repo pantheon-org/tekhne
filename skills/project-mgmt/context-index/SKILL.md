@@ -159,6 +159,30 @@ not `status: done`; an unresolvable reference fails closed rather than being
 treated as satisfied. Run `regenerate-context-index.sh` first if the index
 might be stale (this script warns, but does not regenerate, on a mismatch).
 
+## Split index (opt-in)
+
+`index.yaml` is one large file. `--split` also writes one pair per non-empty
+typology beside it in `.context/`: `index-<type>.yaml` (same `section:` key and
+entry shape as `index.yaml`) and `index-<type>.md` (a table of linked title,
+status and date; follow-ups add severity, priority and graded). The per-type
+headers carry no date, so a day passing does not rewrite them.
+
+```bash
+./scripts/regenerate-context-index.sh --split                 # index.yaml and the pairs
+./scripts/regenerate-context-index.sh --split --no-aggregate  # the pairs only
+./scripts/regenerate-context-index.sh --split --check         # stale, missing and orphan files fail
+./scripts/regenerate-context-index.sh --only plans --stdout   # render one file, write nothing
+./scripts/regenerate-context-index.sh --only plans --stdout --format md
+```
+
+Without `--split` the output is unchanged. A type that empties has its pair
+deleted on the next `--split` run, and `--split --check` fails on a leftover
+file or a missing one. The `index-` prefix is reserved: every script here skips
+`index-*.md` by name, and `create-context-file` refuses a typology or slug that
+starts with it. `context-ready.sh` and `check-plan-staleness.sh` read the split
+files when any exist (as one set, because blockers cross types) and
+`index.yaml` otherwise; `context-ready.sh` warns when the two disagree.
+
 ## Anti-Patterns
 
 ### NEVER edit the generated index by hand
@@ -223,4 +247,5 @@ looks, which is functionally the same as it not existing.
 | --- | --- | --- |
 | Technical details, parsing rules, exit codes, and CI integration | [Regeneration Reference](references/regeneration-reference.md) | Debugging index regeneration, wiring the check into a pre-commit hook, or writing a new script against the same frontmatter shape |
 | `blocks`/`blocked-by` semantics and `context-ready.sh`'s readiness computation | [Regeneration Reference](references/regeneration-reference.md) | Modelling a dependency between two context files, or debugging why a file is (or isn't) reported ready |
+| `--split`, `--only`, `--no-aggregate`, orphan and missing-file checks | [Regeneration Reference](references/regeneration-reference.md) | Wiring the per-type files into a gate, merge driver or reader |
 | Typology catalog and the plural-folder / singular-`type:` mapping | The `create-context-file` skill's typologies reference (companion skill) | Choosing or extending the typology set this skill indexes against |

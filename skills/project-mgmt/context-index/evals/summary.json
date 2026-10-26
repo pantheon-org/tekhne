@@ -6,16 +6,18 @@
       "Missing frontmatter is checked before regeneration and fixed at the source",
       "Index staged alongside .context/ changes",
       "Typology set (findings/plans/goals/evidence/guides/follow-ups/handovers/merge-requests/tickets/decisions/notes/research) and singular type: mapping",
-      "Type/directory mismatches are surfaced, not silently routed into a catch-all"
+      "Type/directory mismatches are surfaced, not silently routed into a catch-all",
+      "Opt-in per-type split index (--split, --only --stdout, --check on stale, missing and orphan files) and the reserved index- prefix"
     ]
   },
   "scenario_coverage": {
-    "total_scenarios": 4,
+    "total_scenarios": 5,
     "capabilities_covered": [
       "index-regeneration",
       "frontmatter-repair",
       "index-summarization",
-      "type-directory-mismatch-detection"
+      "type-directory-mismatch-detection",
+      "split-index-generation"
     ]
   }
 }
