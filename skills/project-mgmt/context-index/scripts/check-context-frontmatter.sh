@@ -10,6 +10,8 @@ set -euo pipefail
 failed=()
 for f in "$@"; do
     [[ -f "$f" ]] || continue
+    # index-<type>.md are generated views with no frontmatter by design.
+    case "$(basename "$f")" in index-*.md) continue ;; esac
     first_line=$(head -1 "$f")
     if [[ "$first_line" != "---" ]]; then
         failed+=("$f")

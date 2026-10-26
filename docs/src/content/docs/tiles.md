@@ -904,7 +904,7 @@ Regenerates .context/index.yaml from the YAML frontmatter across every .context/
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [context-index](/tekhne/skills/project-mgmt/context-index/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-10-07 | 4 |
+| [context-index](/tekhne/skills/project-mgmt/context-index/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-10-07 | 5 |
 
 ### create-context-file
 

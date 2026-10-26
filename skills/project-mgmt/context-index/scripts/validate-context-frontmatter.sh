@@ -34,6 +34,9 @@ for f in files:
     p = Path(f)
     if not p.exists():
         continue
+    # index-<type>.md are generated views with no frontmatter by design.
+    if p.name.startswith("index-") and p.suffix == ".md":
+        continue
     content = p.read_text()
     if not content.startswith("---\n"):
         errors.append(f"{f}: missing frontmatter (file must begin with ---)")

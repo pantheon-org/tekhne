@@ -2,7 +2,8 @@
 # shell: bash
 # context-ready.sh - list every ACTIVE .context/ file with zero open
 # blockers, computed from the `blocked-by` frontmatter field that
-# regenerate-context-index.sh carries into .context/index.yaml.
+# regenerate-context-index.sh carries into .context/index.yaml (or, when
+# present, into the per-type .context/index-<type>.yaml split files).
 #
 # Deliberately a query, not a gate: it only reads the index and never writes
 # anything, so it is safe to run at any time with no side effects.
@@ -32,30 +33,62 @@ fi
 ROOT="$(git rev-parse --show-toplevel)"
 INDEX="$ROOT/.context/index.yaml"
 
-if [ ! -f "$INDEX" ]; then
+# Split files (regenerate-context-index.sh --split) win when present: blockers
+# resolve across types, so every index-<type>.yaml is read as one set. Without
+# any, fall back to index.yaml.
+SPLIT_FILES=()
+for f in "$ROOT"/.context/index-*.yaml; do
+  [ -f "$f" ] && SPLIT_FILES+=("$f")
+done
+if [ ${#SPLIT_FILES[@]} -gt 0 ]; then
+  INDEX_FILES=("${SPLIT_FILES[@]}")
+elif [ -f "$INDEX" ]; then
+  INDEX_FILES=("$INDEX")
+else
   echo "NOTICE: $INDEX not found -- run regenerate-context-index.sh first" >&2
   exit 0
 fi
+
+# Header counts of the file(s) read, summed over a split set.
+sum_headers() {
+  local total=0 n f found=false
+  for f in "$@"; do
+    n="$(sed -n 's/^# \([0-9]\{1,\}\) entries:.*/\1/p' "$f" | head -1)"
+    if [ -n "$n" ]; then
+      total=$((total + n))
+      found=true
+    fi
+  done
+  [ "$found" = true ] && echo "$total"
+  return 0
+}
 
 # Freshness nudge (advisory only, same spirit as the follow-up skill's Rule
 # 4): a stale index would silently under- or over-report open blockers. This
 # script never regenerates the index itself -- it only reads it, matching
 # every sibling script in this family.
-ACTUAL_COUNT="$(find "$ROOT/.context" -name '*.md' | wc -l | tr -d ' ')"
-HEADER_COUNT="$(sed -n 's/^# \([0-9]\{1,\}\) entries:.*/\1/p' "$INDEX" | head -1)"
+ACTUAL_COUNT="$(find "$ROOT/.context" -name '*.md' ! -name 'index-*.md' | wc -l | tr -d ' ')"
+HEADER_COUNT="$(sum_headers "${INDEX_FILES[@]}")"
+if [ ${#SPLIT_FILES[@]} -gt 0 ] && [ -f "$INDEX" ]; then
+  AGGREGATE_COUNT="$(sum_headers "$INDEX")"
+  if [ -n "$AGGREGATE_COUNT" ] && [ -n "$HEADER_COUNT" ] && [ "$AGGREGATE_COUNT" != "$HEADER_COUNT" ]; then
+    echo "WARNING: split index files report $HEADER_COUNT entries but index.yaml reports $AGGREGATE_COUNT -- one of them is stale. Run regenerate-context-index.sh --split." >&2
+  fi
+fi
 if [ -n "$HEADER_COUNT" ] && [ "$HEADER_COUNT" != "$ACTUAL_COUNT" ]; then
   echo "WARNING: index reports $HEADER_COUNT entries but $ACTUAL_COUNT .md file(s) exist under .context/ -- it may be stale. Run regenerate-context-index.sh first." >&2
 fi
 
-python3 - "$INDEX" "$MODE" <<'PYEOF'
+python3 - "$MODE" "${INDEX_FILES[@]}" <<'PYEOF'
 import re
 import sys
 from pathlib import Path
 from posixpath import normpath
 
-index_path = Path(sys.argv[1])
-mode = sys.argv[2]
-text = index_path.read_text()
+mode = sys.argv[1]
+# One text for the whole set: each file restarts at a top-level `section:`
+# line, which the parser below already treats as a boundary.
+text = "\n".join(Path(f).read_text() for f in sys.argv[2:])
 
 # Tolerant line-based parse of the machine-generated index, the same
 # approach check-plan-staleness.sh already uses -- no YAML library needed

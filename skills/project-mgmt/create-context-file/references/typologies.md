@@ -31,6 +31,13 @@ strings are interchangeable when writing or reading a context file by hand.
 `evidence` is the exception that proves the rule: it is uncountable, so its
 folder and its `type:` are the same word.
 
+## Reserved prefix: `index-`
+
+`context-index` generates `.context/index-<type>.yaml` and `.context/index-<type>.md`
+when run with `--split`, and its checks skip every `index-*.md` by name.
+`create-context-file.sh` therefore rejects a typology of `index` or `index-*` and a
+slug starting `index-`. Do not hand-write a file with that prefix.
+
 ## Selection rule
 
 Pick the typology by **what the artifact is**, not by how long it will live. An
