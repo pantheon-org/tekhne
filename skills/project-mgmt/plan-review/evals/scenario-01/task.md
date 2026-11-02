@@ -12,7 +12,7 @@
 2. Look for `.claude/plan-review.json` and `~/.claude/plan-review.json` -- since
    neither exists, do NOT skip the model-selection question.
 3. Ask the user which models to use for the 3 reviewers, offering the Claude
-   Code pairings (or BYOK) with a recommended default -- do not simply start
+   Code pairings with a recommended default -- do not simply start
    reviewing with a silent default.
 4. Once models are chosen (or the user accepts a recommended default),
    compose ONE self-contained plan brief containing goal, steps,

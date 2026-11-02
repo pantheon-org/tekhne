@@ -49,15 +49,10 @@ for f in files:
         errors.append(f"{f}: missing required top-level key 'model_selection'")
         continue
 
-    required = ["environment", "question_text", "options"]
+    required = ["question_text", "options"]
     for field in required:
         if field not in sel:
             errors.append(f"{f}: model_selection missing required field '{field}'")
-
-    env = sel.get("environment")
-    valid_envs = ["claude-code", "byok"]
-    if env and env not in valid_envs:
-        errors.append(f"{f}: environment must be one of {valid_envs}, got '{env}'")
 
     options = sel.get("options", [])
     if not isinstance(options, list):

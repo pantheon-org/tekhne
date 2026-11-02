@@ -88,14 +88,6 @@ All three models are available directly:
 | **Opus + Haiku** | Claude Opus 4.8 | Claude Haiku 4.5 | ~$0.18 | Max depth on technical analysis, cheap risk |
 | **Opus + Sonnet** | Claude Opus 4.8 | Claude Sonnet 5 | ~$0.25 | Both reviewers get strong reasoning |
 
-### Bring Your Own Key (BYOK)
-
-Ask the user which models their provider supports. If unsure, recommend:
-
-- Technical/Strategic: the strongest reasoning model available
-- Risk: a different model (ideally from a different provider family)
-
 ### Default recommendation ("not sure" / "surprise me")
 
 - **Claude Code:** Claude Sonnet 5 (Technical/Strategic) + Claude Haiku 4.5 (Risk) -- ~$0.10/run
-- **BYOK:** Strongest model (Technical/Strategic) + cheapest different model (Risk)
