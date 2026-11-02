@@ -63,7 +63,7 @@
     {
       "type": "procedure",
       "why_given": "new knowledge",
-      "content": "A ## Decisions heading is an adr-capture trigger -- run adr-capture before treating a Step 10 amendment as done, since the pre-commit hook blocks the commit otherwise."
+      "content": "A ## Decisions heading is an ADR trigger -- run adr-creator before treating a Step 10 amendment as done."
     },
     {
       "type": "guidance",

@@ -34,8 +34,8 @@
       "max_score": 8
     },
     {
-      "name": "adr-capture flagged",
-      "description": "adr-capture is mentioned as the required next step once ## Decisions exists",
+      "name": "adr-creator flagged",
+      "description": "adr-creator is mentioned as the required next step once ## Decisions exists",
       "max_score": 10
     },
     {
