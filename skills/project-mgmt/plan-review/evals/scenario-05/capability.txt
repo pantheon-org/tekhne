@@ -1,0 +1,1 @@
+Read reviewer models from .claude/plan-review.json and skip the model-selection question when a valid config exists.

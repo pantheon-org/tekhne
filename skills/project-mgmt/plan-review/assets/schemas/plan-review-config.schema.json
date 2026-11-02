@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "plan-review-config",
+  "title": "Plan Review Config",
+  "description": "Reviewer model assignment read from .claude/plan-review.json so plan-review does not ask every run.",
+  "type": "object",
+  "required": ["technicalStrategic", "risk"],
+  "additionalProperties": false,
+  "properties": {
+    "technicalStrategic": {
+      "type": "string",
+      "enum": ["opus", "sonnet", "haiku", "fable"],
+      "description": "Model for the Technical and Strategic reviewers (general-purpose agents)."
+    },
+    "risk": {
+      "type": "string",
+      "enum": ["opus", "sonnet", "haiku", "fable"],
+      "description": "Model for the Risk reviewer. Use a different model from technicalStrategic for diverse blind spots."
+    }
+  }
+}

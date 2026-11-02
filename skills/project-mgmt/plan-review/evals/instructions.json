@@ -13,7 +13,7 @@
     {
       "type": "anti-pattern",
       "why_given": "new knowledge",
-      "content": "NEVER proceed without asking the user which models to use for the 3 reviewers -- model diversity is the main lever for catching different blind spots, and skipping the question silently defaults to a single model for all reviewers."
+      "content": "NEVER proceed without asking the user which models to use for the 3 reviewers unless a valid .claude/plan-review.json, ~/.claude/plan-review.json or opencode.json subAgents config already names them -- model diversity is the main lever for catching different blind spots, and skipping the question silently defaults to a single model for all reviewers."
     },
     {
       "type": "anti-pattern",

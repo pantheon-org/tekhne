@@ -3,7 +3,8 @@ name: plan-review
 description: >
   Review .context/plans/*.md files using 3 independent subagent reviewers:
   Technical (feasibility, gaps, soundness), Strategic (scope, alignment, priority),
-  and Risk (blind spots, edge cases, failure modes). The skill FIRST asks the user
+  and Risk (blind spots, edge cases, failure modes). The skill reads reviewer models
+  from .claude/plan-review.json when present; otherwise it FIRST asks the user
   which models to assign to each reviewer -- presenting available options based on
   the user's environment (OpenCode Zen, OpenCode Go, a native Anthropic CLI
   harness, or BYOK). Each reviewer
@@ -198,20 +199,20 @@ Parallelisation:
    - Parallelism opportunity: <N> tasks could run concurrently but aren't grouped
 ```
 
-### 4. Check opencode.json for existing model config
+### 4. Check for existing model config
 
-Before asking the user anything, check whether `opencode.json` already has
-`subAgents` configured:
+Before asking the user anything, use the first valid saved choice: `.claude/plan-review.json`,
+then `~/.claude/plan-review.json` (keys `technicalStrategic` and `risk`, see the
+[Model Routing Reference](references/model-routing.md)), then `opencode.json` `subAgents`:
 
 ```bash
 cat opencode.json | python3 -c "import sys,json; c=json.load(sys.stdin); print('configured' if c.get('subAgents') else 'not-configured')"
 ```
 
-If `subAgents` is configured with at least two distinct models, note the
-mapping and proceed to compose the plan brief (skip model selection -- the
-user already configured it). Include the model assignments in the final report.
-
-If **not configured**, proceed to step 5 and advise the user.
+If one is valid and names the models (two distinct, or one config file naming the same
+model twice, noting limited diversity), pass them as each reviewer's `model`, skip steps 5
+and 6, and state the models in the final report. An invalid file: say what is wrong, then
+go to step 5, never guess. If **not configured**, proceed to step 5 and advise the user.
 
 ### 5. Ask the user which models to use
 
@@ -381,9 +382,9 @@ separate from the decisions already folded into the plan in Step 10.
 **BAD:** Spawn Technical, wait for result, spawn Strategic, wait, spawn Risk.
 **GOOD:** Spawn all 3 in one message with 3 parallel `task` tool calls.
 
-**NEVER** -- Proceed without asking about models first
+**NEVER** -- Proceed without asking about models first, unless a valid `.claude/plan-review.json`, `~/.claude/plan-review.json` or `opencode.json` `subAgents` config already names them
 
-**WHY:** Model diversity is the main lever for catching different blind spots. Asking first gives the user control over cost vs. depth; skipping it silently defaults to one model for all reviewers, and the user loses trust when they discover routing was available but unused.
+**WHY:** Model diversity is the main lever for catching different blind spots. Asking first gives the user control over cost vs. depth; skipping it silently defaults to one model for all reviewers, and the user loses trust when they discover routing was available but unused. A saved config is the user having answered already, so asking again is the opposite failure.
 
 **BAD:** "Reviewing the plan now with 3 reviewers..."
 **GOOD:** "Before I start, which models should I use for the reviewers?"
@@ -482,6 +483,7 @@ for all structured artifacts. See the project rules for the convention.
 |----------|----------|--------|-------------------|
 | Consolidated Review Report | [assets/templates/review-report.yaml](assets/templates/review-report.yaml) | [assets/schemas/review-report.schema.json](assets/schemas/review-report.schema.json) | [scripts/validate-review-report.sh](scripts/validate-review-report.sh) |
 | Model Selection Question | [assets/templates/model-selection.yaml](assets/templates/model-selection.yaml) | [assets/schemas/model-selection.schema.json](assets/schemas/model-selection.schema.json) | [scripts/validate-model-selection.sh](scripts/validate-model-selection.sh) |
+| Saved reviewer models (`.claude/plan-review.json`) | [assets/templates/plan-review.json](assets/templates/plan-review.json) | [assets/schemas/plan-review-config.schema.json](assets/schemas/plan-review-config.schema.json) | [scripts/validate-plan-review-config.sh](scripts/validate-plan-review-config.sh) |
 
 ## References
 

@@ -1,7 +1,35 @@
 # Model Routing for Plan Review
 
-Achieving 3 different models for the 3 reviewers depends on your opencode
-configuration. This reference documents the available configuration options.
+Achieving 3 different models for the 3 reviewers depends on your harness: a saved
+config in Claude Code, or your opencode configuration. This reference documents
+the available configuration options.
+
+## Saved config: .claude/plan-review.json
+
+For a native Anthropic CLI harness (Claude Code), save the reviewer models once so
+the skill stops asking. The skill uses the first valid file in this order:
+
+1. `.claude/plan-review.json` in the project root
+2. `~/.claude/plan-review.json` (user-wide default)
+3. `opencode.json` `subAgents` (OpenCode only)
+
+```json
+{
+  "technicalStrategic": "opus",
+  "risk": "sonnet"
+}
+```
+
+Values are the Agent tool's `model` values: `opus`, `sonnet`, `haiku`, `fable`.
+`technicalStrategic` applies to the Technical and Strategic reviewers and `risk` to
+the Risk reviewer. Pick two different models for different blind spots. Validate
+with [scripts/validate-plan-review-config.sh](../scripts/validate-plan-review-config.sh);
+the starting point is [assets/templates/plan-review.json](../assets/templates/plan-review.json).
+
+If the config names the same model for both reviewers, use it and note in the final
+report that model diversity is limited. If the file is invalid, say what is wrong and
+ask as usual. After the user chooses models in a native Anthropic CLI harness, offer to
+save the choice to `.claude/plan-review.json` so the question is not asked again.
 
 ## opencode.json subAgents config
 
