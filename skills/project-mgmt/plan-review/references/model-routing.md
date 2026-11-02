@@ -1,17 +1,15 @@
 # Model Routing for Plan Review
 
-Achieving 3 different models for the 3 reviewers depends on your harness: a saved
-config in Claude Code, or your opencode configuration. This reference documents
-the available configuration options.
+Achieving 3 different models for the 3 reviewers depends on a saved config. This
+reference documents the config and the model pairings.
 
 ## Saved config: .claude/plan-review.json
 
-For a native Anthropic CLI harness (Claude Code), save the reviewer models once so
-the skill stops asking. The skill uses the first valid file in this order:
+Save the reviewer models once so the skill stops asking. The skill uses the first
+valid file in this order:
 
 1. `.claude/plan-review.json` in the project root
 2. `~/.claude/plan-review.json` (user-wide default)
-3. `opencode.json` `subAgents` (OpenCode only)
 
 ```json
 {
@@ -31,28 +29,9 @@ the starting point is [assets/templates/plan-review.json](../assets/templates/pl
 If the config names the same model for both reviewers, use it and note in the final
 report that model diversity is limited. If the file is invalid (the validator exits
 non-zero), say what it printed and ask as usual, without using any later file. The shape
-gives Technical and Strategic one model; three distinct models would need a new shape. After the user chooses models in a native Anthropic CLI harness, offer to
-save the choice to `.claude/plan-review.json` so the question is not asked again.
-
-## opencode.json subAgents config
-
-OpenCode supports routing different `subagent_type` values to different models
-via `subAgents` in `opencode.json`:
-
-```jsonc
-{
-  "subAgents": {
-    "general": {
-      "model": "claude-sonnet-5",
-      "systemPrompt": "You are a thorough, detail-oriented reviewer."
-    },
-    "explore": {
-      "model": "deepseek-v4-flash",
-      "systemPrompt": "You are a skeptical, adversarial reviewer focused on finding flaws."
-    }
-  }
-}
-```
+gives Technical and Strategic one model; three distinct models would need a new shape. After the
+user chooses models, offer to save the choice to `.claude/plan-review.json` so the question is not
+asked again.
 
 ## Recommended model pairings
 
@@ -104,15 +83,6 @@ mean different blind spots.
 ### OpenCode Go (flat-rate subscription)
 
 All models cost the same (no per-token charge). Prioritise diversity:
-
-```jsonc
-{
-  "subAgents": {
-    "general": { "model": "deepseek-v4-flash" },   // Technical/Strategic
-    "explore": { "model": "minimax-m3" }            // Risk -- different family
-  }
-}
-```
 
 | Pair | Tech/Strategic | Risk | Why |
 |------|---------------|------|-----|

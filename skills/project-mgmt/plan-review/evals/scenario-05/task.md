@@ -11,7 +11,7 @@ models in this conversation, and the harness is Claude Code.
 ## Expected Behavior
 
 1. Before asking anything, look for `.claude/plan-review.json` and read it.
-2. Find the config valid, skip the model-selection question and the opencode.json step.
+2. Find the config valid, skip the model-selection question.
 3. Spawn Technical and Strategic with model `opus` and Risk with model `sonnet`, in parallel.
 4. State the models used in the final report.
 

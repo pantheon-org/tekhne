@@ -13,7 +13,7 @@
     {
       "type": "anti-pattern",
       "why_given": "new knowledge",
-      "content": "NEVER proceed without asking the user which models to use for the 3 reviewers unless a valid .claude/plan-review.json, ~/.claude/plan-review.json or opencode.json subAgents config already names them -- model diversity is the main lever for catching different blind spots, and skipping the question silently defaults to a single model for all reviewers."
+      "content": "NEVER proceed without asking the user which models to use for the 3 reviewers unless a valid .claude/plan-review.json, or ~/.claude/plan-review.json already names them -- model diversity is the main lever for catching different blind spots, and skipping the question silently defaults to a single model for all reviewers."
     },
     {
       "type": "anti-pattern",
@@ -48,7 +48,7 @@
     {
       "type": "procedure",
       "why_given": "new knowledge",
-      "content": "Check opencode.json for existing subAgents configuration before asking the user anything about model selection -- skip the question if at least two distinct models are already configured."
+      "content": "Check .claude/plan-review.json, then ~/.claude/plan-review.json, with scripts/validate-plan-review-config.sh before asking the user anything about model selection -- skip the question if the first file found is valid and names the models."
     },
     {
       "type": "procedure",

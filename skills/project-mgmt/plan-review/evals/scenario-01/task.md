@@ -3,14 +3,14 @@
 ## User Prompt
 
 "Review the plan at .context/plans/add-sqs-dlq-redrive-2026-08-01.md"
-(opencode.json has no `subAgents` key at all.)
+(Neither `.claude/plan-review.json` nor `~/.claude/plan-review.json` exists.)
 
 ## Expected Behavior
 
 1. Read the plan in full and validate its frontmatter and body structure
    before doing anything else.
-2. Check `opencode.json` for existing `subAgents` configuration -- since none
-   exists, do NOT skip the model-selection question.
+2. Look for `.claude/plan-review.json` and `~/.claude/plan-review.json` -- since
+   neither exists, do NOT skip the model-selection question.
 3. Ask the user which models to use for the 3 reviewers, adapting the
    guidance to whichever environment is detected (OpenCode / native
    Anthropic CLI harness / BYOK) -- do not simply start reviewing with a

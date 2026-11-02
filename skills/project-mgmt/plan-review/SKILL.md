@@ -201,11 +201,10 @@ Parallelisation:
 
 ### 4. Check for existing model config
 
-Before asking the user anything, look for a saved choice. In a native Anthropic CLI harness
-(Claude Code) use `.claude/plan-review.json` in the git root, then `~/.claude/plan-review.json`
-(keys `technicalStrategic` and `risk`, see the [Model Routing Reference](references/model-routing.md)).
-In OpenCode ignore those files (they hold Claude Code model names) and use `opencode.json`
-`subAgents` when it names two distinct models. Check a `.claude` file with `bash scripts/validate-plan-review-config.sh <path>` (path relative
+Before asking the user anything, look for a saved choice: `.claude/plan-review.json` in the
+git root, then `~/.claude/plan-review.json` (keys `technicalStrategic` and `risk`, see the
+[Model Routing Reference](references/model-routing.md)). Check a file with
+`bash scripts/validate-plan-review-config.sh <path>` (path relative
 to this skill): exit 0 is valid, any other exit is invalid. A valid choice names the models:
 pass them as each reviewer's `model`, skip steps 5 and 6, and state the models in the final
 report. The same model for both is allowed, noting limited diversity. The first file found
@@ -234,30 +233,12 @@ Strategic** (`general` subagent type) and a **different model** to **Risk**
 the user picks "Custom", ask them for each reviewer individually and suggest
 sensible defaults based on their chosen model.
 
-### 6. Map model choices to subagent configuration
+### 6. Offer to save the choice
 
-If the user wants to configure `opencode.json`, show them the snippet:
-
-```jsonc
-{
-  "subAgents": {
-    "general": {
-      "model": "<chosen Technical/Strategic model>",
-      "systemPrompt": "You are a thorough, detail-oriented reviewer."
-    },
-    "explore": {
-      "model": "<chosen Risk model>",
-      "systemPrompt": "You are a skeptical, adversarial reviewer focused on finding flaws."
-    }
-  }
-}
-```
-
-Ask if they want to apply this now or proceed with current routing (may use
-the same model for all types). If they proceed without configuration, run all
-3 but note in the output that model diversity was limited -- the reviewer
-prompts alone provide the perspective separation. In Claude Code, offer instead to save the
-choice to `.claude/plan-review.json` (template: `assets/templates/plan-review.json`).
+Offer to save the chosen models to `.claude/plan-review.json` (template:
+`assets/templates/plan-review.json`) so the question is not asked again. If they decline or
+cannot choose, run all 3 but note in the output that model diversity was limited -- the
+reviewer prompts alone provide the perspective separation.
 
 ### 7. Spawn 3 reviewers (in parallel)
 
@@ -382,7 +363,7 @@ separate from the decisions already folded into the plan in Step 10.
 **BAD:** Spawn Technical, wait for result, spawn Strategic, wait, spawn Risk.
 **GOOD:** Spawn all 3 in one message with 3 parallel `task` tool calls.
 
-**NEVER** -- Proceed without asking about models first, unless a valid `.claude/plan-review.json`, `~/.claude/plan-review.json` or `opencode.json` `subAgents` config already names them
+**NEVER** -- Proceed without asking about models first, unless a valid `.claude/plan-review.json` or `~/.claude/plan-review.json` already names them
 
 **WHY:** Model diversity is the main lever for catching different blind spots. Asking first gives the user control over cost vs. depth; skipping it silently defaults to one model for all reviewers, and the user loses trust when they discover routing was available but unused. A saved config is the user having answered already, so asking again is the opposite failure.
 
@@ -408,7 +389,7 @@ separate from the decisions already folded into the plan in Step 10.
 **WHY:** Model diversity is the main lever for catching different blind spots. Using the same subagent type for all 3 loses the independent-perspective benefit -- they converge on similar blind spots, so the review costs 3x but delivers the value of one pass.
 
 **BAD:** All 3 use `general`.
-**GOOD:** Mix `general` and `explore` (and more if your opencode.json routes them differently).
+**GOOD:** Mix `general` and `explore`.
 
 **NEVER** -- Leave a decision-type finding sitting in Open Questions after the review
 
@@ -489,7 +470,7 @@ for all structured artifacts. See the project rules for the convention.
 
 | Topic | Reference | When to Use |
 | --- | --- | --- |
-| opencode.json configuration examples for model diversity | [Model Routing Reference](references/model-routing.md) | Step 4/5, configuring or advising on per-reviewer model routing |
+| Saved model config and pairings for model diversity | [Model Routing Reference](references/model-routing.md) | Step 4/5, configuring or advising on per-reviewer model routing |
 | Persisting review findings, and writing a plan's `## Decisions` section | `create-context-file` skill | Step 10/11, folding decisions or standalone findings back into durable files |
 | The one-question-at-a-time interview pattern | `guided-interview` skill | Step 10, resolving a Decision-classified finding with the user |
 | Naming a concrete, checkable revisit trigger for a time-boxed decision | `design-debate` skill | Step 10, whenever a decision carries a "review later" condition |

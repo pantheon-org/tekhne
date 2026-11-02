@@ -9,8 +9,8 @@
       "max_score": 18
     },
     {
-      "name": "Checks opencode.json first",
-      "description": "Agent checks for existing subAgents config before asking, per Step 4",
+      "name": "Checks saved config first",
+      "description": "Agent looks for .claude/plan-review.json and ~/.claude/plan-review.json before asking, per Step 4",
       "max_score": 10
     },
     {
