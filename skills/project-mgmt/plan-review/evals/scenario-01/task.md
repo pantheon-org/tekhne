@@ -17,7 +17,7 @@
 4. Once models are chosen (or the user accepts a recommended default),
    compose ONE self-contained plan brief containing goal, steps,
    dependencies, open questions, risks, and structural validation results.
-5. Spawn Technical (general), Strategic (general), and Risk (explore) in a
+5. Spawn Technical (general-purpose), Strategic (general-purpose), and Risk (Explore) in a
    single message with 3 parallel tool calls -- not sequentially.
 6. Give all 3 reviewers the identical brief -- no reviewer gets extra or
    different context.
@@ -30,7 +30,7 @@
 - Exactly one plan brief is composed and reused verbatim across all 3
   reviewer prompts.
 - All 3 reviewers are spawned in a single parallel batch, not one-by-one.
-- Reviewer subagent types are mixed (`general`, `general`, `explore`), not
+- Reviewer subagent types are mixed (`general-purpose`, `general-purpose`, `Explore`), not
   all identical.
 - The brief includes structural validation results (frontmatter + body
   section inference), not just the plan's prose.

@@ -201,8 +201,8 @@ Reached only when step 4 found no valid saved choice. Do NOT proceed without ask
 Present the pricing/pairing table via the question box -- see the
 [Model Routing Reference](references/model-routing.md) for the tables, the question
 structure and the default "not sure" pairing. The goal is always to assign one model to
-**Technical + Strategic** (`general` subagent type) and a **different model** to **Risk**
-(`explore` subagent type) -- different models mean different blind spots. If the user
+**Technical + Strategic** (`general-purpose` subagent type) and a **different model** to **Risk**
+(`Explore` subagent type) -- different models mean different blind spots. If the user
 picks "Custom", ask them for each reviewer individually and suggest sensible defaults.
 
 ### 6. Offer to save the choice
@@ -294,7 +294,7 @@ separate from the decisions already folded into the plan in Step 10.
 
 **NEVER** -- Skip the plan brief and just pass the file path
 
-**WHY:** Subagents cannot read files unless they have the `general` type with file access. The plan brief ensures every reviewer works from the same complete information regardless of subagent capability -- skipping it produces shallow, inconsistent, self-contradicting reviews.
+**WHY:** Subagents cannot read files unless they have the `general-purpose` type with file access. The plan brief ensures every reviewer works from the same complete information regardless of subagent capability -- skipping it produces shallow, inconsistent, self-contradicting reviews.
 
 **BAD:** Sending "review .context/plans/foo.md" as the prompt.
 **GOOD:** Extracting the plan content into a self-contained brief first.
@@ -331,8 +331,8 @@ separate from the decisions already folded into the plan in Step 10.
 
 **WHY:** Model diversity is the main lever for catching different blind spots. Using the same subagent type for all 3 loses the independent-perspective benefit -- they converge on similar blind spots, so the review costs 3x but delivers the value of one pass.
 
-**BAD:** All 3 use `general`.
-**GOOD:** Mix `general` and `explore`.
+**BAD:** All 3 use `general-purpose`.
+**GOOD:** Mix `general-purpose` and `Explore`.
 
 **NEVER** -- Leave a decision-type finding sitting in Open Questions after the review
 

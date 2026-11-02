@@ -53,7 +53,7 @@
     {
       "type": "procedure",
       "why_given": "new knowledge",
-      "content": "Spawn Technical (general), Strategic (general), and Risk (explore) in a single message with 3 parallel tool calls, each with the same brief prefixed by a role-specific prompt."
+      "content": "Spawn Technical (general-purpose), Strategic (general-purpose), and Risk (Explore) in a single message with 3 parallel tool calls, each with the same brief prefixed by a role-specific prompt."
     },
     {
       "type": "procedure",
