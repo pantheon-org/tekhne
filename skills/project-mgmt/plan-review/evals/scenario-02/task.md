@@ -31,7 +31,7 @@ Present this to me."
 5. After the user answers, record the outcome in a `## Decisions` section in
    the plan, including why the alternative didn't win and a concrete revisit
    trigger if the decision is time-boxed.
-6. Note that adding a `## Decisions` heading triggers `adr-capture` as a
+6. Note that adding a `## Decisions` heading triggers `adr-creator` as a
    required next step, not optional.
 
 ## Success Criteria
@@ -42,7 +42,7 @@ Present this to me."
   interview, not a summary statement asking the user to "let me know."
 - A `## Decisions` section is proposed/created recording the interview's
   outcome, with a stated reason the alternative was rejected.
-- `adr-capture` is mentioned as the required next step once `## Decisions`
+- `adr-creator` is mentioned as the required next step once `## Decisions`
   exists.
 - The Strategic reviewer's "already in Open Questions but unanswered" note
   is treated as reinforcing evidence for the Decision classification, not a
@@ -56,5 +56,5 @@ Present this to me."
   without asking the user.
 - The SNS topic ambiguity is escalated to a full interview when it has one
   clearly correct answer.
-- `adr-capture` is never mentioned despite a `## Decisions` section being
+- `adr-creator` is never mentioned despite a `## Decisions` section being
   created.

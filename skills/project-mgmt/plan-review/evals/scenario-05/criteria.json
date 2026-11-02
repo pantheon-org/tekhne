@@ -1,0 +1,27 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent reads the saved reviewer-model config and skips the model question.",
+  "checklist": [
+    {
+      "name": "Reads config first",
+      "description": "Looks for and reads .claude/plan-review.json before asking or spawning anything",
+      "max_score": 25
+    },
+    {
+      "name": "Skips model question",
+      "description": "Does not ask the user which models to use",
+      "max_score": 30
+    },
+    {
+      "name": "Correct model routing",
+      "description": "Technical and Strategic reviewers use opus and the Risk reviewer uses sonnet",
+      "max_score": 25
+    },
+    {
+      "name": "Models reported",
+      "description": "Final report states both models and which reviewer used which",
+      "max_score": 20
+    }
+  ]
+}

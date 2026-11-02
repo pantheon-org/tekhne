@@ -7,8 +7,8 @@
 ```markdown
 ---
 title: Bump the mise-pinned Bun version
-type: PLAN
-status: DRAFT
+type: plan
+status: active
 date: 2026-08-01
 effort: S
 value: LOW

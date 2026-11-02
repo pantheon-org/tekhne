@@ -5,7 +5,7 @@
 "Review .context/plans/observability-hardening-2026-08-01.md -- I've already
 told you to use Sonnet for Technical/Strategic and Haiku for Risk."
 
-Assume, after spawning all 3 reviewers in parallel, the Risk (`explore`)
+Assume, after spawning all 3 reviewers in parallel, the Risk (`Explore`)
 subagent times out and returns no usable result, while Technical and
 Strategic both return normally.
 
