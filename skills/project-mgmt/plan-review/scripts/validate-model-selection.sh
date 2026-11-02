@@ -55,7 +55,7 @@ for f in files:
             errors.append(f"{f}: model_selection missing required field '{field}'")
 
     env = sel.get("environment")
-    valid_envs = ["opencode-zen", "opencode-go", "claude-code", "byok"]
+    valid_envs = ["claude-code", "byok"]
     if env and env not in valid_envs:
         errors.append(f"{f}: environment must be one of {valid_envs}, got '{env}'")
 

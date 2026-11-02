@@ -5,9 +5,7 @@ description: >
   Technical (feasibility, gaps, soundness), Strategic (scope, alignment, priority),
   and Risk (blind spots, edge cases, failure modes). The skill reads reviewer models
   from .claude/plan-review.json when present; otherwise it FIRST asks the user
-  which models to assign to each reviewer -- presenting available options based on
-  the user's environment (OpenCode Zen, OpenCode Go, a native Anthropic CLI
-  harness, or BYOK). Each reviewer
+  which models to assign to each reviewer, with a recommended pairing. Each reviewer
   receives the same plan with a role-specific lens and returns structured feedback.
   The main agent consolidates all three perspectives. Triggers: 'review this plan',
   'audit plan', 'plan review', 'check my plan', 'what's wrong with this plan',
@@ -214,24 +212,12 @@ to the next file and never guess. If nothing is configured, go to step 5 and adv
 ### 5. Ask the user which models to use
 
 Reached only when step 4 found no valid saved choice. Do NOT proceed without asking.
-The agent should proactively advise based on what it detects. First check if this is a
-native Anthropic CLI harness or OpenCode by looking for environment cues (e.g., a
-`CLAUDE_CODE`-style env var, or `ANTHROPIC_API_KEY` is set). If you cannot determine the
-environment, ask:
-
-> "Are you using **OpenCode**, or a **native Anthropic CLI harness**? This determines which models are available for the subagent reviewers."
-
-Use the appropriate guidance below.
-
-Present the pricing/pairing table for the detected environment (OpenCode Zen,
-OpenCode Go, native Anthropic CLI harness, or BYOK) via the `question` tool --
-see [Model Routing Reference](references/model-routing.md) for the full
-tables, example `question` payloads, and the default "not sure" pairing per
-environment. The goal is always to assign one model to **Technical +
-Strategic** (`general` subagent type) and a **different model** to **Risk**
-(`explore` subagent type) -- different models mean different blind spots. If
-the user picks "Custom", ask them for each reviewer individually and suggest
-sensible defaults based on their chosen model.
+Present the pricing/pairing table via the question box -- see the
+[Model Routing Reference](references/model-routing.md) for the tables, the question
+structure and the default "not sure" pairing. The goal is always to assign one model to
+**Technical + Strategic** (`general` subagent type) and a **different model** to **Risk**
+(`explore` subagent type) -- different models mean different blind spots. If the user
+picks "Custom", ask them for each reviewer individually and suggest sensible defaults.
 
 ### 6. Offer to save the choice
 
@@ -443,7 +429,7 @@ final.
 |-----------|----------|
 | Report validation fails | Check the report against `assets/schemas/review-report.schema.json` for missing or malformed sections; otherwise regenerate |
 | A reviewer does not return results | Re-spawn that reviewer individually with the same brief; if a reviewer fails twice, fall back to the other two |
-| User has no preference on models | Recommend the best-value pair for their detected environment; stop if they confirm |
+| User has no preference on models | Recommend the Claude Code default pair from the Model Routing Reference; stop if they confirm |
 | Plan is trivially small | Skip if fewer than 2 H2 sections -- do a single pass instead |
 | Review reveals a critical issue | Stop if critical and present immediately; ask if the user wants to fix before continuing |
 

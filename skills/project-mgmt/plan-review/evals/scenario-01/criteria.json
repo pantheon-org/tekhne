@@ -39,8 +39,8 @@
       "max_score": 8
     },
     {
-      "name": "Environment-adapted question",
-      "description": "The model-selection question adapts to the detected/assumed environment rather than a blind default",
+      "name": "Recommended-default question",
+      "description": "The model-selection question offers the Claude Code pairings with a recommended default rather than a blind default",
       "max_score": 6
     },
     {

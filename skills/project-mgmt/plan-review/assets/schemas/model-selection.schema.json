@@ -14,7 +14,7 @@
       "properties": {
         "environment": {
           "type": "string",
-          "enum": ["opencode-zen", "opencode-go", "claude-code", "byok"]
+          "enum": ["claude-code", "byok"]
         },
         "question_text": { "type": "string", "minLength": 1 },
         "options": {

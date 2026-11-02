@@ -11,10 +11,9 @@
    before doing anything else.
 2. Look for `.claude/plan-review.json` and `~/.claude/plan-review.json` -- since
    neither exists, do NOT skip the model-selection question.
-3. Ask the user which models to use for the 3 reviewers, adapting the
-   guidance to whichever environment is detected (OpenCode / native
-   Anthropic CLI harness / BYOK) -- do not simply start reviewing with a
-   silent default.
+3. Ask the user which models to use for the 3 reviewers, offering the Claude
+   Code pairings (or BYOK) with a recommended default -- do not simply start
+   reviewing with a silent default.
 4. Once models are chosen (or the user accepts a recommended default),
    compose ONE self-contained plan brief containing goal, steps,
    dependencies, open questions, risks, and structural validation results.
@@ -26,8 +25,8 @@
 ## Success Criteria
 
 - The agent does not begin reviewing before asking about model selection.
-- The question presented adapts to the detected/assumed environment rather
-  than assuming Claude-specific or OpenCode-specific defaults blindly.
+- The question presents the Claude Code pairings with a recommended default
+  rather than a silent default.
 - Exactly one plan brief is composed and reused verbatim across all 3
   reviewer prompts.
 - All 3 reviewers are spawned in a single parallel batch, not one-by-one.
