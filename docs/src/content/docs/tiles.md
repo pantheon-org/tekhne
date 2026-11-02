@@ -983,7 +983,7 @@ Execute an implementation plan with rigorous checklist-driven verification. Ever
 
 ### plan-review
 
-Review .context/plans/*.md files using 3 independent subagent reviewers: Technic...
+Use when asked to review, audit or quality-check a plan in .context/plans/. Runs...
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
