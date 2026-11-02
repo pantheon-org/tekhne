@@ -20,15 +20,18 @@ the skill stops asking. The skill uses the first valid file in this order:
 }
 ```
 
-Values are the Agent tool's `model` values: `opus`, `sonnet`, `haiku`, `fable`.
-`technicalStrategic` applies to the Technical and Strategic reviewers and `risk` to
+Values are the Agent tool's `model` values: `opus`, `sonnet`, `haiku`, `fable`. The enum
+in [the schema](../assets/schemas/plan-review-config.schema.json) follows those values, so
+update it when they change; if the Agent call rejects a configured model, report it and ask
+as in step 5. `technicalStrategic` applies to the Technical and Strategic reviewers and `risk` to
 the Risk reviewer. Pick two different models for different blind spots. Validate
 with [scripts/validate-plan-review-config.sh](../scripts/validate-plan-review-config.sh);
 the starting point is [assets/templates/plan-review.json](../assets/templates/plan-review.json).
 
 If the config names the same model for both reviewers, use it and note in the final
-report that model diversity is limited. If the file is invalid, say what is wrong and
-ask as usual. After the user chooses models in a native Anthropic CLI harness, offer to
+report that model diversity is limited. If the file is invalid (the validator exits
+non-zero), say what it printed and ask as usual, without using any later file. The shape
+gives Technical and Strategic one model; three distinct models would need a new shape. After the user chooses models in a native Anthropic CLI harness, offer to
 save the choice to `.claude/plan-review.json` so the question is not asked again.
 
 ## opencode.json subAgents config

@@ -201,25 +201,23 @@ Parallelisation:
 
 ### 4. Check for existing model config
 
-Before asking the user anything, use the first valid saved choice: `.claude/plan-review.json`,
-then `~/.claude/plan-review.json` (keys `technicalStrategic` and `risk`, see the
-[Model Routing Reference](references/model-routing.md)), then `opencode.json` `subAgents`:
-
-```bash
-cat opencode.json | python3 -c "import sys,json; c=json.load(sys.stdin); print('configured' if c.get('subAgents') else 'not-configured')"
-```
-
-If one is valid and names the models (two distinct, or one config file naming the same
-model twice, noting limited diversity), pass them as each reviewer's `model`, skip steps 5
-and 6, and state the models in the final report. An invalid file: say what is wrong, then
-go to step 5, never guess. If **not configured**, proceed to step 5 and advise the user.
+Before asking the user anything, look for a saved choice. In a native Anthropic CLI harness
+(Claude Code) use `.claude/plan-review.json` in the git root, then `~/.claude/plan-review.json`
+(keys `technicalStrategic` and `risk`, see the [Model Routing Reference](references/model-routing.md)).
+In OpenCode ignore those files (they hold Claude Code model names) and use `opencode.json`
+`subAgents` when it names two distinct models. Check a `.claude` file with `bash scripts/validate-plan-review-config.sh <path>` (path relative
+to this skill): exit 0 is valid, any other exit is invalid. A valid choice names the models:
+pass them as each reviewer's `model`, skip steps 5 and 6, and state the models in the final
+report. The same model for both is allowed, noting limited diversity. The first file found
+decides: if it is invalid, say what the validator printed and go to step 5, never fall through
+to the next file and never guess. If nothing is configured, go to step 5 and advise the user.
 
 ### 5. Ask the user which models to use
 
-Do NOT proceed without asking. The agent should proactively advise based on
-what it detects. First check if this is a native Anthropic CLI harness or
-OpenCode by looking for environment cues (e.g., a `CLAUDE_CODE`-style env
-var, or `ANTHROPIC_API_KEY` is set). If you cannot determine the
+Reached only when step 4 found no valid saved choice. Do NOT proceed without asking.
+The agent should proactively advise based on what it detects. First check if this is a
+native Anthropic CLI harness or OpenCode by looking for environment cues (e.g., a
+`CLAUDE_CODE`-style env var, or `ANTHROPIC_API_KEY` is set). If you cannot determine the
 environment, ask:
 
 > "Are you using **OpenCode**, or a **native Anthropic CLI harness**? This determines which models are available for the subagent reviewers."
@@ -258,12 +256,14 @@ If the user wants to configure `opencode.json`, show them the snippet:
 Ask if they want to apply this now or proceed with current routing (may use
 the same model for all types). If they proceed without configuration, run all
 3 but note in the output that model diversity was limited -- the reviewer
-prompts alone provide the perspective separation.
+prompts alone provide the perspective separation. In Claude Code, offer instead to save the
+choice to `.claude/plan-review.json` (template: `assets/templates/plan-review.json`).
 
 ### 7. Spawn 3 reviewers (in parallel)
 
-Spawn all 3 subagents at once using the `task` tool. Each receives the
-**same plan brief** prefixed with their role-specific instructions.
+Spawn all 3 subagents at once using the `task` tool (Claude Code: the `Agent` tool, with
+`general-purpose` and `Explore`). Each receives the **same plan brief** prefixed with their
+role-specific instructions.
 
 | Reviewer | subagent_type | Lens |
 |----------|--------------|------|
@@ -387,7 +387,7 @@ separate from the decisions already folded into the plan in Step 10.
 **WHY:** Model diversity is the main lever for catching different blind spots. Asking first gives the user control over cost vs. depth; skipping it silently defaults to one model for all reviewers, and the user loses trust when they discover routing was available but unused. A saved config is the user having answered already, so asking again is the opposite failure.
 
 **BAD:** "Reviewing the plan now with 3 reviewers..."
-**GOOD:** "Before I start, which models should I use for the reviewers?"
+**GOOD:** (no saved config) "Before I start, which models should I use for the reviewers?"
 
 **NEVER** -- Present raw subagent output without attribution
 

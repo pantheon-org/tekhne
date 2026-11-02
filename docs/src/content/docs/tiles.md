@@ -987,7 +987,7 @@ Review .context/plans/*.md files using 3 independent subagent reviewers: Technic
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [plan-review](/tekhne/skills/project-mgmt/plan-review/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-10-02 | 5 |
+| [plan-review](/tekhne/skills/project-mgmt/plan-review/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-10-02 | 6 |
 
 ### risk-register
 

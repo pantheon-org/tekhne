@@ -1,0 +1,27 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether an invalid project config is caught by the validator and reported, instead of being accepted, guessed or bypassed.",
+  "checklist": [
+    {
+      "name": "Runs the validator",
+      "description": "Runs scripts/validate-plan-review-config.sh on .claude/plan-review.json rather than judging it by eye",
+      "max_score": 25
+    },
+    {
+      "name": "Reports the error",
+      "description": "Tells the user which value in the file is invalid",
+      "max_score": 25
+    },
+    {
+      "name": "Asks the model question",
+      "description": "Goes to step 5 and asks which models to use",
+      "max_score": 25
+    },
+    {
+      "name": "No fall-through or guessing",
+      "description": "Does not use ~/.claude/plan-review.json and does not guess the intended models",
+      "max_score": 25
+    }
+  ]
+}

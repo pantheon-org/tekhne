@@ -4,7 +4,7 @@
 
 "Review .context/plans/observability-hardening-2026-08-01.md"
 
-Assume the project has `.claude/plan-review.json` containing
+Assume the plan has 3 H2 sections, the project has `.claude/plan-review.json` containing
 `{"technicalStrategic": "opus", "risk": "sonnet"}`, the user has not named any
 models in this conversation, and the harness is Claude Code.
 
