@@ -85,9 +85,8 @@ script. Check the plan against all three.
 
 #### What to check
 
-Run the validation script on the plan file. It sits in the `context-index` skill's `scripts/`
-directory, next to this skill (find it with
-`find <skills dir> -name validate-context-frontmatter.sh`), and runs with `sh`:
+Run the validation script on the plan file, with `sh`. Find it in the `context-index` skill with
+`find -L <skills dir> -name validate-context-frontmatter.sh` (`-L`: installed skills are symlinks):
 
 ```bash
 sh <path>/validate-context-frontmatter.sh .context/plans/<plan-file>.md
