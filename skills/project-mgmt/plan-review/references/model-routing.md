@@ -25,13 +25,16 @@ as in step 5. `technicalStrategic` applies to the Technical and Strategic review
 the Risk reviewer. Pick two different models for different blind spots. Validate
 with [scripts/validate-plan-review-config.sh](../scripts/validate-plan-review-config.sh);
 the starting point is [assets/templates/plan-review.json](../assets/templates/plan-review.json).
+In the tables below, Opus, Sonnet and Haiku mean the `opus`, `sonnet` and `haiku` values.
 
-If the config names the same model for both reviewers, use it and note in the final
-report that model diversity is limited. If the file is invalid (the validator exits
-non-zero), say what it printed and ask as usual, without using any later file. The shape
-gives Technical and Strategic one model; three distinct models would need a new shape. After the
-user chooses models, offer to save the choice to `.claude/plan-review.json` so the question is not
-asked again.
+If `technicalStrategic` and `risk` name the same model, use it and note in the final report
+that model diversity is limited. If the file is invalid (the validator exits non-zero), say
+what it printed and ask as usual, without using any later file. After the user chooses
+models, offer to save the choice to `.claude/plan-review.json` so the question is not asked
+again.
+
+Known limit: the shape gives Technical and Strategic one model. Three distinct models would
+need a new shape.
 
 ## Recommended model pairings
 

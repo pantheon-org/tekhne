@@ -200,14 +200,15 @@ Parallelisation:
 ### 4. Check for existing model config
 
 Before asking the user anything, look for a saved choice: `.claude/plan-review.json` in the
-git root, then `~/.claude/plan-review.json` (keys `technicalStrategic` and `risk`, see the
-[Model Routing Reference](references/model-routing.md)). Check a file with
-`bash scripts/validate-plan-review-config.sh <path>` (path relative
-to this skill): exit 0 is valid, any other exit is invalid. A valid choice names the models:
-pass them as each reviewer's `model`, skip steps 5 and 6, and state the models in the final
-report. The same model for both is allowed, noting limited diversity. The first file found
-decides: if it is invalid, say what the validator printed and go to step 5, never fall through
-to the next file and never guess. If nothing is configured, go to step 5 and advise the user.
+git root (the working directory outside a git repo), then `~/.claude/plan-review.json` (keys
+`technicalStrategic` and `risk`, see the [Model Routing Reference](references/model-routing.md)).
+Check a file with `bash <this skill's directory>/scripts/validate-plan-review-config.sh <path>`,
+from any working directory: exit 0 is valid, any other exit is invalid. A valid choice names the
+models: pass them as each reviewer's `model`, skip steps 5 and 6, and state the models in the
+final report. Both keys may name the same model, noting limited diversity. The first file found
+decides: if it is invalid, say what the validator printed (and that a valid file further down
+was skipped), go to step 5, never fall through to the next file and never guess. If nothing is
+configured, go to step 5 and advise the user.
 
 ### 5. Ask the user which models to use
 
@@ -222,21 +223,23 @@ picks "Custom", ask them for each reviewer individually and suggest sensible def
 ### 6. Offer to save the choice
 
 Offer to save the chosen models to `.claude/plan-review.json` (template:
-`assets/templates/plan-review.json`) so the question is not asked again. If they decline or
+`assets/templates/plan-review.json`) so the question is not asked again. If step 4 found an
+invalid file, offer to replace it, naming the file, and never overwrite it unasked. If they decline or
 cannot choose, run all 3 but note in the output that model diversity was limited -- the
 reviewer prompts alone provide the perspective separation.
 
 ### 7. Spawn 3 reviewers (in parallel)
 
-Spawn all 3 subagents at once using the `task` tool (Claude Code: the `Agent` tool, with
-`general-purpose` and `Explore`). Each receives the **same plan brief** prefixed with their
-role-specific instructions.
+Spawn all 3 subagents at once with the `Agent` tool. Each receives the **same plan brief**
+prefixed with their role-specific instructions. Set each call's `model` from step 4 or 5
+(`technicalStrategic` for Technical and Strategic, `risk` for Risk); omit it only when the
+user declined to choose.
 
-| Reviewer | subagent_type | Lens |
-|----------|--------------|------|
-| Technical | `general` | Feasibility, implementation gaps, technical soundness |
-| Strategic | `general` | Goal alignment, scope correctness, priority, sequencing |
-| Risk | `explore` | Blind spots, edge cases, failure modes, dependencies |
+| Reviewer | subagent_type | model | Lens |
+|----------|--------------|-------|------|
+| Technical | `general-purpose` | `technicalStrategic` | Feasibility, implementation gaps, technical soundness |
+| Strategic | `general-purpose` | `technicalStrategic` | Goal alignment, scope correctness, priority, sequencing |
+| Risk | `Explore` | `risk` | Blind spots, edge cases, failure modes, dependencies |
 
 #### Reviewer 1: Technical
 
@@ -244,7 +247,8 @@ Use this prompt template with the plan brief inserted:
 
 ```json
 {
-  "subagent_type": "general",
+  "subagent_type": "general-purpose",
+  "model": "<technicalStrategic>",
   "description": "Technical review of plan",
   "prompt": "You are a TECHNICAL REVIEWER evaluating a plan. Your focus: feasibility, implementation gaps, technical correctness, and completeness.\n\nAnswer these questions with specific, actionable items:\n\n1. FEASIBILITY: Are the implementation steps technically sound? Identify any steps that are ambiguous, under-specified, or impossible as written.\n\n2. GAPS: What specific details are missing? (e.g., missing error handling, no test strategy, no rollback plan, missing configuration). Be precise -- reference step numbers.\n\n3. CONSISTENCY: Do the steps internally agree? Any contradictions in approach, ordering, or assumptions?\n\n4. EFFORT ESTIMATE: Is the effort realistic for the scope? Identify any steps that look under- or over-scoped.\n\n5. DEPENDENCIES: Are all prerequisites and dependencies called out? Any implicit ones that should be explicit?\n\nPLAN BRIEF:\n<PASTE PLAN BRIEF HERE>"
 }
@@ -254,7 +258,8 @@ Use this prompt template with the plan brief inserted:
 
 ```json
 {
-  "subagent_type": "general",
+  "subagent_type": "general-purpose",
+  "model": "<technicalStrategic>",
   "description": "Strategic review of plan",
   "prompt": "You are a STRATEGIC REVIEWER evaluating a plan. Your focus: goal alignment, scope, priority, and completeness relative to objectives.\n\nAnswer these questions with specific, actionable items:\n\n1. GOAL ALIGNMENT: Does every step clearly serve the stated goal? Identify any steps that are off-track, scope-creep, or not connected to the goal.\n\n2. SCOPE: Is the scope right? Too narrow (misses important outcomes) or too broad (trying to solve everything)?\n\n3. PRIORITY: Are the steps in the right order? Identify sequencing issues -- steps that should come earlier or later, or missing prerequisites.\n\n4. COMPLETENESS: Are there obvious missing steps or phases? What would a reasonable person expect that isn't here, including whether stated execution paths actually reach far enough to meet the goal?\n\n5. SUCCESS CRITERIA: Does the plan define what 'done' looks like? If not, what's missing?\n\nPLAN BRIEF:\n<PASTE PLAN BRIEF HERE>"
 }
@@ -264,7 +269,8 @@ Use this prompt template with the plan brief inserted:
 
 ```json
 {
-  "subagent_type": "explore",
+  "subagent_type": "Explore",
+  "model": "<risk>",
   "description": "Risk review of plan",
   "prompt": "You are a RISK REVIEWER evaluating a plan. Your focus: blind spots, edge cases, failure modes, and unstated assumptions.\n\nAnswer these questions with specific, actionable items:\n\n1. BLIND SPOTS: What is the plan not considering? Look for implicit assumptions that could be wrong, stakeholders not mentioned, or system boundaries not considered. If the plan states where or how a mechanism executes (a hook, a CI job, a trigger, a caller), explicitly assess who or what bypasses that path and whether the stated goal is actually met given that reach.\n\n2. FAILURE MODES: For each step, what's the most likely failure? What's the worst-case outcome? Be specific -- reference step numbers.\n\n3. EDGE CASES: What scenarios would break this plan? Consider: incomplete data, external dependencies failing, concurrent changes, user error.\n\n4. RECOVERY: If a step fails, is there a rollback or recovery path? Identify steps where failure = irreversible or costly.\n\n5. RESILIENCE: How brittle is this plan? Could small changes in assumptions invalidate large parts of it?\n\nPLAN BRIEF:\n<PASTE PLAN BRIEF HERE>"
 }
@@ -347,7 +353,7 @@ separate from the decisions already folded into the plan in Step 10.
 **WHY:** They are fully independent -- sequential spawning wastes 3x the time and lets context build up between calls. Always use parallel tool calls.
 
 **BAD:** Spawn Technical, wait for result, spawn Strategic, wait, spawn Risk.
-**GOOD:** Spawn all 3 in one message with 3 parallel `task` tool calls.
+**GOOD:** Spawn all 3 in one message with 3 parallel `Agent` tool calls.
 
 **NEVER** -- Proceed without asking about models first, unless a valid `.claude/plan-review.json` or `~/.claude/plan-review.json` already names them
 
