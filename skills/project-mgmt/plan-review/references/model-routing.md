@@ -40,19 +40,19 @@ need a new shape.
 
 | Reviewer | subagent_type | Recommended model | Rationale |
 |----------|--------------|-------------------|-----------|
-| Technical | `general` | Claude Sonnet 5 or Opus 4.8 | Strong reasoning for implementation feasibility |
-| Strategic | `general` | Claude Sonnet 5 or Opus 4.8 | Both Technical and Strategic need reasoning depth — use the same strong model |
-| Risk | `explore` | Claude Haiku 4.5 or Sonnet 5 | A different model brings different blind spots; a cheaper model is fine for adversarial review |
+| Technical | `general-purpose` | Claude Sonnet 5 or Opus 4.8 | Strong reasoning for implementation feasibility |
+| Strategic | `general-purpose` | Claude Sonnet 5 or Opus 4.8 | Both Technical and Strategic need reasoning depth — use the same strong model |
+| Risk | `Explore` | Claude Haiku 4.5 or Sonnet 5 | A different model brings different blind spots; a cheaper model is fine for adversarial review |
 
 ## When only 2 distinct models are configured
 
-The Technical and Strategic reviewers share the `general` subagent type and Risk uses
-`explore` (in Claude Code, `general-purpose` and `Explore`). With 2 distinct models, use:
+The Technical and Strategic reviewers share the `general-purpose` subagent type and Risk uses
+`Explore`. With 2 distinct models, use:
 
-- **Strongest model** → `general` (covers both Technical and Strategic — run them
-  as separate `general` calls on the same model; the different prompts still
+- **Strongest model** → `general-purpose` (covers both Technical and Strategic — run them
+  as separate `general-purpose` calls on the same model; the different prompts still
   produce divergent analysis)
-- **Second model** → `explore` (Risk reviewer gets a fresh perspective)
+- **Second model** → `Explore` (Risk reviewer gets a fresh perspective)
 
 ## When all subagents share one model
 
@@ -70,8 +70,8 @@ consolidation catches contradictions between them.
 Present the table via the question box (structure defined in
 [assets/templates/model-selection.yaml](../assets/templates/model-selection.yaml),
 validated by [assets/schemas/model-selection.schema.json](../assets/schemas/model-selection.schema.json)).
-Assign one model to **Technical + Strategic** (`general` subagent type) and a
-**different model** to **Risk** (`explore` subagent type) — different models
+Assign one model to **Technical + Strategic** (`general-purpose` subagent type) and a
+**different model** to **Risk** (`Explore` subagent type) — different models
 mean different blind spots.
 
 ### Claude Code
