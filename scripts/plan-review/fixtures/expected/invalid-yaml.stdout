@@ -1,5 +1,5 @@
 Review report validation errors:
-  cases/invalid.fixture.fixture: invalid YAML — while scanning a quoted scalar
+  cases/invalid-yaml.fixture: invalid YAML — while scanning a quoted scalar
   in "<unicode string>", line 2, column 10:
       title: "unterminated
              ^

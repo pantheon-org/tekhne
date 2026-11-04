@@ -21,7 +21,8 @@ The port gives the same exit status and the same lines on every invocation excep
 | `plan-yes` | `yes` is a boolean, so it is rejected as not a string | `yes` is the string `yes`, so it is accepted (D6) | PyYAML reads YAML 1.1, bun 1.3.10 reads YAML 1.2. |
 | `plan-date` | A date is a date object, rejected as not a string | An unquoted date is a string, accepted (D6) | Same reason. |
 | `hash-e-notation-unquoted` | An unquoted `12345678e999…` is a string of hex characters, accepted | It is a number, rejected as not a string (D6) | A YAML 1.2 float needs no dot. |
-| `invalid-yaml`, `two-documents`, `tab-indent` | The parser's own multi-line text after the first line | The first line has the same form (`<file>: invalid YAML`); the parser text differs, and a tab or a second document may be read rather than rejected (D7) | Bun cannot reproduce PyYAML's text. The exit status is compared. |
+| `invalid-yaml`, `tab-indent` | The parser's own multi-line text after `<file>: invalid YAML —` | The same first-line form, with bun's one-line text (D7) | Bun cannot reproduce PyYAML's text. The exit status is compared. |
+| `two-documents` | `<file>: invalid YAML — expected a single document in the stream` | `<file>: root must be a mapping (got list)`, because bun returns an array for several documents | Same exit status, a different line (D7). |
 | `non-utf8-comment` | An uncaught traceback on stderr, exit 1 | `<file>: not valid UTF-8`, exit 1 | Only the exit status is compared. |
 
 A byte order mark is stripped before parsing, so `with-bom` matches python.

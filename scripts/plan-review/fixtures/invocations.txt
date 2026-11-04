@@ -26,7 +26,7 @@ missing-sections-key|cases/missing-sections-key.fixture
 sections-empty-map|cases/sections-empty-map.fixture
 missing-one-section|cases/missing-one-section.fixture
 missing-two-sections|cases/missing-two-sections.fixture
-invalid.fixture|cases/invalid.fixture.fixture
+invalid-yaml|cases/invalid-yaml.fixture
 root-list|cases/root-list.fixture
 root-scalar|cases/root-scalar.fixture
 empty-file|cases/empty-file.fixture
