@@ -1,0 +1,6 @@
+Plan scaffold validation errors:
+  cases/missing-frontmatter.fixture: plan missing required field 'frontmatter'
+  cases/missing-frontmatter.fixture: frontmatter missing 'title'
+  cases/missing-frontmatter.fixture: frontmatter missing 'type'
+  cases/missing-frontmatter.fixture: frontmatter missing 'status'
+  cases/missing-frontmatter.fixture: frontmatter missing 'date'

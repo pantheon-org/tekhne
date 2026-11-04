@@ -1,0 +1,2 @@
+Plan scaffold validation errors:
+  cases/phase-no-tasks.fixture: phase 'Phase one' has no tasks

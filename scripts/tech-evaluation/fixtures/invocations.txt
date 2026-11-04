@@ -1,0 +1,42 @@
+valid|cases/valid.fixture
+valid-rationale-40|cases/valid-rationale-40.fixture
+valid-action-10|cases/valid-action-10.fixture
+missing-evaluation|cases/missing-evaluation.fixture
+evaluation-null|cases/evaluation-null.fixture
+missing-title|cases/missing-title.fixture
+missing-technology|cases/missing-technology.fixture
+missing-questions|cases/missing-questions.fixture
+missing-recommendation|cases/missing-recommendation.fixture
+question-missing-id|cases/question-missing-id.fixture
+question-missing-question|cases/question-missing-question.fixture
+question-missing-verdict|cases/question-missing-verdict.fixture
+question-missing-evidence|cases/question-missing-evidence.fixture
+questions-empty|cases/questions-empty.fixture
+evidence-empty|cases/evidence-empty.fixture
+evidence-missing-claim|cases/evidence-missing-claim.fixture
+evidence-missing-source|cases/evidence-missing-source.fixture
+recommendation-missing-verdict|cases/recommendation-missing-verdict.fixture
+recommendation-missing-rationale|cases/recommendation-missing-rationale.fixture
+recommendation-missing-single-action|cases/recommendation-missing-single-action.fixture
+verdict-not-in-enum|cases/verdict-not-in-enum.fixture
+verdict-list|cases/verdict-list.fixture
+rationale-39|cases/rationale-39.fixture
+single-action-9|cases/single-action-9.fixture
+rationale-number|cases/rationale-number.fixture
+recommendation-empty-map|cases/recommendation-empty-map.fixture
+invalid-yaml|cases/invalid-yaml.fixture
+empty-file|cases/empty-file.fixture
+root-list|cases/root-list.fixture
+root-scalar|cases/root-scalar.fixture
+evaluation-string|cases/evaluation-string.fixture
+questions-string|cases/questions-string.fixture
+question-scalar|cases/question-scalar.fixture
+evidence-string|cases/evidence-string.fixture
+evidence-scalar|cases/evidence-scalar.fixture
+recommendation-string|cases/recommendation-string.fixture
+no-arguments|
+missing-file|cases/does-not-exist.fixture
+two-files-both-bad|cases/questions-empty.fixture cases/verdict-not-in-enum.fixture
+two-files-one-bad|cases/valid.fixture cases/rationale-39.fixture
+two-files-valid|cases/valid.fixture cases/valid-rationale-40.fixture
+missing-and-valid|cases/does-not-exist.fixture cases/valid.fixture

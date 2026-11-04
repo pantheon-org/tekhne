@@ -1,0 +1,2 @@
+Plan scaffold validation errors:
+  cases/frontmatter-missing-status.fixture: frontmatter missing 'status'

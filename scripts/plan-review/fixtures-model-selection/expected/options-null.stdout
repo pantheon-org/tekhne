@@ -1,0 +1,2 @@
+Model selection validation errors:
+  cases/options-null.fixture: options must be an array

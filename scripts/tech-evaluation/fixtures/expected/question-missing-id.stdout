@@ -1,0 +1,2 @@
+Tech-evaluation validation errors:
+  cases/question-missing-id.fixture: questions[0] missing required field 'id'

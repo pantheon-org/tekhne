@@ -1,0 +1,3 @@
+Tech-evaluation validation errors:
+  cases/missing-questions.fixture: evaluation missing required field 'questions'
+  cases/missing-questions.fixture: 'questions' must have at least 1 entry

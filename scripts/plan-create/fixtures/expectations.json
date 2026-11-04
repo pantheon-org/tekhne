@@ -1,0 +1,72 @@
+{
+  "header": "Plan scaffold validation errors:",
+  "okLabel": "plan-scaffold",
+  "yamlSeparator": "—",
+  "differences": {
+    "missing-file": {
+      "exit": 1,
+      "stdout": "Plan scaffold validation errors:\n  cases/does-not-exist.fixture: file not found\n",
+      "reason": "D1: python skips it"
+    },
+    "missing-and-valid": {
+      "exit": 1,
+      "stdout": "Plan scaffold validation errors:\n  cases/does-not-exist.fixture: file not found\n",
+      "reason": "D1: python skips the missing file and passes the other"
+    },
+    "phase-name-no-unquoted": {
+      "exit": 0,
+      "stdout": "OK: 1 file(s) validated against plan-scaffold schema\n",
+      "reason": "D5: YAML 1.2 reads no as a string, YAML 1.1 as false"
+    },
+    "root-list": {
+      "exit": 1,
+      "stdout": "Plan scaffold validation errors:\n  cases/root-list.fixture: root must be a mapping (got list)\n",
+      "reason": "D4: python crashes with a traceback, the port reports it"
+    },
+    "root-scalar": {
+      "exit": 1,
+      "stdout": "Plan scaffold validation errors:\n  cases/root-scalar.fixture: root must be a mapping (got str)\n",
+      "reason": "D4: python crashes with a traceback, the port reports it"
+    },
+    "empty-file": {
+      "exit": 1,
+      "stdout": "Plan scaffold validation errors:\n  cases/empty-file.fixture: root must be a mapping (got NoneType)\n",
+      "reason": "D4: python crashes with a traceback, the port reports it"
+    },
+    "plan-list": {
+      "exit": 1,
+      "stdout": "Plan scaffold validation errors:\n  cases/plan-list.fixture: 'plan' must be a mapping (got list)\n",
+      "reason": "D4: python crashes with a traceback, the port reports it"
+    },
+    "frontmatter-null": {
+      "exit": 1,
+      "stdout": "Plan scaffold validation errors:\n  cases/frontmatter-null.fixture: 'frontmatter' must be a mapping (got NoneType)\n",
+      "reason": "D4: python crashes with a traceback, the port reports it"
+    },
+    "phases-string": {
+      "exit": 1,
+      "stdout": "Plan scaffold validation errors:\n  cases/phases-string.fixture: 'phases' must be a list (got str)\n",
+      "reason": "D4: python crashes with a traceback, the port reports it"
+    },
+    "phase-scalar": {
+      "exit": 1,
+      "stdout": "Plan scaffold validation errors:\n  cases/phase-scalar.fixture: phase 1 must be a mapping (got str)\n",
+      "reason": "D4: python crashes with a traceback, the port reports it"
+    },
+    "tasks-number": {
+      "exit": 1,
+      "stdout": "Plan scaffold validation errors:\n  cases/tasks-number.fixture: phase 'Phase one' tasks must be a list (got int)\n",
+      "reason": "D4: python crashes with a traceback, the port reports it"
+    },
+    "tasks-string": {
+      "exit": 1,
+      "stdout": "Plan scaffold validation errors:\n  cases/tasks-string.fixture: phase 'Phase one' tasks must be a list (got str)\n",
+      "reason": "D4: python takes the length of a string as the task count and passes it, the port reports it"
+    },
+    "invalid-yaml": {
+      "exit": 1,
+      "stdout": "__PREFIX__cases/invalid-yaml.fixture: invalid YAML",
+      "reason": "D5: the parser text differs, only the start of the line is compared"
+    }
+  }
+}

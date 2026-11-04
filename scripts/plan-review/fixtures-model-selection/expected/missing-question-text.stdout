@@ -1,0 +1,2 @@
+Model selection validation errors:
+  cases/missing-question-text.fixture: model_selection missing required field 'question_text'

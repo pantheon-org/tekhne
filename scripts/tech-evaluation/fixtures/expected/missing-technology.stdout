@@ -1,0 +1,2 @@
+Tech-evaluation validation errors:
+  cases/missing-technology.fixture: evaluation missing required field 'technology'

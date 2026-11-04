@@ -1,0 +1,9 @@
+Model selection validation errors:
+  cases/two-documents.fixture: invalid YAML — expected a single document in the stream
+  in "<unicode string>", line 2, column 1:
+    model_selection:
+    ^
+but found another document
+  in "<unicode string>", line 7, column 1:
+    ---
+    ^

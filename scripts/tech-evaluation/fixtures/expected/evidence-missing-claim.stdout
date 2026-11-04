@@ -1,0 +1,2 @@
+Tech-evaluation validation errors:
+  cases/evidence-missing-claim.fixture: questions[0].evidence[0] missing required field 'claim'

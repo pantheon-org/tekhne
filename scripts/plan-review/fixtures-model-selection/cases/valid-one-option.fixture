@@ -1,0 +1,5 @@
+# Synthetic fixture for the schema validator ports. Not a real document.
+model_selection:
+  question_text: "Which model?"
+  options:
+    - "only"

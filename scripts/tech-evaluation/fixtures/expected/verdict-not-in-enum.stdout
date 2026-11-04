@@ -1,0 +1,2 @@
+Tech-evaluation validation errors:
+  cases/verdict-not-in-enum.fixture: recommendation.verdict 'maybe' is not one of ['adopt', 'keep_current', 'reject', 'needs_more_research']

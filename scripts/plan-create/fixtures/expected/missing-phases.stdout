@@ -1,0 +1,3 @@
+Plan scaffold validation errors:
+  cases/missing-phases.fixture: plan missing required field 'phases'
+  cases/missing-phases.fixture: must have at least 1 phase

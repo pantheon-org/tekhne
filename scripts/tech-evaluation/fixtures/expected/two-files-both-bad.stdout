@@ -1,0 +1,3 @@
+Tech-evaluation validation errors:
+  cases/questions-empty.fixture: 'questions' must have at least 1 entry
+  cases/verdict-not-in-enum.fixture: recommendation.verdict 'maybe' is not one of ['adopt', 'keep_current', 'reject', 'needs_more_research']

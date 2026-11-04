@@ -1,0 +1,2 @@
+Plan scaffold validation errors:
+  cases/missing-goal.fixture: plan missing required field 'goal'

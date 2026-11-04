@@ -1,0 +1,16 @@
+# Synthetic fixture for the schema validator ports. Not a real document.
+plan:
+  filename: "synthetic-plan.md"
+  frontmatter:
+    title: "Synthetic plan"
+    type: "PLAN"
+    status: "DRAFT"
+    date: "2026-11-04"
+  goal: "A goal."
+  phases:
+    - name: no
+      tasks:
+        - "Task one"
+        - "Task two"
+  open_questions:
+    - "A question?"

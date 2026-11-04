@@ -1,0 +1,10 @@
+# Synthetic fixture for the schema validator ports. Not a real document.
+evaluation:
+  title: "Synthetic evaluation"
+  technology: "Synthetic tech"
+  questions:
+    - "q"
+  recommendation:
+    verdict: "adopt"
+    rationale: "A rationale that is comfortably longer than forty characters."
+    single_action: "Run the trial."

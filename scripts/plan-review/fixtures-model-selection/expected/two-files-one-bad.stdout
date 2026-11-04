@@ -1,0 +1,2 @@
+Model selection validation errors:
+  cases/options-string.fixture: options must be an array

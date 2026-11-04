@@ -1,0 +1,2 @@
+Tech-evaluation validation errors:
+  cases/single-action-9.fixture: recommendation.single_action is shorter than 10 characters

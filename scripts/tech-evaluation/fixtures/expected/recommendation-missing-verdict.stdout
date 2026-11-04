@@ -1,0 +1,2 @@
+Tech-evaluation validation errors:
+  cases/recommendation-missing-verdict.fixture: recommendation missing required field 'verdict'

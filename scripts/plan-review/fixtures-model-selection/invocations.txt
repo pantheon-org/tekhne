@@ -1,0 +1,30 @@
+valid|cases/valid.fixture
+valid-one-option|cases/valid-one-option.fixture
+missing-key|cases/missing-key.fixture
+selection-null|cases/selection-null.fixture
+selection-empty-map|cases/selection-empty-map.fixture
+missing-question-text|cases/missing-question-text.fixture
+missing-options|cases/missing-options.fixture
+options-string|cases/options-string.fixture
+options-null|cases/options-null.fixture
+options-empty|cases/options-empty.fixture
+options-map|cases/options-map.fixture
+selection-string|cases/selection-string.fixture
+selection-list|cases/selection-list.fixture
+invalid-yaml|cases/invalid-yaml.fixture
+empty-file|cases/empty-file.fixture
+root-list|cases/root-list.fixture
+root-scalar|cases/root-scalar.fixture
+with-bom|cases/with-bom.fixture
+crlf-line-endings|cases/crlf-line-endings.fixture
+non-utf8-comment|cases/non-utf8-comment.fixture
+two-documents|cases/two-documents.fixture
+tab-indent|cases/tab-indent.fixture
+duplicate-key|cases/duplicate-key.fixture
+unicode-text|cases/unicode-text.fixture
+no-arguments|
+missing-file|cases/does-not-exist.fixture
+two-files-both-bad|cases/missing-options.fixture cases/options-empty.fixture
+two-files-one-bad|cases/valid.fixture cases/options-string.fixture
+two-files-valid|cases/valid.fixture cases/valid-one-option.fixture
+missing-and-valid|cases/does-not-exist.fixture cases/valid.fixture

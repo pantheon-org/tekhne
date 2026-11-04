@@ -1,0 +1,6 @@
+# Synthetic fixture for the schema validator ports. Not a real document.
+model_selection:
+  question_text: "Prüfung 日本語 🙂"
+  options:
+    - "a"
+    - "b"
