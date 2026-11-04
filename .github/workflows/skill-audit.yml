@@ -150,33 +150,9 @@ jobs:
       - name: Duplication check (advisory)
         id: dup
         if: steps.dirs.outputs.found == 'true'
-        run: |
-          set -euo pipefail
-          pantheon-skill-auditor duplication skills --threshold 70 --json > duplication.json || echo '[]' > duplication.json
-          changed=$(for dir in ${{ steps.dirs.outputs.dirs }}; do basename "$dir"; done | sort -u | jq -R . | jq -cs .)
-          jq -c --argjson names "$changed" \
-            '[.[] | select((.name1 as $a | $names | index($a)) or (.name2 as $b | $names | index($b)))]' \
-            duplication.json > duplication-relevant.json
-          n=$(jq 'length' duplication-relevant.json)
-          echo "relevant=$n" >> "$GITHUB_OUTPUT"
-          # Render a Markdown summary for the PR comment (surfaced in the
-          # "Cross-skill duplication" details block of the Skill Audit comment).
-          {
-            echo "summary<<DUP_EOF"
-            if [ "$n" -gt 0 ]; then
-              echo "**${n} high-similarity (>=70%) pair(s) involving a skill changed in this PR** — check for accidental copy-paste:"
-              echo ""
-              echo "| Skill A | Skill B | Similarity | Common lines |"
-              echo "| --- | --- | --- | --- |"
-              jq -r '.[] | "| `\(.name1)` | `\(.name2)` | \(.similarity)% | \(.common_lines) |"' duplication-relevant.json
-            else
-              echo "No high-similarity (>=70%) pairs involving skills changed in this PR."
-            fi
-            echo "DUP_EOF"
-          } >> "$GITHUB_OUTPUT"
-          if [ "$n" -gt 0 ]; then
-            echo "::warning::${n} high-similarity (>=70%) skill pair(s) involve a skill changed in this PR — check for accidental copy-paste. Advisory only; see the Skill Audit comment."
-          fi
+        env:
+          DIRS: ${{ steps.dirs.outputs.dirs }}
+        run: bash scripts/skill-audit/duplication-check.sh
 
       # Consolidated grade audit via a single `batch` call (replaces a per-skill
       # `evaluate` loop). A grade below B (C+, C, D, F) fails the gate; B and B+
@@ -185,54 +161,9 @@ jobs:
       - name: Audit changed skills
         id: audit
         if: steps.dirs.outputs.found == 'true'
-        run: |
-          set -euo pipefail
-          rels=()
-          for dir in ${{ steps.dirs.outputs.dirs }}; do
-            rels+=("${dir#skills/}")
-          done
-          pantheon-skill-auditor batch "${rels[@]}" --json > batch.json || echo '[]' > batch.json
-          [ -f base.json ] || echo '[]' > base.json
-          bash scripts/skill-audit/classify.sh batch.json base.json > verdict.json
-          # The per-skill detail blocks are cosmetic. They come from a second
-          # run so that nothing in that path can change batch.json, the table or
-          # `fail` above. A failure here leaves an empty file, never a red job.
-          pantheon-skill-auditor batch "${rels[@]}" --json --details-markdown details.md > /dev/null 2>&1 || : > details.md
-          [ -f details.md ] || : > details.md
-          rows=$(jq -r '
-            .[]
-            | (if .tier == "pass" then "✅ pass"
-               elif .tier == "warn" then "⚠️ warning"
-               elif .tier == "debt" then "⚠️ below B, not lower than base (tracked)"
-               else "❌ fail (" + .reason + ")" end) as $tier
-            | "| `\(.skill)` | \(.grade) | \(.total)/\(.maxTotal) | \(if .baseTotal == null then "new" else (.baseTotal | tostring) end) | \($tier) |"
-          ' verdict.json)
-          fail=$(jq '[.[] | select(.tier == "fail")] | length' verdict.json)
-          debt=$(jq '[.[] | select(.tier == "debt")] | length' verdict.json)
-          got=$(jq 'length' batch.json)
-          want=${#rels[@]}
-          if [ "$got" -lt "$want" ]; then
-            fail=$((fail + want - got))
-          fi
-          # Skills that were asked for but did not come back, one per line, for
-          # the comment. Written to a file, not GITHUB_OUTPUT, because the names
-          # come from the PR; this does not feed `fail`, and a failure here
-          # leaves an empty list rather than failing the step.
-          {
-            jq -r '.[] | (.skill | sub(".*/skills/"; "") | sub("/SKILL.md$"; ""))' batch.json > scored.txt
-            for rel in "${rels[@]}"; do
-              grep -qxF -- "$rel" scored.txt || printf '%s\n' "$rel"
-            done > unscored.txt
-          } || : > unscored.txt
-          {
-            echo "table<<AUDIT_EOF"
-            printf '| Skill | Grade | Score | Base | Tier |\n'
-            printf '| --- | --- | --- | --- | --- |\n'
-            printf '%s\n' "$rows"
-            echo "AUDIT_EOF"
-            echo "fail=$fail"
-            echo "debt=$debt"
-          } >> "$GITHUB_OUTPUT"
+        env:
+          DIRS: ${{ steps.dirs.outputs.dirs }}
+        run: bash scripts/skill-audit/audit-changed.sh
 
       # Keep one open issue per skill that is below B but was not lowered by this
       # pull request (known debt) and link it here (scripts/skill-audit/
@@ -274,41 +205,7 @@ jobs:
           TABLE: ${{ steps.audit.outputs.table }}
           DUP_SUMMARY: ${{ steps.dup.outputs.summary }}
           MAX_COMMENT_BYTES: "60000"
-        run: |
-          set -euo pipefail
-          escape() {
-            sed -e 's/&/\&amp;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g' -e 's/`/\&#96;/g' -e 's/@/\&#64;/g'
-          }
-          build() {
-            printf '## Skill Audit\n\n%s\n\n' "$TABLE"
-            printf '**Gate:**\n- ✅ pass = A / A+ (≥126)\n- ⚠️ warning = B – B+ (112–125, non-blocking)\n- ⚠️ below B, not lower than base = known debt (non-blocking, tracked by an issue)\n- ❌ fail = below B (<112) and either a new skill or scoring lower than on the base branch (blocks merge)\n\n'
-            if [ -s unscored.txt ]; then
-              printf 'Not scored (the audit could not read them): '
-              escape < unscored.txt | awk '{ printf "%s<code>%s</code>", (NR > 1 ? ", " : ""), $0 } END { print "" }'
-              printf '\n'
-            fi
-            if [ -s tracked-issues.md ]; then
-              printf '**Tracking issues** (one open issue per skill below B that this pull request did not lower, filed automatically):\n\n'
-              cat tracked-issues.md
-              printf '\n'
-            fi
-            if [ -s drift.md ]; then
-              printf '**Dropped trigger phrases** (advisory; confirm the description still names each intent, or restore the phrase):\n\n'
-              cat drift.md
-              printf '\n'
-            fi
-            if [ "$1" = 1 ] && [ -s details.md ]; then
-              printf '**Where the points were lost** (the three biggest losses for each skill graded below A):\n\n'
-              cat details.md
-              printf '\n'
-            fi
-            printf '<details>\n<summary>Cross-skill duplication (advisory)</summary>\n\n%s\n\n</details>\n' "$DUP_SUMMARY"
-          }
-          build 1 > comment.md
-          if [ "$(wc -c < comment.md)" -gt "$MAX_COMMENT_BYTES" ]; then
-            echo "::warning::Skill Audit comment is over ${MAX_COMMENT_BYTES} bytes; posting without the per-skill detail."
-            build 0 > comment.md
-          fi
+        run: bash scripts/skill-audit/assemble-comment.sh
 
       - name: Post audit comment
         if: steps.dirs.outputs.found == 'true'

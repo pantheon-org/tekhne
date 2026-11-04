@@ -6,9 +6,8 @@ name: Inline Scripts
 # then calls it. A block that must stay long opts out with a line
 # `# inline-ok: <reason>` inside it. See CLAUDE.md, "CI scripts".
 #
-# WARN-ONLY for now: findings are annotations and the job always passes, because
-# several existing workflows still break the rule. Once they are moved into
-# scripts, add `--strict` to the command below to make a finding fail the job.
+# Strict: a finding fails the job. Run `bun scripts/check-inline-scripts.ts` locally
+# for the same annotations.
 #
 # No path filter, so the check always reports a conclusion (mirrors
 # python-allowlist.yml); also runs on push to main as a post-merge safety net.
@@ -40,5 +39,5 @@ jobs:
         with:
           bun-version: "1.3.10"
 
-      - name: Check run blocks are short (warn-only)
-        run: bun scripts/check-inline-scripts.ts
+      - name: Check run blocks are short
+        run: bun scripts/check-inline-scripts.ts --strict
