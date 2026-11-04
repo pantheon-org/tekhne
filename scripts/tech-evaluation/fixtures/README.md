@@ -16,7 +16,7 @@ relative paths, so the output holds no machine path. It needs docker and git.
 
 The port gives the same exit status and the same lines on every invocation except the cases below. `expectations.json`
 holds the expected output of each one, and the tests read it. A line that starts with `__PREFIX__` there is compared by
-its start only, because bun's parser text differs from PyYAML's.
+its start only, because bun's parser text differs from PyYAML's. `__HEADER__` means only the header line and the exit status are compared.
 
 | Case | Why it differs |
 | ---- | -------------- |

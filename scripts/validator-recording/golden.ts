@@ -12,6 +12,7 @@ type Expectations = {
 type Run = { stdout: string; stderr: string; exit: number };
 
 const PREFIX = "__PREFIX__";
+const HEADER_ONLY = "__HEADER__";
 
 // Runs the TypeScript validator from the fixtures folder, so the relative paths match the recording.
 const run = (script: string, cwd: string, args: string[]): Run => {
@@ -63,7 +64,9 @@ export const registerGoldenTests = (script: string, fixtures: string): void => {
         }
         expect(actual.exit).toBe(difference.exit);
         expect(actual.stderr).toBe("");
-        if (difference.stdout.startsWith(PREFIX)) {
+        if (difference.stdout === HEADER_ONLY) {
+          expect(actual.stdout.split("\n")[0]).toBe(expectations.header);
+        } else if (difference.stdout.startsWith(PREFIX)) {
           const lines = actual.stdout.split("\n");
           expect(lines[0]).toBe(expectations.header);
           expect(lines[1]).toStartWith(

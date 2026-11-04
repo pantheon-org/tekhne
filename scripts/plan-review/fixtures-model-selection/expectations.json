@@ -55,8 +55,8 @@
     },
     "tab-indent": {
       "exit": 1,
-      "stdout": "__PREFIX__cases/tab-indent.fixture: invalid YAML",
-      "reason": "D5: the parser text differs"
+      "stdout": "__HEADER__",
+      "reason": "D5: bun reads a tab-indented file differently by version (1.3.10 reports a missing key, 1.4 invalid YAML), so only the exit status and the header are compared"
     }
   }
 }
