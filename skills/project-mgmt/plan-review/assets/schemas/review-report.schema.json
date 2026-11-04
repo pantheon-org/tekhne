@@ -36,7 +36,7 @@
         "plan_hash": {
           "type": "string",
           "pattern": "^[0-9a-f]{64}$",
-          "description": "SHA-256 of the plan file as it was reviewed (shasum -a 256). A plan whose hash differs is stale."
+          "description": "SHA-256 of the plan's body (the lines after the frontmatter, LF line endings) as it was reviewed. A plan whose body no longer matches is stale."
         },
         "sections": {
           "type": "object",

@@ -15,7 +15,7 @@
     },
     {
       "name": "Plan path and hash",
-      "description": "Writes plan as a path relative to the report's folder and plan_hash as the SHA-256 taken before any edit to the plan",
+      "description": "Writes plan as a path relative to the report's folder and plan_hash as the SHA-256 of the plan's body (not the whole file) taken before any edit to the plan",
       "max_score": 20
     },
     {
