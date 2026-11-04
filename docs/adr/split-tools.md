@@ -114,3 +114,13 @@ are not automated. All four repositories were created private and made public af
 binary is missing. Open follow-ups are tracked as GitHub issues: pipeline maturity (kit 2, auditor 3,
 journal 2, adr 2), auditor taxonomy 12 against 13 domains (auditor 5), and crates.io publication
 (kit 3).
+
+### Amendment 04-11-2026: the kit was renamed
+The text above records what was decided on 19-10-2026 and is kept as written. Before the first crates.io
+publication, the kit was renamed from `agentic-harness-dev-kit` to `pantheon-agentic-harness-dev-kit`, and its
+crates from `ahdk-core` and `ahdk-install` to `pahdk-core` and `pahdk-install`. The names are permanent once
+published, and the `pantheon-` prefix ties them to this organisation, so it is less likely to collide with other
+projects. This supersedes D4a's crate names and the note above that the shared library has no `pantheon-` prefix.
+Tag `v0.1.0-rc.2` carries the new names, and `v0.1.0-rc.1` still carries the old ones. GitHub redirects the old
+repository URL, so issue links such as kit issue 3 still resolve. The three tools consume `v0.1.0-rc.2`. Nothing
+else in this decision changes.
