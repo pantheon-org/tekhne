@@ -1,0 +1,47 @@
+valid|cases/valid.fixture
+valid-one-lens|cases/valid-one-lens.fixture
+old-format|cases/old-format.fixture
+plan-empty-string|cases/plan-empty-string.fixture
+plan-blank|cases/plan-blank.fixture
+plan-number|cases/plan-number.fixture
+plan-null|cases/plan-null.fixture
+plan-yes|cases/plan-yes.fixture
+plan-date|cases/plan-date.fixture
+lenses-empty-list|cases/lenses-empty-list.fixture
+lenses-string|cases/lenses-string.fixture
+lenses-unknown|cases/lenses-unknown.fixture
+lenses-repeated|cases/lenses-repeated.fixture
+lenses-too-many|cases/lenses-too-many.fixture
+lenses-numbers|cases/lenses-numbers.fixture
+hash-short|cases/hash-short.fixture
+hash-uppercase|cases/hash-uppercase.fixture
+hash-not-string|cases/hash-not-string.fixture
+hash-all-digits-unquoted|cases/hash-all-digits-unquoted.fixture
+hash-e-notation-unquoted|cases/hash-e-notation-unquoted.fixture
+hash-null|cases/hash-null.fixture
+missing-report-key|cases/missing-report-key.fixture
+report-null|cases/report-null.fixture
+report-empty-map|cases/report-empty-map.fixture
+missing-sections-key|cases/missing-sections-key.fixture
+sections-empty-map|cases/sections-empty-map.fixture
+missing-one-section|cases/missing-one-section.fixture
+missing-two-sections|cases/missing-two-sections.fixture
+invalid-yaml|cases/invalid-yaml.fixture
+root-list|cases/root-list.fixture
+root-scalar|cases/root-scalar.fixture
+empty-file|cases/empty-file.fixture
+duplicate-key|cases/duplicate-key.fixture
+tab-indent|cases/tab-indent.fixture
+two-documents|cases/two-documents.fixture
+anchor-and-merge|cases/anchor-and-merge.fixture
+with-bom|cases/with-bom.fixture
+crlf-line-endings|cases/crlf-line-endings.fixture
+non-utf8-comment|cases/non-utf8-comment.fixture
+unicode-title|cases/unicode-title.fixture
+no-arguments|
+missing-file|cases/does-not-exist.fixture
+two-files-both-bad|cases/plan-empty-string.fixture cases/lenses-empty-list.fixture
+two-files-one-bad|cases/valid.fixture cases/hash-short.fixture
+two-files-valid|cases/valid.fixture cases/valid-one-lens.fixture
+missing-and-bad|cases/does-not-exist.fixture cases/hash-short.fixture
+missing-and-valid|cases/does-not-exist.fixture cases/valid.fixture

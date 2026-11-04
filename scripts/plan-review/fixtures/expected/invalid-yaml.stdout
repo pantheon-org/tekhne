@@ -1,0 +1,9 @@
+Review report validation errors:
+  cases/invalid-yaml.fixture: invalid YAML — while scanning a quoted scalar
+  in "<unicode string>", line 2, column 10:
+      title: "unterminated
+             ^
+found unexpected end of stream
+  in "<unicode string>", line 4, column 1:
+    
+    ^

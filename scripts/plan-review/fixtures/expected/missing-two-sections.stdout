@@ -1,0 +1,3 @@
+Review report validation errors:
+  cases/missing-two-sections.fixture: sections missing required field 'scores'
+  cases/missing-two-sections.fixture: sections missing required field 'next_actions'

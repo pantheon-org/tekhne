@@ -1,0 +1,18 @@
+# Synthetic fixture for the report validator port. Not a real review.
+report:
+  title: "Synthetic review"
+  plan: "../plans/synthetic-plan.md"
+  lenses_run:
+    - technical
+    - strategic
+    - risk
+  plan_hash: 12345
+  sections:
+    model_configuration: {}
+    structural_validation: {}
+    implementation_architecture: {}
+    scores: {}
+    critical_issues: {}
+    moderate_concerns: {}
+    strengths: {}
+    next_actions: {}

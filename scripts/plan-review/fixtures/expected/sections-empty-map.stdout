@@ -1,0 +1,10 @@
+Review report validation errors:
+  cases/sections-empty-map.fixture: report missing 'sections'
+  cases/sections-empty-map.fixture: sections missing required field 'model_configuration'
+  cases/sections-empty-map.fixture: sections missing required field 'structural_validation'
+  cases/sections-empty-map.fixture: sections missing required field 'implementation_architecture'
+  cases/sections-empty-map.fixture: sections missing required field 'scores'
+  cases/sections-empty-map.fixture: sections missing required field 'critical_issues'
+  cases/sections-empty-map.fixture: sections missing required field 'moderate_concerns'
+  cases/sections-empty-map.fixture: sections missing required field 'strengths'
+  cases/sections-empty-map.fixture: sections missing required field 'next_actions'

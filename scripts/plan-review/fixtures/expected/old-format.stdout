@@ -1,0 +1,4 @@
+Review report validation errors:
+  cases/old-format.fixture: report missing required field 'plan'
+  cases/old-format.fixture: report missing required field 'lenses_run'
+  cases/old-format.fixture: report missing required field 'plan_hash'

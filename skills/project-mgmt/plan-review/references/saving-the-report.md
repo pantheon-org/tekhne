@@ -77,5 +77,6 @@ hints), say so in a comment at the top of the report, so a later reader knows th
 
 ## Requirements
 
-`scripts/validate-review-report.sh` needs python3 with PyYAML. Without it the script says so and fails. On a machine
-where the default python3 lacks PyYAML, put one that has it first on `PATH`, for example `PATH=/usr/bin:$PATH`.
+`scripts/validate-review-report.sh` needs bun 1.3.10 or later and nothing else: no python and no PyYAML. Without bun, or
+with an older one, it says what is needed and fails. It runs `scripts/validate-review-report.ts` with `bun --no-install`,
+so it also works from an installed copy of the skill, which has no `node_modules`.

@@ -1,0 +1,3 @@
+Review report validation errors:
+  cases/lenses-too-many.fixture: report 'lenses_run' has ['extra'], allowed ['technical', 'strategic', 'risk']
+  cases/lenses-too-many.fixture: report 'lenses_run' has more than 3 entries

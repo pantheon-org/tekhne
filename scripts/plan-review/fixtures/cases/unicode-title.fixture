@@ -1,0 +1,18 @@
+# Synthetic fixture for the report validator port. Not a real review.
+report:
+  title: "Prüfung 日本語 🙂"
+  plan: "../plans/synthetic-plan.md"
+  lenses_run:
+    - technical
+    - strategic
+    - risk
+  plan_hash: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0123456789abcdef0123456789abcdef"
+  sections:
+    model_configuration: {}
+    structural_validation: {}
+    implementation_architecture: {}
+    scores: {}
+    critical_issues: {}
+    moderate_concerns: {}
+    strengths: {}
+    next_actions: {}

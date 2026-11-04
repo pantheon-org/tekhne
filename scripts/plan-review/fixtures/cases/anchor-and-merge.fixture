@@ -1,0 +1,16 @@
+base: &b
+  plan: "../plans/synthetic-plan.md"
+report:
+  <<: *b
+  title: "Synthetic review"
+  lenses_run: [technical]
+  plan_hash: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0123456789abcdef0123456789abcdef"
+  sections:
+    model_configuration: {}
+    structural_validation: {}
+    implementation_architecture: {}
+    scores: {}
+    critical_issues: {}
+    moderate_concerns: {}
+    strengths: {}
+    next_actions: {}
