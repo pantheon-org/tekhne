@@ -18,7 +18,7 @@ This file defines how LLM agents should work in this repository.
 - `skills/<domain>/<skill-name>/templates/`: Reusable templates (mostly YAML).
 - `skills/<domain>/<skill-name>/schemas/`: JSON schemas for validation.
 - `.context/`: Working notes and generated analysis artifacts.
-- Tools live in their own repositories (`pantheon-skill-auditor`, `pantheon-journal`, `pantheon-adr`, sharing `agentic-harness-dev-kit`); this repository pins the released auditor in `mise.toml`.
+- Tools live in their own repositories (`pantheon-skill-auditor`, `pantheon-journal`, `pantheon-adr`, sharing `pantheon-agentic-harness-dev-kit`); this repository pins the released auditor in `mise.toml`.
 - `probes/`: Invocation probes, one JSON file per skill (see Invocation probes below); `probes/baselines/` holds committed score reports.
 - `scripts/catalog/`: TypeScript catalog generator for `README.md` and the docs tiles page.
 
@@ -144,8 +144,8 @@ The tools live in their own repositories and each embeds one skill in its binary
 | `pantheon-journal` | [pantheon-org/pantheon-journal](https://github.com/pantheon-org/pantheon-journal) | `journal-entry-creator` |
 | `pantheon-adr` | [pantheon-org/pantheon-adr](https://github.com/pantheon-org/pantheon-adr) | `adr-creator` |
 
-They share [agentic-harness-dev-kit](https://github.com/pantheon-org/agentic-harness-dev-kit)
-(`ahdk-core`, `ahdk-install`). Each tool repository owns its skill: a change to the
+They share [pantheon-agentic-harness-dev-kit](https://github.com/pantheon-org/pantheon-agentic-harness-dev-kit)
+(`pahdk-core`, `pahdk-install`). Each tool repository owns its skill: a change to the
 skill is made and released there, and this repository no longer holds a copy, so
 `npx skills add ./skills --all` does not install these three. Install a tool with its
 installer from the repository's latest release, then register its skill with
