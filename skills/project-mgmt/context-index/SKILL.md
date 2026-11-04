@@ -61,7 +61,7 @@ Every context file is expected to carry this block (the same shape
 title: "Human-readable title"
 type: finding | plan | guide | follow-up | merge-request | ticket | decision | note | research
 date: YYYY-MM-DD
-status: active | done
+status: draft | active | done
 tags: []
 related:
   - ../relative/path/to/related.md # omit the whole key if there is nothing related

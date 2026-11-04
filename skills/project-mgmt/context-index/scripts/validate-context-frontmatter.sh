@@ -24,7 +24,7 @@ TYPE_ENUM = {
     "finding", "plan", "guide", "follow-up", "merge-request",
     "ticket", "decision", "note", "research",
 }
-STATUS_ENUM = {"active", "done"}
+STATUS_ENUM = {"draft", "active", "done"}
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 REQUIRED = ["title", "type", "date", "status"]
 
