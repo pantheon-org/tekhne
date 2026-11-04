@@ -1,11 +1,11 @@
 # yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
 #
-# CodeRabbit PR review, an alternative to the PR Agent workflow
-# (.github/workflows/pr-agent.yml). CodeRabbit runs as a GitHub App, so there is
+# CodeRabbit PR review. It replaced the PR Agent workflow (removed 04-11-2026).
+# CodeRabbit runs as a GitHub App, so there is
 # no workflow or secret here: install the app on the repository to turn it on,
 # uninstall it (or set reviews.auto_review.enabled to false) to turn it off.
 #
-# Mirrors PR Agent's scope: skill PRs are already covered by the Skill Audit
+# Keeps the scope PR Agent had: skill PRs are already covered by the Skill Audit
 # gate, so skills/** is excluded from review to avoid a second LLM opinion on
 # the same diff. Advisory only: request_changes_workflow stays false so it never
 # blocks a merge.
