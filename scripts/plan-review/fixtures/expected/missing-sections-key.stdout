@@ -1,0 +1,11 @@
+Review report validation errors:
+  cases/missing-sections-key.fixture: report missing required field 'sections'
+  cases/missing-sections-key.fixture: report missing 'sections'
+  cases/missing-sections-key.fixture: sections missing required field 'model_configuration'
+  cases/missing-sections-key.fixture: sections missing required field 'structural_validation'
+  cases/missing-sections-key.fixture: sections missing required field 'implementation_architecture'
+  cases/missing-sections-key.fixture: sections missing required field 'scores'
+  cases/missing-sections-key.fixture: sections missing required field 'critical_issues'
+  cases/missing-sections-key.fixture: sections missing required field 'moderate_concerns'
+  cases/missing-sections-key.fixture: sections missing required field 'strengths'
+  cases/missing-sections-key.fixture: sections missing required field 'next_actions'

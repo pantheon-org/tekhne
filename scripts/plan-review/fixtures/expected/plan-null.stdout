@@ -1,0 +1,2 @@
+Review report validation errors:
+  cases/plan-null.fixture: report 'plan' must be a non-empty string

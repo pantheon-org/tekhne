@@ -1,0 +1,2 @@
+Review report validation errors:
+  cases/lenses-numbers.fixture: report 'lenses_run' has [1, 2], allowed ['technical', 'strategic', 'risk']

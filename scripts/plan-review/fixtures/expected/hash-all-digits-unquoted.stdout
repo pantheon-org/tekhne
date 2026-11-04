@@ -1,0 +1,2 @@
+Review report validation errors:
+  cases/hash-all-digits-unquoted.fixture: report 'plan_hash' must be 64 lowercase hex characters (shasum -a 256)
