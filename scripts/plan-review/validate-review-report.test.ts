@@ -4,6 +4,7 @@ import {
   mkdirSync,
   mkdtempSync,
   readFileSync,
+  realpathSync,
   rmSync,
   symlinkSync,
   writeFileSync,
@@ -153,7 +154,9 @@ describe("formatPyValue", () => {
 
 describe("findSchemaPath", () => {
   const skill = (): string => {
-    const dir = mkdtempSync(join(tmpdir(), "validate-review-report-"));
+    const dir = realpathSync(
+      mkdtempSync(join(tmpdir(), "validate-review-report-")),
+    );
     writeFileSync(join(dir, "SKILL.md"), "# skill\n");
     mkdirSync(join(dir, "scripts"), { recursive: true });
     mkdirSync(join(dir, "assets/schemas"), { recursive: true });
