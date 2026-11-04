@@ -1,0 +1,7 @@
+Tech-evaluation validation errors:
+  cases/missing-recommendation.fixture: evaluation missing required field 'recommendation'
+  cases/missing-recommendation.fixture: recommendation missing required field 'verdict'
+  cases/missing-recommendation.fixture: recommendation missing required field 'rationale'
+  cases/missing-recommendation.fixture: recommendation missing required field 'single_action'
+  cases/missing-recommendation.fixture: recommendation.rationale is shorter than 40 characters -- too thin to be a rationale
+  cases/missing-recommendation.fixture: recommendation.single_action is shorter than 10 characters

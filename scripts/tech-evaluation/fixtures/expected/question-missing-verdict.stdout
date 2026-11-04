@@ -1,0 +1,2 @@
+Tech-evaluation validation errors:
+  cases/question-missing-verdict.fixture: questions[0] missing required field 'verdict'

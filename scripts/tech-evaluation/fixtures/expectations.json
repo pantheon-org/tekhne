@@ -1,0 +1,47 @@
+{
+  "header": "Tech-evaluation validation errors:",
+  "okLabel": "tech-evaluation",
+  "yamlSeparator": "--",
+  "differences": {
+    "invalid-yaml": {
+      "exit": 1,
+      "stdout": "__PREFIX__cases/invalid-yaml.fixture: invalid YAML",
+      "reason": "D5: the parser text differs"
+    },
+    "rationale-number": {
+      "exit": 1,
+      "stdout": "Tech-evaluation validation errors:\n  cases/rationale-number.fixture: recommendation.rationale must be a string (got int)\n",
+      "reason": "D4: python crashes with a traceback, the port reports it"
+    },
+    "evaluation-string": {
+      "exit": 1,
+      "stdout": "Tech-evaluation validation errors:\n  cases/evaluation-string.fixture: 'evaluation' must be a mapping (got str)\n",
+      "reason": "D4: python crashes with a traceback, the port reports it"
+    },
+    "questions-string": {
+      "exit": 1,
+      "stdout": "Tech-evaluation validation errors:\n  cases/questions-string.fixture: 'questions' must be a list (got str)\n",
+      "reason": "D4: python crashes with a traceback, the port reports it"
+    },
+    "question-scalar": {
+      "exit": 1,
+      "stdout": "Tech-evaluation validation errors:\n  cases/question-scalar.fixture: questions[0] must be a mapping (got str)\n",
+      "reason": "D4: python crashes with a traceback, the port reports it"
+    },
+    "evidence-string": {
+      "exit": 1,
+      "stdout": "Tech-evaluation validation errors:\n  cases/evidence-string.fixture: questions[0].evidence must be a list (got str)\n",
+      "reason": "D4: python reads a string as a list of characters and reports missing fields, the port reports the shape"
+    },
+    "evidence-scalar": {
+      "exit": 1,
+      "stdout": "Tech-evaluation validation errors:\n  cases/evidence-scalar.fixture: questions[0].evidence[0] must be a mapping (got str)\n",
+      "reason": "D4: python looks for the field names inside the string, the port reports the shape"
+    },
+    "recommendation-string": {
+      "exit": 1,
+      "stdout": "Tech-evaluation validation errors:\n  cases/recommendation-string.fixture: 'recommendation' must be a mapping (got str)\n",
+      "reason": "D4: python crashes with a traceback, the port reports it"
+    }
+  }
+}

@@ -1,0 +1,2 @@
+Plan scaffold validation errors:
+  cases/plan-empty-map.fixture: missing required top-level key 'plan'

@@ -1,0 +1,2 @@
+Tech-evaluation validation errors:
+  cases/root-scalar.fixture: root must be a mapping (got str)

@@ -1,0 +1,2 @@
+Tech-evaluation validation errors:
+  cases/questions-empty.fixture: 'questions' must have at least 1 entry

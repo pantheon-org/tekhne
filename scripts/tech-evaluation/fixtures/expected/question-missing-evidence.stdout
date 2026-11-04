@@ -1,0 +1,3 @@
+Tech-evaluation validation errors:
+  cases/question-missing-evidence.fixture: questions[0] missing required field 'evidence'
+  cases/question-missing-evidence.fixture: questions[0] ('q1') has no evidence -- a verdict without a cited source is a guess, not a finding

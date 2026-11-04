@@ -1,0 +1,2 @@
+Tech-evaluation validation errors:
+  cases/rationale-39.fixture: recommendation.rationale is shorter than 40 characters -- too thin to be a rationale

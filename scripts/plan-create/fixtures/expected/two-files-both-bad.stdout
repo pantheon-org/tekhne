@@ -1,0 +1,3 @@
+Plan scaffold validation errors:
+  cases/phases-empty.fixture: must have at least 1 phase
+  cases/open-questions-empty.fixture: open_questions is empty — add at least 1

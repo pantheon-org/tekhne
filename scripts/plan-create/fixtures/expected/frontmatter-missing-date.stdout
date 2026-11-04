@@ -1,0 +1,2 @@
+Plan scaffold validation errors:
+  cases/frontmatter-missing-date.fixture: frontmatter missing 'date'

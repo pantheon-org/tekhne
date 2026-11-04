@@ -1,0 +1,2 @@
+Model selection validation errors:
+  cases/options-empty.fixture: options must have at least one entry

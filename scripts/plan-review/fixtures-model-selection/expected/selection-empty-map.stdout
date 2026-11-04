@@ -1,0 +1,2 @@
+Model selection validation errors:
+  cases/selection-empty-map.fixture: missing required top-level key 'model_selection'

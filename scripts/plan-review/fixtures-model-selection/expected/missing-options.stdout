@@ -1,0 +1,3 @@
+Model selection validation errors:
+  cases/missing-options.fixture: model_selection missing required field 'options'
+  cases/missing-options.fixture: options must have at least one entry

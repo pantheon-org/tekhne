@@ -1,0 +1,2 @@
+Tech-evaluation validation errors:
+  cases/question-missing-question.fixture: questions[0] missing required field 'question'

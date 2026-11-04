@@ -1,0 +1,2 @@
+Tech-evaluation validation errors:
+  cases/empty-file.fixture: root must be a mapping (got NoneType)

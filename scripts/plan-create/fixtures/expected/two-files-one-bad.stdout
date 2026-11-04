@@ -1,0 +1,2 @@
+Plan scaffold validation errors:
+  cases/phase-nine-tasks.fixture: phase 'Phase one' has 9 tasks (max 8)

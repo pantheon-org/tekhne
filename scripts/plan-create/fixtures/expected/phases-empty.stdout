@@ -1,0 +1,2 @@
+Plan scaffold validation errors:
+  cases/phases-empty.fixture: must have at least 1 phase

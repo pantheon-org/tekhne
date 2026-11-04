@@ -971,7 +971,7 @@ Create `.context/plans/*.md` files with standard YAML frontmatter, phases/tasks/
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [plan-create](/tekhne/skills/project-mgmt/plan-create/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-10-02 | 4 |
+| [plan-create](/tekhne/skills/project-mgmt/plan-create/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-11-04 | 4 |
 
 ### plan-execute
 
@@ -1011,7 +1011,7 @@ Investigate a candidate library, dependency, or file format against a fixed ques
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [tech-evaluation](/tekhne/skills/project-mgmt/tech-evaluation/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-10-02 | 4 |
+| [tech-evaluation](/tekhne/skills/project-mgmt/tech-evaluation/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-11-04 | 4 |
 
 ---
 

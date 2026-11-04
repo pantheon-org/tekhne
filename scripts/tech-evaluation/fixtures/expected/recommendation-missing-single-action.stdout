@@ -1,0 +1,3 @@
+Tech-evaluation validation errors:
+  cases/recommendation-missing-single-action.fixture: recommendation missing required field 'single_action'
+  cases/recommendation-missing-single-action.fixture: recommendation.single_action is shorter than 10 characters

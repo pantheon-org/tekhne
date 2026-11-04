@@ -1,0 +1,2 @@
+Plan scaffold validation errors:
+  cases/missing-filename.fixture: plan missing required field 'filename'

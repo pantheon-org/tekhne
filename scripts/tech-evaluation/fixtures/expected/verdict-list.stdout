@@ -1,0 +1,2 @@
+Tech-evaluation validation errors:
+  cases/verdict-list.fixture: recommendation.verdict '['adopt']' is not one of ['adopt', 'keep_current', 'reject', 'needs_more_research']

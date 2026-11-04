@@ -1,0 +1,62 @@
+{
+  "header": "Model selection validation errors:",
+  "okLabel": "model-selection",
+  "yamlSeparator": "—",
+  "differences": {
+    "missing-file": {
+      "exit": 1,
+      "stdout": "Model selection validation errors:\n  cases/does-not-exist.fixture: file not found\n",
+      "reason": "D1: python skips it"
+    },
+    "missing-and-valid": {
+      "exit": 1,
+      "stdout": "Model selection validation errors:\n  cases/does-not-exist.fixture: file not found\n",
+      "reason": "D1: python skips the missing file and passes the other"
+    },
+    "root-list": {
+      "exit": 1,
+      "stdout": "Model selection validation errors:\n  cases/root-list.fixture: root must be a mapping (got list)\n",
+      "reason": "D4: python crashes with a traceback, the port reports it"
+    },
+    "root-scalar": {
+      "exit": 1,
+      "stdout": "Model selection validation errors:\n  cases/root-scalar.fixture: root must be a mapping (got str)\n",
+      "reason": "D4: python crashes with a traceback, the port reports it"
+    },
+    "empty-file": {
+      "exit": 1,
+      "stdout": "Model selection validation errors:\n  cases/empty-file.fixture: root must be a mapping (got NoneType)\n",
+      "reason": "D4: python crashes with a traceback, the port reports it"
+    },
+    "selection-string": {
+      "exit": 1,
+      "stdout": "Model selection validation errors:\n  cases/selection-string.fixture: 'model_selection' must be a mapping (got str)\n",
+      "reason": "D4: python crashes with a traceback, the port reports it"
+    },
+    "selection-list": {
+      "exit": 1,
+      "stdout": "Model selection validation errors:\n  cases/selection-list.fixture: 'model_selection' must be a mapping (got list)\n",
+      "reason": "D4: python crashes with a traceback, the port reports it"
+    },
+    "non-utf8-comment": {
+      "exit": 1,
+      "stdout": "Model selection validation errors:\n  cases/non-utf8-comment.fixture: not valid UTF-8\n",
+      "reason": "D4: python crashes with a traceback, the port reports it"
+    },
+    "two-documents": {
+      "exit": 1,
+      "stdout": "Model selection validation errors:\n  cases/two-documents.fixture: root must be a mapping (got list)\n",
+      "reason": "D5: bun returns an array for several documents, python reports invalid YAML"
+    },
+    "invalid-yaml": {
+      "exit": 1,
+      "stdout": "__PREFIX__cases/invalid-yaml.fixture: invalid YAML",
+      "reason": "D5: the parser text differs"
+    },
+    "tab-indent": {
+      "exit": 1,
+      "stdout": "__HEADER__",
+      "reason": "D5: bun reads a tab-indented file differently by version (1.3.10 reports a missing key, 1.4 invalid YAML), so only the exit status and the header are compared"
+    }
+  }
+}

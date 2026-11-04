@@ -1,0 +1,3 @@
+Tech-evaluation validation errors:
+  cases/recommendation-missing-rationale.fixture: recommendation missing required field 'rationale'
+  cases/recommendation-missing-rationale.fixture: recommendation.rationale is shorter than 40 characters -- too thin to be a rationale

@@ -1,0 +1,6 @@
+Tech-evaluation validation errors:
+  cases/recommendation-empty-map.fixture: recommendation missing required field 'verdict'
+  cases/recommendation-empty-map.fixture: recommendation missing required field 'rationale'
+  cases/recommendation-empty-map.fixture: recommendation missing required field 'single_action'
+  cases/recommendation-empty-map.fixture: recommendation.rationale is shorter than 40 characters -- too thin to be a rationale
+  cases/recommendation-empty-map.fixture: recommendation.single_action is shorter than 10 characters

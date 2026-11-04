@@ -1,0 +1,2 @@
+Tech-evaluation validation errors:
+  cases/missing-title.fixture: evaluation missing required field 'title'

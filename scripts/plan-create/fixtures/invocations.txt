@@ -1,0 +1,40 @@
+valid|cases/valid.fixture
+valid-eight-tasks|cases/valid-eight-tasks.fixture
+frontmatter-date-unquoted|cases/frontmatter-date-unquoted.fixture
+missing-plan-key|cases/missing-plan-key.fixture
+plan-null|cases/plan-null.fixture
+plan-empty-map|cases/plan-empty-map.fixture
+missing-filename|cases/missing-filename.fixture
+missing-frontmatter|cases/missing-frontmatter.fixture
+missing-goal|cases/missing-goal.fixture
+missing-phases|cases/missing-phases.fixture
+missing-open-questions|cases/missing-open-questions.fixture
+frontmatter-missing-title|cases/frontmatter-missing-title.fixture
+frontmatter-missing-type|cases/frontmatter-missing-type.fixture
+frontmatter-missing-status|cases/frontmatter-missing-status.fixture
+frontmatter-missing-date|cases/frontmatter-missing-date.fixture
+phases-empty|cases/phases-empty.fixture
+phase-no-name|cases/phase-no-name.fixture
+phase-name-empty|cases/phase-name-empty.fixture
+phase-no-tasks|cases/phase-no-tasks.fixture
+phase-tasks-empty|cases/phase-tasks-empty.fixture
+phase-nine-tasks|cases/phase-nine-tasks.fixture
+phase-second-bad|cases/phase-second-bad.fixture
+open-questions-empty|cases/open-questions-empty.fixture
+phase-name-no-unquoted|cases/phase-name-no-unquoted.fixture
+invalid-yaml|cases/invalid-yaml.fixture
+empty-file|cases/empty-file.fixture
+root-list|cases/root-list.fixture
+root-scalar|cases/root-scalar.fixture
+plan-list|cases/plan-list.fixture
+frontmatter-null|cases/frontmatter-null.fixture
+phases-string|cases/phases-string.fixture
+phase-scalar|cases/phase-scalar.fixture
+tasks-number|cases/tasks-number.fixture
+tasks-string|cases/tasks-string.fixture
+no-arguments|
+missing-file|cases/does-not-exist.fixture
+two-files-both-bad|cases/phases-empty.fixture cases/open-questions-empty.fixture
+two-files-one-bad|cases/valid.fixture cases/phase-nine-tasks.fixture
+two-files-valid|cases/valid.fixture cases/valid-eight-tasks.fixture
+missing-and-valid|cases/does-not-exist.fixture cases/valid.fixture
