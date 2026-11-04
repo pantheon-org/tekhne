@@ -10,7 +10,7 @@ SCHEMA="$SCRIPT_DIR/../assets/schemas/review-report.schema.json"
 python3 - "$SCHEMA" "$@" <<'PYEOF'
 import sys
 import json
-import yaml
+import re
 from pathlib import Path
 
 schema_path = Path(sys.argv[1])
@@ -59,6 +59,30 @@ for f in files:
     for field in required:
         if field not in report:
             errors.append(f"{f}: report missing required field '{field}'")
+
+    # The fields the plans index check reads. Enforced here, not left to the schema alone,
+    # because this script only reads the schema's top-level required list.
+    plan = report.get("plan")
+    if "plan" in report and (not isinstance(plan, str) or not plan.strip()):
+        errors.append(f"{f}: report 'plan' must be a non-empty string")
+
+    lenses_allowed = props.get("lenses_run", {}).get("items", {}).get("enum", [])
+    lenses = report.get("lenses_run")
+    if "lenses_run" in report:
+        if not isinstance(lenses, list) or not lenses:
+            errors.append(f"{f}: report 'lenses_run' must be a non-empty list")
+        else:
+            bad = [x for x in lenses if x not in lenses_allowed]
+            if bad:
+                errors.append(f"{f}: report 'lenses_run' has {bad}, allowed {lenses_allowed}")
+            if len(set(map(str, lenses))) != len(lenses):
+                errors.append(f"{f}: report 'lenses_run' lists a lens more than once")
+            if len(lenses) > len(lenses_allowed):
+                errors.append(f"{f}: report 'lenses_run' has more than {len(lenses_allowed)} entries")
+
+    plan_hash = report.get("plan_hash")
+    if "plan_hash" in report and not (isinstance(plan_hash, str) and re.fullmatch(r"[0-9a-f]{64}", plan_hash)):
+        errors.append(f"{f}: report 'plan_hash' must be 64 lowercase hex characters (shasum -a 256)")
 
     sections = report.get("sections", {})
     if not sections:

@@ -1,0 +1,38 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the consolidated report is saved with its plan, lenses and plan hash, validated, and linked from the plan, with a partial review recorded honestly.",
+  "checklist": [
+    {
+      "name": "Saves the dated report",
+      "description": "Saves the report under .context/reviews/ with a name built from the plan file name and the date, instead of leaving it only in the chat",
+      "max_score": 20
+    },
+    {
+      "name": "Records only the lenses that ran",
+      "description": "Sets lenses_run to technical and strategic only, because the Risk reviewer was omitted, and tells the user the review is partial",
+      "max_score": 25
+    },
+    {
+      "name": "Plan path and hash",
+      "description": "Writes plan as a path relative to the report's folder and plan_hash as the SHA-256 of the plan's body (not the whole file) taken before any edit to the plan",
+      "max_score": 20
+    },
+    {
+      "name": "Runs the validator",
+      "description": "Runs scripts/validate-review-report.sh on the saved report rather than judging it by eye",
+      "max_score": 15
+    },
+    {
+      "name": "Links the plan",
+      "description": "Adds the report path to the plan's reviewed-by list, once, creating the key if needed",
+      "max_score": 20
+    },
+    {
+      "name": "No false full review",
+      "description": "Does not list a lens that did not return a review and does not overwrite an earlier report or write reviewed-by as an empty list",
+      "max_score": 0,
+      "failure_check": true
+    }
+  ]
+}

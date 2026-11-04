@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "context-frontmatter",
   "title": "Context file frontmatter",
-  "description": "YAML frontmatter required on every .context/<typology>/*.md file produced by scripts/create-context-file.sh. Nothing runs this schema yet: no gate in this repository validates a file against it, and context-index's validate-context-frontmatter.sh hardcodes its own enums instead. Its status enum also lacks draft and superseded, which some projects already use, so wiring it into a gate needs that fixed first.",
+  "description": "YAML frontmatter required on every .context/<typology>/*.md file produced by scripts/create-context-file.sh. Nothing runs this schema yet: no gate in this repository validates a file against it, and context-index's validate-context-frontmatter.sh hardcodes its own enums instead. Its status enum has draft (added so a plan can be reviewed before it is accepted) but still lacks superseded, which some projects already use, so wiring it into a gate needs that fixed first.",
   "type": "object",
   "required": ["title", "type", "date", "status", "tags"],
   "additionalProperties": false,
@@ -35,8 +35,8 @@
     },
     "status": {
       "type": "string",
-      "enum": ["active", "done"],
-      "description": "Lifecycle status. The generator always writes active; flip to done once the file is retired, closed, or actioned (see the lifecycle column in references/typologies.md)."
+      "enum": ["draft", "active", "done"],
+      "description": "Lifecycle status. The generator always writes active; flip to done once the file is retired, closed, or actioned (see the lifecycle column in references/typologies.md). draft is for a plan not yet accepted: it is neither ready (context-ready.sh lists only active files) nor a resolved blocker (only done resolves one)."
     },
     "tags": {
       "type": "array",
@@ -54,6 +54,16 @@
         "minLength": 1
       },
       "description": "Relative paths to related .context files. Omit the field entirely if there are no related files -- never emit related: []."
+    },
+    "reviewed-by": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Relative paths, from this file's own directory, to the plan-review reports for this file (for example ../reviews/<plan-file-name>-review-<dd-mm-yyyy>.yaml). Set by the plan-review skill and used on plans, though the schema does not restrict it by type. The review state (none, partial, full, stale) is derived from the reports, not stored here. Omit the field entirely if the file has not been reviewed -- never emit reviewed-by: []."
     },
     "blocks": {
       "type": "array",

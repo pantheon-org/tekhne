@@ -98,7 +98,7 @@ This checks:
 - All required fields present (`title`, `type`, `status`, `date`, `tags`)
 - `type` is one of the lowercase values `finding`, `plan`, `guide`, `follow-up`,
   `merge-request`, `ticket`, `decision`, `note`, `research`
-- `status` is `active` or `done`
+- `status` is `draft`, `active` or `done`
 - `date` matches `YYYY-MM-DD` pattern
 - A `tags` key exists (`tags: []` when empty). The schema forbids other fields, but the
   script does not check that, so note any extra field as a Structural Issue yourself
@@ -241,6 +241,9 @@ schema compliance.
 
 Required sections: Model Configuration, Structural Validation, Implementation
 Architecture, Scores, Critical Issues, Moderate Concerns, Strengths, Next Actions.
+
+Then save the report under `.context/reviews/` and link it from the plan's `reviewed-by`.
+Take the plan's SHA-256 in step 2. See [Saving the Report](references/saving-the-report.md).
 
 ### 9. Present to the user
 
@@ -414,6 +417,7 @@ for all structured artifacts. See the project rules for the convention.
 | Topic | Reference | When to Use |
 | --- | --- | --- |
 | Saved model config and pairings for model diversity | [Model Routing Reference](references/model-routing.md) | Step 4/5, configuring or advising on per-reviewer model routing |
+| Saving the report and linking it from the plan | [Saving the Report](references/saving-the-report.md) | Step 8, after compiling the report |
 | The three reviewer prompt templates | [Reviewer Prompts](references/reviewer-prompts.md) | Step 7, building each reviewer's `Agent` call |
 | Persisting review findings, and writing a plan's `## Decisions` section | `create-context-file` skill | Step 10/11, folding decisions or standalone findings back into durable files |
 | The one-question-at-a-time interview pattern | `guided-interview` skill | Step 10, resolving a Decision-classified finding with the user |

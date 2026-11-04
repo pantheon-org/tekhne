@@ -9,13 +9,34 @@
   "properties": {
     "report": {
       "type": "object",
-      "required": ["title", "sections"],
+      "required": ["title", "plan", "lenses_run", "plan_hash", "sections"],
       "additionalProperties": false,
       "properties": {
         "title": {
           "type": "string",
           "minLength": 1,
           "description": "Report title, e.g. 'Consolidated Review: <plan-title>'"
+        },
+        "plan": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Path of the reviewed plan, relative to the folder that holds this report, e.g. '../plans/<plan-file>.md'."
+        },
+        "lenses_run": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": ["technical", "strategic", "risk"]
+          },
+          "description": "The reviewer lenses that actually returned a review. Fewer than three means a partial review."
+        },
+        "plan_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "SHA-256 of the plan's body (the lines after the frontmatter, LF line endings) as it was reviewed. A plan whose body no longer matches is stale."
         },
         "sections": {
           "type": "object",

@@ -16,6 +16,16 @@
 
 report:
   title: "Consolidated Review: <plan-title>"
+  # Path of the reviewed plan, relative to the folder that holds this report.
+  plan: "../plans/<plan-file>.md"
+  # The lenses that returned a review: technical, strategic, risk. Fewer than three is a partial review.
+  lenses_run:
+    - technical
+    - strategic
+    - risk
+  # SHA-256 of the plan's body (the lines after the frontmatter), taken when the brief was composed. The command is in
+  # references/saving-the-report.md.
+  plan_hash: "<64 lowercase hex characters>"
   sections:
     model_configuration:
       technical_strategic:

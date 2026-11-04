@@ -987,7 +987,7 @@ Use when asked to review, audit or quality-check a plan in .context/plans/. Runs
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [plan-review](/tekhne/skills/project-mgmt/plan-review/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-11-02 | 6 |
+| [plan-review](/tekhne/skills/project-mgmt/plan-review/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-11-02 | 7 |
 
 ### risk-register
 

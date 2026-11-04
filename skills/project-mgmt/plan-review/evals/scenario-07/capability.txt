@@ -1,0 +1,1 @@
+Save the consolidated report as a dated file with the plan, the lenses that ran and the plan hash, validate it, and link it from the plan's reviewed-by list.
