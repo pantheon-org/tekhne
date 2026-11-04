@@ -116,7 +116,7 @@ journal 2, adr 2), auditor taxonomy 12 against 13 domains (auditor 5), and crate
 (kit 3).
 
 ### Amendment 04-11-2026: the kit was renamed
-The text above records what was decided on 21-10-2026 and is kept as written. Before the first crates.io
+The text above records what was decided on 19-10-2026 and is kept as written. Before the first crates.io
 publication, the kit was renamed from `agentic-harness-dev-kit` to `pantheon-agentic-harness-dev-kit`, and its
 crates from `ahdk-core` and `ahdk-install` to `pahdk-core` and `pahdk-install`. The names are permanent once
 published, and the `pantheon-` prefix ties them to this organisation, so it is less likely to collide with other
