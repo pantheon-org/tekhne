@@ -1,70 +1,36 @@
 #!/usr/bin/env bash
 # shell: bash
-# Validates a model-selection YAML against the model-selection schema.
+# Validates a model-selection YAML. Runs validate-model-selection.ts on bun.
 # Usage: validate-model-selection.sh <file> [<file> ...]
+# Needs bun 1.3.10 or later (the CI version; earlier versions read some YAML differently). No python, no PyYAML.
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SCHEMA="$SCRIPT_DIR/../assets/schemas/model-selection.schema.json"
+MIN_MAJOR=1
+MIN_MINOR=3
+MIN_PATCH=10
+NEEDED="needs bun ${MIN_MAJOR}.${MIN_MINOR}.${MIN_PATCH} or later"
 
-python3 - "$SCHEMA" "$@" <<'PYEOF'
-import sys
-import json
-import yaml
-from pathlib import Path
+HERE="$(cd "${BASH_SOURCE[0]%/*}" && pwd -P)"
 
-schema_path = Path(sys.argv[1])
-files = sys.argv[2:]
+if ! command -v bun >/dev/null 2>&1; then
+  echo "validate-model-selection.sh ${NEEDED}, and bun is not on PATH." >&2
+  exit 1
+fi
 
-if not files:
-    sys.exit(0)
+# The version without a pre-release or build part (1.4.0-canary.1+abc gives 1.4.0), compared as numbers.
+version="$(bun --version 2>/dev/null || true)"
+core="${version%%[-+]*}"
+IFS=. read -r major minor patch _ <<<"$core"
+supported=0
+if [[ "$major" =~ ^[0-9]+$ && "$minor" =~ ^[0-9]+$ && "$patch" =~ ^[0-9]+$ ]]; then
+  if ((major > MIN_MAJOR || (major == MIN_MAJOR && (minor > MIN_MINOR || (minor == MIN_MINOR && patch >= MIN_PATCH))))); then
+    supported=1
+  fi
+fi
+if [ "$supported" -ne 1 ]; then
+  echo "validate-model-selection.sh ${NEEDED}; found '${version}'." >&2
+  exit 1
+fi
 
-try:
-    import yaml
-    HAS_YAML = True
-except ImportError:
-    HAS_YAML = False
-
-schema = json.loads(schema_path.read_text())
-
-errors = []
-
-for f in files:
-    p = Path(f)
-    if not p.exists():
-        continue
-    content = p.read_text()
-    if HAS_YAML:
-        try:
-            data = yaml.safe_load(content)
-        except yaml.YAMLError as e:
-            errors.append(f"{f}: invalid YAML — {e}")
-            continue
-    else:
-        errors.append(f"{f}: PyYAML not available, skipping")
-        continue
-
-    sel = data.get("model_selection")
-    if not sel:
-        errors.append(f"{f}: missing required top-level key 'model_selection'")
-        continue
-
-    required = ["question_text", "options"]
-    for field in required:
-        if field not in sel:
-            errors.append(f"{f}: model_selection missing required field '{field}'")
-
-    options = sel.get("options", [])
-    if not isinstance(options, list):
-        errors.append(f"{f}: options must be an array")
-    elif len(options) < 1:
-        errors.append(f"{f}: options must have at least one entry")
-
-if errors:
-    print("Model selection validation errors:")
-    for e in errors:
-        print(f"  {e}")
-    sys.exit(1)
-
-print(f"OK: {len(files)} file(s) validated against model-selection schema")
-PYEOF
+# --no-install: a script that imports a package must fail here, not fetch it from npm.
+exec bun --no-install "${HERE}/validate-model-selection.ts" "$@"
