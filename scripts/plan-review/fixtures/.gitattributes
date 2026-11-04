@@ -1,0 +1,3 @@
+# Fixtures hold exact bytes (CRLF, a BOM, invalid UTF-8): git must not normalise them.
+cases/* -text
+expected/* -text
