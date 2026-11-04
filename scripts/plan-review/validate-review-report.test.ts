@@ -281,3 +281,95 @@ describe("checkReport", () => {
     ]);
   });
 });
+
+describe("validate-review-report.sh", () => {
+  const WRAPPER = join(SKILL, "scripts/validate-review-report.sh");
+  const BASH = Bun.which("bash") ?? "bash";
+
+  const runWrapper = (args: string[], env?: Record<string, string>): Run => {
+    const result = Bun.spawnSync([BASH, WRAPPER, ...args], {
+      cwd: FIXTURES,
+      env: env ?? process.env,
+    });
+    return {
+      stdout: result.stdout.toString(),
+      stderr: result.stderr.toString(),
+      exit: result.exitCode,
+    };
+  };
+
+  // A folder holding only a fake `bun` that prints `version` for --version and otherwise says it ran.
+  const stubBun = (version: string): string => {
+    const dir = mkdtempSync(join(tmpdir(), "validate-review-report-stub-"));
+    writeFileSync(
+      join(dir, "bun"),
+      `#!/bin/sh\nif [ "$1" = "--version" ]; then echo '${version}'; else echo "stub bun ran: $*"; fi\n`,
+      { mode: 0o755 },
+    );
+    return dir;
+  };
+
+  test("gives the recorded verdict for a valid report and a bad one", () => {
+    for (const name of ["valid", "old-format", "hash-short"]) {
+      const { args } = invocations.find((i) => i.name === name) ?? { args: [] };
+      const actual = runWrapper(args);
+      const recorded = expected(name);
+      expect(actual.exit).toBe(recorded.exit);
+      expect(actual.stdout).toBe(recorded.stdout);
+    }
+  });
+
+  for (const version of [
+    "1.3.10",
+    "1.3.11",
+    "1.4.2",
+    "1.10.0",
+    "2.0.0",
+    "1.4.0-canary.20260101+abc",
+  ]) {
+    test(`runs bun ${version}`, () => {
+      const dir = stubBun(version);
+      const result = runWrapper(["x"], { PATH: dir });
+      expect(result.exit).toBe(0);
+      expect(result.stdout).toContain("stub bun ran: --no-install");
+      expect(result.stdout).toContain("validate-review-report.ts x");
+      rmSync(dir, { recursive: true, force: true });
+    });
+  }
+
+  for (const version of ["1.2.20", "1.2.21", "1.3.9", "0.9.0", "abc", ""]) {
+    test(`refuses bun "${version}" and names the version needed`, () => {
+      const dir = stubBun(version);
+      const result = runWrapper(["x"], { PATH: dir });
+      expect(result.exit).toBe(1);
+      expect(result.stderr).toContain("needs bun 1.3.10 or later");
+      expect(result.stdout).not.toContain("stub bun ran");
+      rmSync(dir, { recursive: true, force: true });
+    });
+  }
+
+  test("says bun is missing when there is none on PATH", () => {
+    const dir = mkdtempSync(join(tmpdir(), "validate-review-report-empty-"));
+    const result = runWrapper(["x"], { PATH: dir });
+    expect(result.exit).toBe(1);
+    expect(result.stderr).toContain("needs bun 1.3.10 or later");
+    expect(result.stderr).toContain("not on PATH");
+    rmSync(dir, { recursive: true, force: true });
+  });
+
+  test("finds the script through a symlinked skill folder", () => {
+    const base = mkdtempSync(join(tmpdir(), "validate-review-report-link-"));
+    symlinkSync(SKILL, join(base, "plan-review"));
+    const result = Bun.spawnSync(
+      [
+        "bash",
+        join(base, "plan-review/scripts/validate-review-report.sh"),
+        "cases/valid.fixture",
+      ],
+      { cwd: FIXTURES },
+    );
+    expect(result.exitCode).toBe(0);
+    expect(result.stdout.toString()).toContain("OK: 1 file(s)");
+    rmSync(base, { recursive: true, force: true });
+  });
+});
