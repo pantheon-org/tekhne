@@ -1,0 +1,42 @@
+{
+  "skill": "project-mgmt/plan-review",
+  "date": "2026-11-04",
+  "dimensions": {
+    "antiPatternQuality": 11,
+    "evalValidation": 17,
+    "freedomCalibration": 13,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 13,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 11
+  },
+  "total": 116,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 427,
+  "hasReferences": true,
+  "referenceCount": 4,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 4,
+  "warningDetails": [
+    {
+      "dimension": "D4",
+      "message": "harness-specific path found: .claude/"
+    },
+    {
+      "dimension": "D4",
+      "message": "agent-specific reference found: claude code"
+    },
+    {
+      "dimension": "D4",
+      "message": ".context/ or .agents/ reference outside code blocks: .context/"
+    },
+    {
+      "dimension": "D9",
+      "message": "6 of 7 scenario(s) have no failure check; add a criteria.json item with \"failure_check\": true for a behaviour the response must not show (not scored)"
+    }
+  ]
+}
