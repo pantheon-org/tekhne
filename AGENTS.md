@@ -63,6 +63,17 @@ Rust code lives in the tool repositories, not here.
 
 Python is kept out by a guardrail: any tracked `.py` file outside a directory listed in `python-allowlist.txt` fails the `python-allowlist` check (`scripts/check-python-allowlist.sh`, run locally by the `hk` hook and in CI), so new Python needs a reviewed allowlist entry.
 
+### CI scripts
+
+A `run:` block in a workflow (`.github/workflows/`) or composite action (`.github/actions/`) holds at most 15 lines of code, with blank and comment lines not counted. Longer logic goes in a script under `scripts/`, chosen by the Language Preference above, and the step calls it. The same limit applies to every `pantheon-*` repository. Pass values to the script through `env:`, never by pasting `${{ }}` into its text. A block that has to stay long opts out with a line `# inline-ok: <reason>` inside it.
+
+`scripts/check-inline-scripts.ts` enforces this and the Inline Scripts workflow runs it. It is warn-only until the existing workflows that exceed the limit are moved into scripts; then the workflow switches to `--strict`.
+
+```bash
+bun scripts/check-inline-scripts.ts            # annotate, exit 0
+bun scripts/check-inline-scripts.ts --strict   # exit 1 on a finding
+```
+
 ### Skill Standards
 
 - **Agent agnostic**: Avoid features specific to individual AI assistants.
