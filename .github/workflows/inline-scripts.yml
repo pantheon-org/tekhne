@@ -1,0 +1,44 @@
+name: Inline Scripts
+
+# Rule: a `run:` block in a workflow or composite action may hold at most 15 lines
+# of code (blank and comment lines excluded). Longer logic belongs in a script
+# under scripts/, where it can be run locally, shellchecked and tested; the step
+# then calls it. A block that must stay long opts out with a line
+# `# inline-ok: <reason>` inside it. See CLAUDE.md, "CI scripts".
+#
+# WARN-ONLY for now: findings are annotations and the job always passes, because
+# several existing workflows still break the rule. Once they are moved into
+# scripts, add `--strict` to the command below to make a finding fail the job.
+#
+# No path filter, so the check always reports a conclusion (mirrors
+# python-allowlist.yml); also runs on push to main as a post-merge safety net.
+# Deterministic and offline: Bun's built-in YAML parser, no install step.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  # Supersede an in-flight run when the ref updates (e.g. a rebase), so
+  # stale runs are cancelled instead of piling onto the shared API quota.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  inline-scripts:
+    name: Inline Scripts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: "1.3.10"
+
+      - name: Check run blocks are short (warn-only)
+        run: bun scripts/check-inline-scripts.ts

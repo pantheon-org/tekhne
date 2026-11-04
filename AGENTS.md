@@ -18,7 +18,7 @@ This file defines how LLM agents should work in this repository.
 - `skills/<domain>/<skill-name>/templates/`: Reusable templates (mostly YAML).
 - `skills/<domain>/<skill-name>/schemas/`: JSON schemas for validation.
 - `.context/`: Working notes and generated analysis artifacts.
-- Tools live in their own repositories (`pantheon-skill-auditor`, `pantheon-journal`, `pantheon-adr`, sharing `agentic-harness-dev-kit`); this repository pins the released auditor in `mise.toml`.
+- Tools live in their own repositories (`pantheon-skill-auditor`, `pantheon-journal`, `pantheon-adr`, sharing `pantheon-agentic-harness-dev-kit`); this repository pins the released auditor in `mise.toml`.
 - `probes/`: Invocation probes, one JSON file per skill (see Invocation probes below); `probes/baselines/` holds committed score reports.
 - `scripts/catalog/`: TypeScript catalog generator for `README.md` and the docs tiles page.
 
@@ -62,6 +62,17 @@ When writing code or scripts for this repository, use the first option that fits
 Rust code lives in the tool repositories, not here.
 
 Python is kept out by a guardrail: any tracked `.py` file outside a directory listed in `python-allowlist.txt` fails the `python-allowlist` check (`scripts/check-python-allowlist.sh`, run locally by the `hk` hook and in CI), so new Python needs a reviewed allowlist entry.
+
+### CI scripts
+
+A `run:` block in a workflow (`.github/workflows/`) or composite action (`.github/actions/`) holds at most 15 lines of code, with blank and comment lines not counted. Longer logic goes in a script under `scripts/`, chosen by the Language Preference above, and the step calls it. The same limit applies to every `pantheon-*` repository. Pass values to the script through `env:`, never by pasting `${{ }}` into its text. A block that has to stay long opts out with a line `# inline-ok: <reason>` inside it.
+
+`scripts/check-inline-scripts.ts` enforces this and the Inline Scripts workflow runs it. It is warn-only until the existing workflows that exceed the limit are moved into scripts; then the workflow switches to `--strict`.
+
+```bash
+bun scripts/check-inline-scripts.ts            # annotate, exit 0
+bun scripts/check-inline-scripts.ts --strict   # exit 1 on a finding
+```
 
 ### Skill Standards
 
@@ -144,8 +155,8 @@ The tools live in their own repositories and each embeds one skill in its binary
 | `pantheon-journal` | [pantheon-org/pantheon-journal](https://github.com/pantheon-org/pantheon-journal) | `journal-entry-creator` |
 | `pantheon-adr` | [pantheon-org/pantheon-adr](https://github.com/pantheon-org/pantheon-adr) | `adr-creator` |
 
-They share [agentic-harness-dev-kit](https://github.com/pantheon-org/agentic-harness-dev-kit)
-(`ahdk-core`, `ahdk-install`). Each tool repository owns its skill: a change to the
+They share [pantheon-agentic-harness-dev-kit](https://github.com/pantheon-org/pantheon-agentic-harness-dev-kit)
+(`pahdk-core`, `pahdk-install`). Each tool repository owns its skill: a change to the
 skill is made and released there, and this repository no longer holds a copy, so
 `npx skills add ./skills --all` does not install these three. Install a tool with its
 installer from the repository's latest release, then register its skill with
