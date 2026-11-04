@@ -34,6 +34,8 @@ its start only, because bun's parser text differs from PyYAML's.
 
 A byte order mark is stripped before parsing, as python does. Bytes that are not UTF-8 are reported, not accepted.
 
+The python version loaded the schema file and never used it. The port does not read it, so a missing or damaged schema file no longer makes it fail.
+
 The minimum bun is 1.3.10, the version tekhne's CI pins. Bun 1.2.21 reads `yes` as a boolean, so its verdicts differ.
 
 ## What protects these tests
