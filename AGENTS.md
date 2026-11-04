@@ -67,11 +67,11 @@ Python is kept out by a guardrail: any tracked `.py` file outside a directory li
 
 A `run:` block in a workflow (`.github/workflows/`) or composite action (`.github/actions/`) holds at most 15 lines of code, with blank and comment lines not counted. Longer logic goes in a script under `scripts/`, chosen by the Language Preference above, and the step calls it. The same limit applies to every `pantheon-*` repository. Pass values to the script through `env:`, never by pasting `${{ }}` into its text. A block that has to stay long opts out with a line `# inline-ok: <reason>` inside it.
 
-`scripts/check-inline-scripts.ts` enforces this and the Inline Scripts workflow runs it. It is warn-only until the existing workflows that exceed the limit are moved into scripts; then the workflow switches to `--strict`.
+`scripts/check-inline-scripts.ts` enforces this, and the Inline Scripts workflow runs it with `--strict` on every pull request, so a block over the limit fails the check.
 
 ```bash
-bun scripts/check-inline-scripts.ts            # annotate, exit 0
-bun scripts/check-inline-scripts.ts --strict   # exit 1 on a finding
+bun scripts/check-inline-scripts.ts            # annotate only, exit 0
+bun scripts/check-inline-scripts.ts --strict   # exit 1 on a finding (what CI runs)
 ```
 
 ### Skill Standards
