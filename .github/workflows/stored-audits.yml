@@ -20,9 +20,11 @@ on:
   push:
     branches: [main]
 
+# The comment scope lives on the `stored-audits` job, the only one that posts.
+# At workflow level it would also be granted to `catalogue`, and to any job
+# added later.
 permissions:
   contents: read
-  pull-requests: write
 
 concurrency:
   # Supersede an in-flight run when the ref updates (e.g. a rebase).
@@ -37,6 +39,9 @@ jobs:
     if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:

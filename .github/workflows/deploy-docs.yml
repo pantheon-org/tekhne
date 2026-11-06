@@ -19,10 +19,11 @@ concurrency:
   group: pages
   cancel-in-progress: true
 
+# The write scopes live on the `deploy` job. At workflow level they would
+# also be granted to `build`, which only reads the repository and uploads an
+# artifact.
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 jobs:
   build:
@@ -65,6 +66,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
