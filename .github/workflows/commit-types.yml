@@ -1,0 +1,62 @@
+name: Commit Types
+
+# Keeps the PR title gate honest. conventional-commits.yml carries a copy of
+# the allowed commit types inside its regex, because it runs on
+# pull_request_target and must not read repository files. This runs on an
+# ordinary pull_request, where reading them is safe, and fails if:
+#
+#   - the copy has drifted from .github/commit-types.txt, the canonical list, or
+#   - the regex no longer accepts or rejects the titles in its test table,
+#     including release-please's own pull request titles.
+#
+# Path-filtered on purpose. Unlike the title gate and zizmor it is not meant to
+# be a required status check: a required check that is skipped blocks the pull
+# request forever, so only change this to required after removing the filter.
+# Also runs on push to main as a post-merge safety net.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+    paths:
+      - ".github/commit-types.txt"
+      - ".github/workflows/conventional-commits.yml"
+      - ".github/workflows/commit-types.yml"
+      - "scripts/check-commit-types.ts"
+      - "scripts/check-commit-types.test.ts"
+  push:
+    branches: [main]
+    paths:
+      - ".github/commit-types.txt"
+      - ".github/workflows/conventional-commits.yml"
+      - ".github/workflows/commit-types.yml"
+      - "scripts/check-commit-types.ts"
+      - "scripts/check-commit-types.test.ts"
+
+permissions:
+  contents: read
+
+concurrency:
+  # Supersede an in-flight run when the ref updates (e.g. a rebase), so
+  # stale runs are cancelled instead of piling onto the shared API quota.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  commit-types:
+    name: Commit Types
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: "1.3.10"
+
+      - name: Check the gate has not drifted from the canonical list
+        run: bun scripts/check-commit-types.ts
+
+      - name: Check the title regex against its test table
+        run: bun test scripts/check-commit-types.test.ts
