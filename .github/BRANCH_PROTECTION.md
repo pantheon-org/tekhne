@@ -38,8 +38,9 @@ Accepting this finding does not leave `main` unprotected. The active ruleset
 - No force-push (non-fast-forward) and no branch deletion
 - Linear history
 - Pull request required before merge, with review-thread resolution
-- Required status checks: Skill Audit, CodeQL, code quality (errors)
-- Code-scanning gate (CodeQL, high-or-higher)
+- Required status check: `Skill Audit` (the only entry in the ruleset's status-check list, verified against the API on 06-11-2026)
+- Code-scanning gate (CodeQL, high-or-higher), a separate ruleset rule
+- Code-quality gate (errors), a separate ruleset rule
 
 The single residual gap is code-owner review, which carries no security value
 for a solo maintainer.
@@ -97,6 +98,71 @@ The checks were proven in both directions on throwaway pull requests on
 wrong catalogue fails with the differing line printed. They start from a clean
 `main` (all 164 stored audits current). Manifest-only and changelog-only bot
 changes inside a skill leave its score unchanged, so they pass.
+
+### Revisit trigger
+
+There is no skip label, so the only escape from a misfiring required check is
+reverting the workflow. If either check is reverted or disabled more than once
+within 30 days of becoming required, add a documented skip label for
+maintainers.
+
+## Requiring the workflow security and title checks (proposed 06-11-2026, not yet applied)
+
+Two checks stop a workflow security problem, or a pull request title that would
+produce a wrong version bump, from merging. They exist as workflows but are
+**not required yet**: a required check is a ruleset setting that only a
+repository administrator can change, so this section records the request. The
+ruleset requires a single status check today, `Skill Audit`. Until the two below
+are added, a pull request can go red on either of them and still merge. (The
+stored-audit checks proposed above are in the same state: not applied.)
+
+### Checks to require
+
+| Check name (exact) | Workflow | What it enforces |
+| --- | --- | --- |
+| `zizmor` | `zizmor.yml` | No high-severity workflow security finding: credential persistence, template injection, over-broad permissions, unpinned actions. |
+| `Conventional Commit Title` | `conventional-commits.yml` | The pull request title is `type(scope): lowercase summary` with a type release-please recognises, since the squash-merge title is what it reads. |
+
+Both run on every pull request with no path filter, so they always report. A
+check that is skipped would block the pull request forever once required.
+
+### Checks deliberately left out
+
+- `Commit Types` (`commit-types.yml`) guards the title gate's copy of the type
+  list. It is path-filtered, so it is **not** proposed as required, for the same
+  reason as `Stored Audits Full Tree` above. It still fails the pull request that
+  breaks the copy.
+- `actionlint` runs only as a pre-commit step (`hk`), not as a workflow, so there
+  is no status check to require. If it should gate merges it needs a workflow
+  first.
+
+### How to apply
+
+In the repository settings, edit the ruleset named `main` (id `13518481`), open
+"Require status checks to pass", and add `zizmor` and
+`Conventional Commit Title`, source GitHub Actions. The same change through the
+API adds two entries next to the existing `Skill Audit` one:
+
+```json
+{ "context": "zizmor", "integration_id": 15368 }
+{ "context": "Conventional Commit Title", "integration_id": 15368 }
+```
+
+The check name is the job's `name:`, and the ruleset matches on it. Renaming a
+job silently drops the requirement, which is why each job carries a comment
+saying so.
+
+### Before requiring them
+
+Neither has been proven in both directions yet. Open a throwaway pull request
+with a deliberately bad title and one with a deliberately bad workflow change,
+confirm each fails the right check, then require them. Record the pull request
+numbers here when done. A required check that was never shown to fail has not
+been shown to work.
+
+The title gate rejects titles that merge freely today (for example "Add
+blocks/blocked-by dependency links"), so tell contributors before it becomes
+required. AGENTS.md states the allowed types.
 
 ### Revisit trigger
 
