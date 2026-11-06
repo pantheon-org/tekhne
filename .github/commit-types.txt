@@ -1,0 +1,32 @@
+# Canonical conventional-commit types for this repository.
+#
+# Two things must agree with this list:
+#
+#   1. The PR title gate, .github/workflows/conventional-commits.yml, which
+#      carries a copy of it inside a regex (it runs on pull_request_target and
+#      so must not read repository files).
+#   2. release-please, which decides what produces a changelog entry and a
+#      version bump.
+#
+# scripts/check-commit-types.ts fails if the regex drifts from this list, and
+# the Commit Types workflow runs it on every change to either file.
+#
+# These are release-please's default changelog sections, because
+# release-please-config.json declares none and inherits them. A type outside
+# this list is ignored by release-please: the commit lands, no changelog entry
+# appears and no version bump happens. That is why the gate rejects them
+# rather than letting them through.
+#
+# One type per line. Blank lines and comments are ignored.
+
+build
+chore
+ci
+docs
+feat
+fix
+perf
+refactor
+revert
+style
+test

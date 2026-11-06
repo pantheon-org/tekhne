@@ -93,6 +93,8 @@ Frontmatter limits enforced by `pantheon-skill-auditor validate structure`: `des
 
 Open pull requests from `.github/pull_request_template.md` and keep its three headings, `## What`, `## Why` and `## Notes`, in that order. Use a conventional-commit title (`type(scope): lowercase summary`), put verification evidence and anything left for later under Notes, and end with `Refs #N` for partial work or `Closes #N` when the pull request finishes the issue.
 
+Pull requests are squash-merged, so the title becomes the commit message on `main` and is what release-please reads to pick the version bump and write the changelog. CI rejects a title that does not match. Allowed types are release-please's defaults: `build`, `chore`, `ci`, `docs`, `feat`, `fix`, `perf`, `refactor`, `revert`, `style`, `test`. A type outside that list is ignored by release-please, so the commit lands with no changelog entry and no version bump. The summary starts lowercase and a `!` after the type or scope marks a breaking change. The canonical list is `.github/commit-types.txt`; the title workflow carries a copy of it in a regex, and `scripts/check-commit-types.ts` fails if the two drift apart.
+
 Never include an agent session link, session ID or session trailer (for example `Claude-Session:`) in commit messages, pull request descriptions or comments. A session URL identifies a private session and must not be published.
 
 ## Skill Quality Audits
