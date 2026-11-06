@@ -38,7 +38,7 @@ Accepting this finding does not leave `main` unprotected. The active ruleset
 - No force-push (non-fast-forward) and no branch deletion
 - Linear history
 - Pull request required before merge, with review-thread resolution
-- Required status check: `Skill Audit` (the only entry in the ruleset's status-check list, verified against the API on 06-11-2026)
+- Required status checks: `Skill Audit`, `zizmor` and `Conventional Commit Title` (the three entries in the ruleset's status-check list, verified against the API on 06-11-2026)
 - Code-scanning gate (CodeQL, high-or-higher), a separate ruleset rule
 - Code-quality gate (errors), a separate ruleset rule
 
@@ -106,17 +106,16 @@ reverting the workflow. If either check is reverted or disabled more than once
 within 30 days of becoming required, add a documented skip label for
 maintainers.
 
-## Requiring the workflow security and title checks (proposed 06-11-2026, not yet applied)
+## Requiring the workflow security and title checks (applied 06-11-2026)
 
 Two checks stop a workflow security problem, or a pull request title that would
-produce a wrong version bump, from merging. They exist as workflows but are
-**not required yet**: a required check is a ruleset setting that only a
-repository administrator can change, so this section records the request. The
-ruleset requires a single status check today, `Skill Audit`. Until the two below
-are added, a pull request can go red on either of them and still merge. (The
-stored-audit checks proposed above are in the same state: not applied.)
+produce a wrong version bump, from merging. They have been required since
+06-11-2026: the ruleset's status-check list holds `Skill Audit`, `zizmor` and
+`Conventional Commit Title`. Before that a pull request could go red on either of
+the new two and still merge. (The stored-audit checks proposed above are not
+applied.)
 
-### Checks to require
+### Checks required
 
 | Check name (exact) | Workflow | What it enforces |
 | --- | --- | --- |
@@ -129,7 +128,7 @@ check that is skipped would block the pull request forever once required.
 ### Checks deliberately left out
 
 - `Commit Types` (`commit-types.yml`) guards the title gate's copy of the type
-  list. It is path-filtered, so it is **not** proposed as required, for the same
+  list. It is path-filtered, so it is **not** required, for the same
   reason as `Stored Audits Full Tree` above. It still fails the pull request that
   breaks the copy.
 - `actionlint` runs only as a pre-commit step (`hk`), not as a workflow, so there
@@ -155,40 +154,46 @@ approving review, or add a `CODEOWNERS` entry for `.github/workflows/**` and
 require code-owner review. The final "Revisit trigger" section covers the second
 for the day more maintainers join.
 
-### How to apply
+### How it was applied
 
-In the repository settings, edit the ruleset named `main` (id `13518481`), open
-"Require status checks to pass", and add `zizmor` and
-`Conventional Commit Title`, source GitHub Actions. The same change through the
-API adds two entries next to the existing `Skill Audit` one:
+On 06-11-2026, through the API, to the ruleset named `main` (id `13518481`): two
+entries were added next to the existing `Skill Audit` one, and every other rule,
+the bypass list and the strict-policy setting were left identical. The result
+was read back to confirm that.
 
 ```json
 { "context": "zizmor", "integration_id": 15368 }
 { "context": "Conventional Commit Title", "integration_id": 15368 }
 ```
 
-The check name is the job's `name:`, and the ruleset matches on it. Renaming a
-job silently drops the requirement, which is why each job carries a comment
-saying so.
+To undo it, remove those two entries from "Require status checks to pass" in the
+ruleset settings. The check name is the job's `name:`, and the ruleset matches on
+it. Renaming a job silently drops the requirement, which is why each job carries
+a comment saying so.
 
-### Before requiring them
+### Proof before requiring them (06-11-2026)
 
-Neither has been proven in both directions yet. Open a throwaway pull request
-with a deliberately bad title and one with a deliberately bad workflow change,
-confirm each fails the right check, then require them. Record the pull request
-numbers here when done. A required check that was never shown to fail has not
-been shown to work.
+Each check was shown to fail and to pass on a throwaway draft pull request, both
+closed unmerged afterwards. A required check that was never shown to fail has
+not been shown to work.
+
+- `Conventional Commit Title`, pull request 473: failed on the title "Add a
+  throwaway proof of the title gate", with the received title in the log, then
+  passed after the title was changed to "ci: throwaway proof of the title gate".
+  Editing a title re-runs the check.
+- `zizmor`, pull request 474: failed with one high-severity `template-injection`
+  finding on a planted manual-only workflow, then passed once that file was
+  removed.
 
 The title gate rejects titles that merge freely today (for example "Add
-blocks/blocked-by dependency links"), so tell contributors before it becomes
-required. AGENTS.md states the allowed types.
+blocks/blocked-by dependency links"). AGENTS.md states the allowed types.
 
 ### Revisit trigger
 
 There is no skip label, so the only escape from a misfiring required check is
 reverting the workflow. If either check is reverted or disabled more than once
-within 30 days of becoming required, add a documented skip label for
-maintainers.
+within 30 days of becoming required on 06-11-2026, add a documented skip label
+for maintainers.
 
 ## Impact
 
