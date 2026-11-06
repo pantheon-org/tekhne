@@ -1,0 +1,19 @@
+name: Throwaway zizmor proof
+
+# Deliberately unsafe, to show the zizmor check fails. Never runs: manual only.
+# Delete this file; it exists only on a throwaway pull request.
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: "Anything"
+        required: true
+
+permissions: {}
+
+jobs:
+  proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - run: echo "Hello ${{ inputs.name }}"
