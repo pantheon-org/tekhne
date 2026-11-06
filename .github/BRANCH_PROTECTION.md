@@ -123,7 +123,9 @@ applied.)
 | `Conventional Commit Title` | `conventional-commits.yml` | The pull request title is `type(scope): lowercase summary` with a type release-please recognises, since the squash-merge title is what it reads. |
 
 Both run on every pull request with no path filter, so they always report. A
-check that is skipped would block the pull request forever once required.
+workflow that does not run at all, for example because of a path filter, never
+reports its check, and a required check that never reports stays pending and
+blocks the pull request.
 
 ### Checks deliberately left out
 
