@@ -13,8 +13,14 @@ name: zizmor
 # python-allowlist.yml): a required check that is skipped blocks the pull
 # request forever. Also runs on push to main as a post-merge safety net.
 #
+# Scans .github only: the workflows, the composite actions and dependabot.yml.
+# The action's default input is the whole repository, which also reaches the
+# example action.yml files that skills ship as teaching material, some of which
+# contain template injection on purpose.
+#
 # Run it locally with the same findings:
-#   GH_TOKEN=$(gh auth token) uvx zizmor@1.32.0 --min-severity high .github/workflows/
+#   GH_TOKEN=$(gh auth token) uvx zizmor@1.32.0 --min-severity high \
+#     --config .github/zizmor.yml .github
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -50,6 +56,8 @@ jobs:
           # Bump it on purpose, together with the command in the header.
           version: 1.32.0
           min-severity: high
+          inputs: .github
+          config: .github/zizmor.yml
           # The repository does not upload to code scanning from here, and
           # doing so would need security-events: write. Findings fail the job
           # and show in its log instead.
