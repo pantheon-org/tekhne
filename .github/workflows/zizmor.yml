@@ -40,7 +40,9 @@ concurrency:
 jobs:
   zizmor:
     # The job name is the required status check context. Keep it stable: the
-    # ruleset matches on it, and renaming it silently drops the requirement.
+    # ruleset matches on it, so renaming it leaves the old name required and
+    # every pull request waits for a check that no longer reports until the
+    # ruleset is updated.
     name: zizmor
     runs-on: ubuntu-latest
     timeout-minutes: 10
