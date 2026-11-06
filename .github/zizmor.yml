@@ -1,0 +1,21 @@
+# zizmor rule configuration for the Zizmor workflow (.github/workflows/zizmor.yml).
+#
+# Every entry is a finding that existed when the gate was added and is
+# deliberately not fixed. The default answer to a zizmor finding is to fix the
+# workflow; an entry here needs a reason, and should be as narrow as the tool
+# allows so it cannot hide anything else.
+#
+# Entries match on the file's base name, so this uses file, line and column.
+
+rules:
+  github-env:
+    ignore:
+      # .github/actions/install-skill-auditor/action.yml writes the directory it
+      # installs the auditor into onto GITHUB_PATH, so later steps can call
+      # `pantheon-skill-auditor` by name. zizmor flags any write to that file.
+      # Here the value is a fixed directory under RUNNER_TEMP, not input from a
+      # pull request, and the download is verified against a pinned SHA-256
+      # first. Callers in several workflows rely on the binary being on PATH, so
+      # removing the write would break them. Pinned to the line and column so a
+      # second write elsewhere in the file is still reported.
+      - action.yml:16:7

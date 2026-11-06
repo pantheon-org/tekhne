@@ -4,6 +4,10 @@ bun = "latest"
 yq = "latest"
 jq = "latest"
 shellcheck = "latest"
+# Lints the workflow files in the hk pre-commit step. Pinned exactly (unlike the
+# other linters): a new release can add checks and fail a commit that did not
+# touch the rule. Bumped on purpose.
+actionlint = "1.7.12"
 hk = "latest"
 pkl = "latest"
 # rumdl is pre-1.0, so a minor bump can add rules and change what the lint gate

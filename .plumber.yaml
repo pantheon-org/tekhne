@@ -620,6 +620,7 @@ github:
         - oven-sh/setup-bun # Bun runtime setup (CLI, docs, skill-check workflows)
         - peter-evans/find-comment # PR comment lookup (skill-check workflows)
         - peter-evans/create-or-update-comment # PR comment upserts (skill-check workflows)
+        - zizmorcore/zizmor-action # Workflow security scan (zizmor.yml); published by the zizmor project's own org, pinned by SHA
 
     # ===========================================
     # Container images must not use forbidden tags

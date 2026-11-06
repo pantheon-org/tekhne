@@ -76,6 +76,23 @@ pantheon-skill-auditor validate artifacts {{files}}
         shell = "sh -c"
         check = "command -v yq >/dev/null 2>&1 && yq eval '.' {{files}} >/dev/null"
     }
+    // The PR title gate carries a copy of the allowed commit types inside its
+    // regex, because it runs on pull_request_target and must not read repository
+    // files. This fails when the copy drifts from .github/commit-types.txt. The
+    // Commit Types workflow runs the same check on pull requests.
+    ["commit-types"] {
+        glob = List(".github/commit-types.txt", ".github/workflows/conventional-commits.yml", "scripts/check-commit-types*.ts")
+        check = "bun scripts/check-commit-types.ts"
+    }
+    // Workflow linting: invalid expressions, unknown runner labels, broken
+    // `needs:` references, and shell problems inside `run:` blocks. Scoped to
+    // the workflow files so it only runs when one is staged. It is a local gate:
+    // there is no actionlint workflow, so it is not a required status check.
+    ["actionlint"] {
+        glob = List(".github/workflows/*.yml", ".github/workflows/*.yaml")
+        shell = "sh -c"
+        check = "command -v actionlint >/dev/null 2>&1 && actionlint {{files}}"
+    }
     ["shellcheck"] {
         glob = List("*.sh")
         shell = "sh -c"

@@ -1,0 +1,44 @@
+name: Conventional Commit Title
+
+# Pull requests are squash-merged, so the title becomes the commit message on
+# main and is what release-please parses to pick the version bump and write
+# the changelog. A malformed title produces a wrong bump or no release at all,
+# silently.
+#
+# The allowed types are copied into the regex below from .github/commit-types.txt.
+# The copy is deliberate: this runs on pull_request_target, where the workflow
+# has a privileged token, so it checks out nothing and reads only the event
+# payload. scripts/check-commit-types.ts fails if the copy drifts, and the
+# Commit Types workflow runs that check on pull requests.
+on: # zizmor: ignore[dangerous-triggers] reads only the PR title; checks out and runs no PR code
+  pull_request_target:
+    types: [opened, edited, reopened, synchronize]
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  title:
+    # The job name is the required status check context. Keep it stable: the
+    # ruleset matches on it, and renaming it silently drops the requirement.
+    name: Conventional Commit Title
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check the pull request title
+        env:
+          # Through env rather than interpolated into the script: a title is
+          # attacker-controlled text and must never be expanded into the shell.
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          pattern='^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([[:alnum:]][[:alnum:]./_-]*\))?!?: [[:lower:]](.*[[:graph:]])?$'
+          if [[ ! "$PR_TITLE" =~ $pattern ]]; then
+            echo "::error title=Invalid pull request title::The title does not match the required format."
+            printf 'Received title: %q\n' "$PR_TITLE"
+            echo "Use: <type>[optional scope][optional !]: <summary starting lowercase>"
+            echo "Types: build chore ci docs feat fix perf refactor revert style test"
+            exit 1
+          fi
