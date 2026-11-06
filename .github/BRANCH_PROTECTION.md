@@ -136,6 +136,25 @@ check that is skipped would block the pull request forever once required.
   is no status check to require. If it should gate merges it needs a workflow
   first.
 
+### Known limit: a pull request can change the check that judges it
+
+A required check runs the workflow as the pull request defines it. A pull
+request that edits `zizmor.yml` or `conventional-commits.yml`, for example by
+adding `if: false` to the job, runs its own altered copy, and a skipped job
+counts as passing. The ruleset requires 0 approving reviews, so nothing but the
+author's own judgement stops that merge.
+
+This is true of every status check that runs on `pull_request`, `Skill Audit`
+and `Stored Audits` included, so these two do not add a new kind of gap.
+Running a trusted copy from the base branch against the pull request's code
+would need `pull_request_target` plus a checkout of the pull request, the unsafe
+combination zizmor itself warns about, so it is not used.
+
+The fix is a repository setting, not a workflow change: require at least one
+approving review, or add a `CODEOWNERS` entry for `.github/workflows/**` and
+require code-owner review. The final "Revisit trigger" section covers the second
+for the day more maintainers join.
+
 ### How to apply
 
 In the repository settings, edit the ruleset named `main` (id `13518481`), open
