@@ -168,8 +168,10 @@ was read back to confirm that.
 
 To undo it, remove those two entries from "Require status checks to pass" in the
 ruleset settings. The check name is the job's `name:`, and the ruleset matches on
-it. Renaming a job silently drops the requirement, which is why each job carries
-a comment saying so.
+that exact name. Renaming a job does not remove the old name from the ruleset:
+every pull request then waits for a check that no longer reports, and cannot
+merge until the ruleset is updated to the new name. That is why each job carries
+a comment asking for a stable name.
 
 ### Proof before requiring them (06-11-2026)
 
