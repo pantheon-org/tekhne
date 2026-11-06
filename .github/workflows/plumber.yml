@@ -48,6 +48,8 @@ jobs:
       pull-requests: write # post the compliance comment on PRs
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - id: plumber
         uses: getplumber/plumber@7e581015a1295a49a7af14b346231d2fd8dff695 # v0.7.12
