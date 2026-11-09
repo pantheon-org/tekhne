@@ -53,7 +53,7 @@ jobs:
           persist-credentials: false
 
       - id: plumber
-        uses: getplumber/plumber@7e581015a1295a49a7af14b346231d2fd8dff695 # v0.7.12
+        uses: getplumber/plumber@ebc213aa45dccd233ce5c2630f0aafa8e8d650c5 # v0.7.18
         # soft-fail: the action never fails on its own A-E score. continue-on-error:
         # a transient runtime error must not block either — the Critical gate below
         # is the only blocking signal. SARIF upload to Code Scanning is left on
